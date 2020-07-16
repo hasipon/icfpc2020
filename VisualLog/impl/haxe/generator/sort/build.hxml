@@ -1,0 +1,7 @@
+-neko bin/main.n
+-cp src
+-cp ../../lib
+-main Main
+-debug
+
+-cmd neko bin/main.n
