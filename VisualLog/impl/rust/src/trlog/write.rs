@@ -44,8 +44,7 @@ impl<W: Write + Seek> TrlogWriter<W> {
 
     fn _step(&mut self) -> Result<()> {
         for (index, layer) in &mut self.layers {
-            try!(layer.writer
-                      .write_entries(&mut self.writer, &mut self.last_step, self.step, *index));
+            layer.writer.write_entries(&mut self.writer, &mut self.last_step, self.step, *index)?;
         }
         Ok(())
     }
@@ -53,18 +52,18 @@ impl<W: Write + Seek> TrlogWriter<W> {
 
 impl<W: Write + Seek> LogWriter for TrlogWriter<W> {
     fn finish(&mut self) -> Result<()> {
-        try!(self._step());
+        self._step()?;
         if self.step == self.last_step {
             self.step += 1;
         }
         let offset = self.writer.offset - 28;
         let entry_number = self.writer.entry_number;
 
-        try!(self.writer.seek(-(offset as i64) - 12));
-        try!(self.writer.write_u32(self.step));
-        try!(self.writer.write_u32(entry_number));
-        try!(self.writer.write_u32(offset));
-        try!(self.writer.seek(offset as i64));
+        self.writer.seek(-(offset as i64) - 12)?;
+        self.writer.write_u32(self.step)?;
+        self.writer.write_u32(entry_number)?;
+        self.writer.write_u32(offset)?;
+        self.writer.seek(offset as i64)?;
 
         self.writer.finish()
     }
@@ -74,7 +73,7 @@ impl<W: Write + Seek> LogWriter for TrlogWriter<W> {
     }
 
     fn skip(&mut self, offset: u32) -> Result<()> {
-        try!(self._step());
+        self._step()?;
         self.step += offset;
         Ok(())
     }
@@ -91,8 +90,8 @@ impl TrlogLayerWriter {
 
     pub fn print(&mut self, text: &str) -> Result<()> {
         let entry = self.writer.entry();
-        try!(entry.write_u8(TrlogCommandKind::Print as u8));
-        try!(entry.write_long_str(text));
+        entry.write_u8(TrlogCommandKind::Print as u8)?;
+        entry.write_long_str(text)?;
         Ok(())
     }
     pub fn println(&mut self, text: &str) -> Result<()> {

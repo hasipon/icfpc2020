@@ -63,10 +63,10 @@ impl<W:Write+Seek> BaseWriter<W> {
         buffer:&[u8]
     ) -> Result<usize> {
         self.entry_number += 1;
-        try!(self.write_u32(skip_frame_size));
-        try!(self.write_i32(layer_index));
-        try!(self.write_u8(if clear { 1 } else { 0 }));
-        try!(self.write_u32(buffer.len() as u32));
+        self.write_u32(skip_frame_size)?;
+        self.write_i32(layer_index)?;
+        self.write_u8(if clear { 1 } else { 0 })?;
+        self.write_u32(buffer.len() as u32)?;
         self.write(buffer)
     }
 }
@@ -102,12 +102,12 @@ impl BaseLayerWriter {
     ) -> Result<()>
     {
         for entry in &mut self.entries {
-            try!(writer.write_entry(
+            writer.write_entry(
                 step - *last_step,
                 layer_index,
                 entry.should_clear,
                 &entry.buffer
-            ));
+            )?;
             *last_step = step;
         }
 
@@ -198,8 +198,8 @@ impl LayerEntry {
                 )
             );
         }
-        try!(self.write_u16(len as u16));
-        try!(self.write(bytes));
+        self.write_u16(len as u16)?;
+        self.write(bytes)?;
         Ok(())
     }
     pub fn write_long_str(&mut self, string:&str) -> Result<()> {
@@ -213,8 +213,8 @@ impl LayerEntry {
                 )
             );
         }
-        try!(self.write_u24(len as u32));
-        try!(self.write(bytes));
+        self.write_u24(len as u32)?;
+        self.write(bytes)?;
         Ok(())
     }
 }

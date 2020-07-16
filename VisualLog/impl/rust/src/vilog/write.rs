@@ -55,12 +55,12 @@ impl<W:Write+Seek> VilogWriter<W> {
 
     fn _step(&mut self) -> Result<()> {
         for (index, layer) in &mut self.layers {
-            try!(layer.writer.write_entries(
+            layer.writer.write_entries(
                 &mut self.writer,
                 &mut self.last_step,
                 self.step,
                 *index
-            ));
+            )?;
             self.texture_required = layer.texture_required;
         }
         Ok(())
@@ -69,16 +69,16 @@ impl<W:Write+Seek> VilogWriter<W> {
 
 impl<W:Write+Seek> LogWriter for VilogWriter<W> {
     fn finish(&mut self) -> Result<()> {
-        try!(self._step());
+        self._step()?;
         let offset = self.writer.offset - 41;
         let entry_number = self.writer.entry_number;
 
-        try!(self.writer.seek(-(offset as i64) -13));
-        try!(self.writer.write_u8(if self.texture_required {1} else {0}));
-        try!(self.writer.write_u32(self.step));
-        try!(self.writer.write_u32(entry_number));
-        try!(self.writer.write_u32(offset));
-        try!(self.writer.seek(offset as i64));
+        self.writer.seek(-(offset as i64) -13)?;
+        self.writer.write_u8(if self.texture_required {1} else {0})?;
+        self.writer.write_u32(self.step)?;
+        self.writer.write_u32(entry_number)?;
+        self.writer.write_u32(offset)?;
+        self.writer.seek(offset as i64)?;
 
         self.writer.finish()
     }
@@ -88,7 +88,7 @@ impl<W:Write+Seek> LogWriter for VilogWriter<W> {
     }
 
     fn skip(&mut self, offset:u32) -> Result<()> {
-        try!(self._step());
+        self._step()?;
         self.step += offset;
         Ok(())
     }
@@ -109,149 +109,149 @@ impl VilogLayerWriter {
 
     pub fn line_to(&mut self, to_x:f32, to_y:f32) -> Result<()> {
         let entry = self.writer.entry();
-        try!(entry.write_u8(VilogCommandKind::LineTo as u8));
-        try!(entry.write_f32(to_x));
-        try!(entry.write_f32(to_y));
+        entry.write_u8(VilogCommandKind::LineTo as u8)?;
+        entry.write_f32(to_x)?;
+        entry.write_f32(to_y)?;
         Ok(())
     }
     
     pub fn move_to(&mut self, to_x:f32, to_y:f32) -> Result<()> {
         let entry = self.writer.entry();
-        try!(entry.write_u8(VilogCommandKind::MoveTo as u8));
-        try!(entry.write_f32(to_x));
-        try!(entry.write_f32(to_y));
+        entry.write_u8(VilogCommandKind::MoveTo as u8)?;
+        entry.write_f32(to_x)?;
+        entry.write_f32(to_y)?;
         Ok(())
     }
 
     pub fn quaratic_curve_to(&mut self, ctrl_x:f32, ctrl_y:f32, to_x:f32, to_y:f32) -> Result<()>{
         let entry = self.writer.entry();
-        try!(entry.write_u8(VilogCommandKind::QuaraticCurveTo as u8));
-        try!(entry.write_f32(ctrl_x));
-        try!(entry.write_f32(ctrl_y));
-        try!(entry.write_f32(to_x));
-        try!(entry.write_f32(to_y));
+        entry.write_u8(VilogCommandKind::QuaraticCurveTo as u8)?;
+        entry.write_f32(ctrl_x)?;
+        entry.write_f32(ctrl_y)?;
+        entry.write_f32(to_x)?;
+        entry.write_f32(to_y)?;
         Ok(())
     }
 
     pub fn bezier_curve_to(&mut self, ctrl_x:f32, ctrl_y:f32, ctrl2_x:f32, ctrl2_y:f32, to_x:f32, to_y:f32) -> Result<()>{
         let entry = self.writer.entry();
-        try!(entry.write_u8(VilogCommandKind::BezierCurveTo as u8));
-        try!(entry.write_f32(ctrl_x));
-        try!(entry.write_f32(ctrl_y));
-        try!(entry.write_f32(ctrl2_x));
-        try!(entry.write_f32(ctrl2_y));
-        try!(entry.write_f32(to_x));
-        try!(entry.write_f32(to_y));
+        entry.write_u8(VilogCommandKind::BezierCurveTo as u8)?;
+        entry.write_f32(ctrl_x)?;
+        entry.write_f32(ctrl_y)?;
+        entry.write_f32(ctrl2_x)?;
+        entry.write_f32(ctrl2_y)?;
+        entry.write_f32(to_x)?;
+        entry.write_f32(to_y)?;
         Ok(())
     }
 
     pub fn arc(&mut self, ctrl_x:f32, ctrl_y:f32, radius:f32, start_angle:f32, end_angle:f32, anticlockwise:bool) -> Result<()>{
         let entry = self.writer.entry();
-        try!(entry.write_u8(VilogCommandKind::Arc as u8));
-        try!(entry.write_f32(ctrl_x));
-        try!(entry.write_f32(ctrl_y));
-        try!(entry.write_f32(radius));
-        try!(entry.write_rotation(start_angle, 1));
-        try!(entry.write_rotation(end_angle, 1));
-        try!(entry.write_u8(if anticlockwise {1} else {0}));
+        entry.write_u8(VilogCommandKind::Arc as u8)?;
+        entry.write_f32(ctrl_x)?;
+        entry.write_f32(ctrl_y)?;
+        entry.write_f32(radius)?;
+        entry.write_rotation(start_angle, 1)?;
+        entry.write_rotation(end_angle, 1)?;
+        entry.write_u8(if anticlockwise {1} else {0})?;
         Ok(())
     }
 
     pub fn arc_to(&mut self, ctrl_x:f32, ctrl_y:f32, to_x:f32, to_y:f32, radius:f32) -> Result<()>{
         let entry = self.writer.entry();
-        try!(entry.write_u8(VilogCommandKind::ArcTo as u8));
-        try!(entry.write_f32(ctrl_x));
-        try!(entry.write_f32(ctrl_y));
-        try!(entry.write_f32(to_x));
-        try!(entry.write_f32(to_y));
-        try!(entry.write_f32(radius));
+        entry.write_u8(VilogCommandKind::ArcTo as u8)?;
+        entry.write_f32(ctrl_x)?;
+        entry.write_f32(ctrl_y)?;
+        entry.write_f32(to_x)?;
+        entry.write_f32(to_y)?;
+        entry.write_f32(radius)?;
         Ok(())
     }
     
     pub fn fill(&mut self) -> Result<()> {
         let entry = self.writer.entry();
-        try!(entry.write_u8(VilogCommandKind::Fill as u8));
+        entry.write_u8(VilogCommandKind::Fill as u8)?;
         Ok(())
     }
 
     pub fn close_path(&mut self) -> Result<()> {
         let entry = self.writer.entry();
-        try!(entry.write_u8(VilogCommandKind::ClosePath as u8));
+        entry.write_u8(VilogCommandKind::ClosePath as u8)?;
         Ok(())
     }
     
     pub fn draw_circle(&mut self, x:f32, y:f32, radius:f32) -> Result<()> {
         let entry = self.writer.entry();
-        try!(entry.write_u8(VilogCommandKind::DrawCircle as u8));
-        try!(entry.write_f32(x));
-        try!(entry.write_f32(y));
-        try!(entry.write_f32(radius));
+        entry.write_u8(VilogCommandKind::DrawCircle as u8)?;
+        entry.write_f32(x)?;
+        entry.write_f32(y)?;
+        entry.write_f32(radius)?;
         Ok(())
     }
 
     pub fn draw_ellipse(&mut self, x:f32, y:f32, width:f32, height:f32) -> Result<()> {
         let entry = self.writer.entry();
-        try!(entry.write_u8(VilogCommandKind::DrawEllipse as u8));
-        try!(entry.write_f32(x));
-        try!(entry.write_f32(y));
-        try!(entry.write_f32(width));
-        try!(entry.write_f32(height));
+        entry.write_u8(VilogCommandKind::DrawEllipse as u8)?;
+        entry.write_f32(x)?;
+        entry.write_f32(y)?;
+        entry.write_f32(width)?;
+        entry.write_f32(height)?;
         Ok(())
     }
 
     pub fn draw_rectangle(&mut self, x:f32, y:f32, width:f32, height:f32) -> Result<()> {
         let entry = self.writer.entry();
-        try!(entry.write_u8(VilogCommandKind::DrawRectangle as u8));
-        try!(entry.write_f32(x));
-        try!(entry.write_f32(y));
-        try!(entry.write_f32(width));
-        try!(entry.write_f32(height));
+        entry.write_u8(VilogCommandKind::DrawRectangle as u8)?;
+        entry.write_f32(x)?;
+        entry.write_f32(y)?;
+        entry.write_f32(width)?;
+        entry.write_f32(height)?;
         Ok(())
     }
 
     pub fn draw_rounded_rectangle(&mut self, x:f32, y:f32, width:f32, height:f32, radius:f32) -> Result<()> {
         let entry = self.writer.entry();
-        try!(entry.write_u8(VilogCommandKind::DrawRoundRectagle as u8));
-        try!(entry.write_f32(x));
-        try!(entry.write_f32(y));
-        try!(entry.write_f32(width));
-        try!(entry.write_f32(height));
-        try!(entry.write_f32(radius));
+        entry.write_u8(VilogCommandKind::DrawRoundRectagle as u8)?;
+        entry.write_f32(x)?;
+        entry.write_f32(y)?;
+        entry.write_f32(width)?;
+        entry.write_f32(height)?;
+        entry.write_f32(radius)?;
         Ok(())
     }
     
     pub fn draw_regular_polygon(&mut self, x:f32, y:f32, points:u16, radius:f32, rotation:f32) -> Result<()> {
         let entry = self.writer.entry();
-        try!(entry.write_u8(VilogCommandKind::DrawRegularPolygon as u8));
-        try!(entry.write_f32(x));
-        try!(entry.write_f32(y));
-        try!(entry.write_u16(points));
-        try!(entry.write_f32(radius));
-        try!(entry.write_rotation(rotation, points));
+        entry.write_u8(VilogCommandKind::DrawRegularPolygon as u8)?;
+        entry.write_f32(x)?;
+        entry.write_f32(y)?;
+        entry.write_u16(points)?;
+        entry.write_f32(radius)?;
+        entry.write_rotation(rotation, points)?;
         Ok(())
     }
     
     pub fn draw_star(&mut self, x:f32, y:f32, points:u16, radius:f32, inner_radius:f32, rotation:f32) -> Result<()> {
         let entry = self.writer.entry();
-        try!(entry.write_u8(VilogCommandKind::DrawStar as u8));
-        try!(entry.write_f32(x));
-        try!(entry.write_f32(y));
-        try!(entry.write_u16(points));
-        try!(entry.write_f32(radius));
-        try!(entry.write_f32(inner_radius));
-        try!(entry.write_rotation(rotation, points));
+        entry.write_u8(VilogCommandKind::DrawStar as u8)?;
+        entry.write_f32(x)?;
+        entry.write_f32(y)?;
+        entry.write_u16(points)?;
+        entry.write_f32(radius)?;
+        entry.write_f32(inner_radius)?;
+        entry.write_rotation(rotation, points)?;
         Ok(())
     }
 
     pub fn draw_grid(&mut self, x:f32, y:f32, grid_width:u16, grid_height:u16, cell_width:f32, cell_height:f32) -> Result<()> {
         let entry = self.writer.entry();
-        try!(entry.write_u8(VilogCommandKind::DrawGrid as u8));
-        try!(entry.write_f32(x));
-        try!(entry.write_f32(y));
-        try!(entry.write_u16(grid_width));
-        try!(entry.write_u16(grid_height));
-        try!(entry.write_f32(cell_width));
-        try!(entry.write_f32(cell_height));
+        entry.write_u8(VilogCommandKind::DrawGrid as u8)?;
+        entry.write_f32(x)?;
+        entry.write_f32(y)?;
+        entry.write_u16(grid_width)?;
+        entry.write_u16(grid_height)?;
+        entry.write_f32(cell_width)?;
+        entry.write_f32(cell_height)?;
         Ok(())
     }
     
@@ -260,11 +260,11 @@ impl VilogLayerWriter {
     }
     pub fn draw_columns_with_scale(&mut self, x:f32, bottom:f32, column_width:f32, margin:f32, heights:&[f32], scale_y:f32) -> Result<()> {
         let entry = self.writer.entry();
-        try!(entry.write_u8(VilogCommandKind::DrawRectangle as u8));
-        try!(entry.write_f32(x));
-        try!(entry.write_f32(bottom));
-        try!(entry.write_f32(column_width));
-        try!(entry.write_f32(margin));
+        entry.write_u8(VilogCommandKind::DrawRectangle as u8)?;
+        entry.write_f32(x)?;
+        entry.write_f32(bottom)?;
+        entry.write_f32(column_width)?;
+        entry.write_f32(margin)?;
         let len = heights.len();
         if len > ::std::u16::MAX as usize {
             return Err(
@@ -274,9 +274,9 @@ impl VilogLayerWriter {
                 )
             );
         }
-        try!(entry.write_u16(len as u16));
+        entry.write_u16(len as u16)?;
         for height in heights {
-            try!(entry.write_f32(height * scale_y));
+            entry.write_f32(height * scale_y)?;
         }
         Ok(())
     }
@@ -292,16 +292,16 @@ impl VilogLayerWriter {
     ) -> Result<()>
     {
         let entry = self.writer.entry();
-        try!(entry.write_u8(VilogCommandKind::ArrowTo as u8));
-        try!(entry.write_f32(to_x));
-        try!(entry.write_f32(to_y));
-        try!(entry.write_u8(
+        entry.write_u8(VilogCommandKind::ArrowTo as u8)?;
+        entry.write_f32(to_x)?;
+        entry.write_f32(to_y)?;
+        entry.write_u8(
             (if tail_visible { 1 } else { 0 }) |
             (if body_visible { 1 } else { 0 }) << 1 |
             (if head_visible { 1 } else { 0 }) << 2
-        ));
-        try!(entry.write_f32(arrow_width));
-        try!(entry.write_f32(arrow_height));
+        )?;
+        entry.write_f32(arrow_width)?;
+        entry.write_f32(arrow_height)?;
         Ok(())
     }
     pub fn curve_arrow_to(
@@ -318,18 +318,18 @@ impl VilogLayerWriter {
     ) -> Result<()>
     {
         let entry = self.writer.entry();
-        try!(entry.write_u8(VilogCommandKind::CurveArrowTo as u8));
-        try!(entry.write_f32(ctrl_x));
-        try!(entry.write_f32(ctrl_y));
-        try!(entry.write_f32(to_x));
-        try!(entry.write_f32(to_y));
-        try!(entry.write_u8(
+        entry.write_u8(VilogCommandKind::CurveArrowTo as u8)?;
+        entry.write_f32(ctrl_x)?;
+        entry.write_f32(ctrl_y)?;
+        entry.write_f32(to_x)?;
+        entry.write_f32(to_y)?;
+        entry.write_u8(
             (if tail_visible { 1 } else { 0 }) |
             (if body_visible { 1 } else { 0 }) << 1 |
             (if head_visible { 1 } else { 0 }) << 2
-        ));
-        try!(entry.write_f32(arrow_width));
-        try!(entry.write_f32(arrow_height));
+        )?;
+        entry.write_f32(arrow_width)?;
+        entry.write_f32(arrow_height)?;
         Ok(())
     }
     pub fn arc_arrow(
@@ -347,20 +347,20 @@ impl VilogLayerWriter {
         arrow_height:f32
     ) -> Result<()>{
         let entry = self.writer.entry();
-        try!(entry.write_u8(VilogCommandKind::ArcArrowTo as u8));
-        try!(entry.write_f32(ctrl_x));
-        try!(entry.write_f32(ctrl_y));
-        try!(entry.write_f32(radius));
-        try!(entry.write_rotation(start_angle, 1));
-        try!(entry.write_rotation(end_angle, 1));
-        try!(entry.write_u8(
+        entry.write_u8(VilogCommandKind::ArcArrowTo as u8)?;
+        entry.write_f32(ctrl_x)?;
+        entry.write_f32(ctrl_y)?;
+        entry.write_f32(radius)?;
+        entry.write_rotation(start_angle, 1)?;
+        entry.write_rotation(end_angle, 1)?;
+        entry.write_u8(
             (if anticlockwise { 1 } else { 0 })  |
             (if tail_visible  { 1 } else { 0 }) << 1 |
             (if body_visible  { 1 } else { 0 }) << 2 |
             (if head_visible  { 1 } else { 0 }) << 3 
-        ));
-        try!(entry.write_f32(arrow_width));
-        try!(entry.write_f32(arrow_height));
+        )?;
+        entry.write_f32(arrow_width)?;
+        entry.write_f32(arrow_height)?;
         Ok(())
     }
 
@@ -375,13 +375,13 @@ impl VilogLayerWriter {
     ) -> Result<()>
     {
         let entry = self.writer.entry();
-        try!(entry.write_u8(VilogCommandKind::MultiplyTranform as u8));
-        try!(entry.write_f32(a));
-        try!(entry.write_f32(b));
-        try!(entry.write_f32(c));
-        try!(entry.write_f32(d));
-        try!(entry.write_f32(tx));
-        try!(entry.write_f32(ty));
+        entry.write_u8(VilogCommandKind::MultiplyTranform as u8)?;
+        entry.write_f32(a)?;
+        entry.write_f32(b)?;
+        entry.write_f32(c)?;
+        entry.write_f32(d)?;
+        entry.write_f32(tx)?;
+        entry.write_f32(ty)?;
         Ok(())
     }
     pub fn reset_transform(
@@ -395,13 +395,13 @@ impl VilogLayerWriter {
     ) -> Result<()>
     {
         let entry = self.writer.entry();
-        try!(entry.write_u8(VilogCommandKind::ResetTranform as u8));
-        try!(entry.write_f32(a));
-        try!(entry.write_f32(b));
-        try!(entry.write_f32(c));
-        try!(entry.write_f32(d));
-        try!(entry.write_f32(tx));
-        try!(entry.write_f32(ty));
+        entry.write_u8(VilogCommandKind::ResetTranform as u8)?;
+        entry.write_f32(a)?;
+        entry.write_f32(b)?;
+        entry.write_f32(c)?;
+        entry.write_f32(d)?;
+        entry.write_f32(tx)?;
+        entry.write_f32(ty)?;
         Ok(())
     }
 
@@ -411,8 +411,8 @@ impl VilogLayerWriter {
     ) -> Result<()>
     {
         let entry = self.writer.entry();
-        try!(entry.write_u8(VilogCommandKind::MultiplyAlpha as u8));
-        try!(entry.write_alpha(alpha));
+        entry.write_u8(VilogCommandKind::MultiplyAlpha as u8)?;
+        entry.write_alpha(alpha)?;
         Ok(())
     }
     pub fn reset_alpha(
@@ -421,8 +421,8 @@ impl VilogLayerWriter {
     ) -> Result<()>
     {
         let entry = self.writer.entry();
-        try!(entry.write_u8(VilogCommandKind::ResetAlpha as u8));
-        try!(entry.write_alpha(alpha));
+        entry.write_u8(VilogCommandKind::ResetAlpha as u8)?;
+        entry.write_alpha(alpha)?;
         Ok(())
     }
 
@@ -432,8 +432,8 @@ impl VilogLayerWriter {
     ) -> Result<()>
     {
         let entry = self.writer.entry();
-        try!(entry.write_u8(VilogCommandKind::SetLineAlpha as u8));
-        try!(entry.write_alpha(alpha));
+        entry.write_u8(VilogCommandKind::SetLineAlpha as u8)?;
+        entry.write_alpha(alpha)?;
         Ok(())
     }
     pub fn set_fill_alpha(
@@ -442,8 +442,8 @@ impl VilogLayerWriter {
     ) -> Result<()>
     {
         let entry = self.writer.entry();
-        try!(entry.write_u8(VilogCommandKind::SetFillAlpha as u8));
-        try!(entry.write_alpha(alpha));
+        entry.write_u8(VilogCommandKind::SetFillAlpha as u8)?;
+        entry.write_alpha(alpha)?;
         Ok(())
     }
 
@@ -453,8 +453,8 @@ impl VilogLayerWriter {
     ) -> Result<()>
     {
         let entry = self.writer.entry();
-        try!(entry.write_u8(VilogCommandKind::SetLineColor as u8));
-        try!(entry.write_u24(rgb));
+        entry.write_u8(VilogCommandKind::SetLineColor as u8)?;
+        entry.write_u24(rgb)?;
         Ok(())
     }
     pub fn set_fill_color(
@@ -463,8 +463,8 @@ impl VilogLayerWriter {
     ) -> Result<()>
     {
         let entry = self.writer.entry();
-        try!(entry.write_u8(VilogCommandKind::SetFillColor as u8));
-        try!(entry.write_u24(rgb));
+        entry.write_u8(VilogCommandKind::SetFillColor as u8)?;
+        entry.write_u24(rgb)?;
         Ok(())
     }
 
@@ -474,8 +474,8 @@ impl VilogLayerWriter {
     ) -> Result<()>
     {
         let entry = self.writer.entry();
-        try!(entry.write_u8(VilogCommandKind::SetLineThickness as u8));
-        try!(entry.write_f32(thickness));
+        entry.write_u8(VilogCommandKind::SetLineThickness as u8)?;
+        entry.write_f32(thickness)?;
         Ok(())
     }
     pub fn set_blend_mode(
@@ -484,8 +484,8 @@ impl VilogLayerWriter {
     ) -> Result<()>
     {
         let entry = self.writer.entry();
-        try!(entry.write_u8(VilogCommandKind::SetBlendMode as u8));
-        try!(entry.write_u8(blend_mode as u8));
+        entry.write_u8(VilogCommandKind::SetBlendMode as u8)?;
+        entry.write_u8(blend_mode as u8)?;
         Ok(())
     }
     pub fn set_line_alignment(
@@ -494,8 +494,8 @@ impl VilogLayerWriter {
     ) -> Result<()>
     {
         let entry = self.writer.entry();
-        try!(entry.write_u8(VilogCommandKind::SetLineAlignment as u8));
-        try!(entry.write_f32(alignment));
+        entry.write_u8(VilogCommandKind::SetLineAlignment as u8)?;
+        entry.write_f32(alignment)?;
         Ok(())
     }
 
@@ -505,7 +505,7 @@ impl VilogLayerWriter {
     ) -> Result<()>
     {
         let entry = self.writer.entry();
-        try!(entry.write_u8(VilogCommandKind::SetFonts as u8));
+        entry.write_u8(VilogCommandKind::SetFonts as u8)?;
 
         let len = font_names.len();
         if len > ::std::u16::MAX as usize {
@@ -516,9 +516,9 @@ impl VilogLayerWriter {
                 )
             );
         }
-        try!(entry.write_u16(len as u16));
+        entry.write_u16(len as u16)?;
         for name in font_names {
-            try!(entry.write_short_str(name.as_ref()));
+            entry.write_short_str(name.as_ref())?;
         }
         Ok(())
     }
@@ -528,8 +528,8 @@ impl VilogLayerWriter {
     ) -> Result<()>
     {
         let entry = self.writer.entry();
-        try!(entry.write_u8(VilogCommandKind::SetFontSize as u8));
-        try!(entry.write_f32(size));
+        entry.write_u8(VilogCommandKind::SetFontSize as u8)?;
+        entry.write_f32(size)?;
         Ok(())
     }
     pub fn set_font_style(
@@ -539,11 +539,11 @@ impl VilogLayerWriter {
     ) -> Result<()>
     {
         let entry = self.writer.entry();
-        try!(entry.write_u8(VilogCommandKind::SetFontStyle as u8));
-        try!(entry.write_u8(
+        entry.write_u8(VilogCommandKind::SetFontStyle as u8)?;
+        entry.write_u8(
             (if bold   { 1 } else { 0 }) |
             (if italic { 1 } else { 0 }) << 1
-        ));
+        )?;
         Ok(())
     }
     pub fn set_text_horizontal_align(
@@ -552,8 +552,8 @@ impl VilogLayerWriter {
     ) -> Result<()>
     {
         let entry = self.writer.entry();
-        try!(entry.write_u8(VilogCommandKind::SetTextHorizontalAlign as u8));
-        try!(entry.write_f32(align));
+        entry.write_u8(VilogCommandKind::SetTextHorizontalAlign as u8)?;
+        entry.write_f32(align)?;
         Ok(())
     }
     pub fn set_text_vertical_align(
@@ -562,8 +562,8 @@ impl VilogLayerWriter {
     ) -> Result<()>
     {
         let entry = self.writer.entry();
-        try!(entry.write_u8(VilogCommandKind::SetTextVerticalAlign as u8));
-        try!(entry.write_f32(align));
+        entry.write_u8(VilogCommandKind::SetTextVerticalAlign as u8)?;
+        entry.write_f32(align)?;
         Ok(())
     }
     pub fn draw_text(
@@ -574,10 +574,10 @@ impl VilogLayerWriter {
     ) -> Result<()>
     {
         let entry = self.writer.entry();
-        try!(entry.write_u8(VilogCommandKind::DrawText as u8));
-        try!(entry.write_f32(x));
-        try!(entry.write_f32(y));
-        try!(entry.write_long_str(text));
+        entry.write_u8(VilogCommandKind::DrawText as u8)?;
+        entry.write_f32(x)?;
+        entry.write_f32(y)?;
+        entry.write_long_str(text)?;
         Ok(())
     }
 
@@ -587,8 +587,8 @@ impl VilogLayerWriter {
     ) -> Result<()>
     {
         let entry = self.writer.entry();
-        try!(entry.write_u8(VilogCommandKind::SetImageHorizontalAlign as u8));
-        try!(entry.write_f32(align));
+        entry.write_u8(VilogCommandKind::SetImageHorizontalAlign as u8)?;
+        entry.write_f32(align)?;
         Ok(())
     }
     pub fn set_image_vertical_align(
@@ -597,8 +597,8 @@ impl VilogLayerWriter {
     ) -> Result<()>
     {
         let entry = self.writer.entry();
-        try!(entry.write_u8(VilogCommandKind::SetImageVerticalAlign as u8));
-        try!(entry.write_f32(align));
+        entry.write_u8(VilogCommandKind::SetImageVerticalAlign as u8)?;
+        entry.write_f32(align)?;
         Ok(())
     }
     pub fn draw_image(
@@ -609,10 +609,10 @@ impl VilogLayerWriter {
     ) -> Result<()>
     {
         let entry = self.writer.entry();
-        try!(entry.write_u8(VilogCommandKind::DrawImage as u8));
-        try!(entry.write_f32(x));
-        try!(entry.write_f32(y));
-        try!(entry.write_short_str(path));
+        entry.write_u8(VilogCommandKind::DrawImage as u8)?;
+        entry.write_f32(x)?;
+        entry.write_f32(y)?;
+        entry.write_short_str(path)?;
         Ok(())
     }
 
@@ -624,7 +624,7 @@ impl VilogLayerWriter {
     ) -> Result<()>
     {
         let entry = self.writer.entry();
-        try!(entry.write_u8(VilogCommandKind::StartMaskingRegion as u8));
+        entry.write_u8(VilogCommandKind::StartMaskingRegion as u8)?;
         Ok(())
     }
     pub fn start_masked_region(
@@ -633,8 +633,8 @@ impl VilogLayerWriter {
     ) -> Result<()>
     {
         let entry = self.writer.entry();
-        try!(entry.write_u8(VilogCommandKind::StartMaskedRegion as u8));
-        try!(entry.write_u16(mask_index_from_last));
+        entry.write_u8(VilogCommandKind::StartMaskedRegion as u8)?;
+        entry.write_u16(mask_index_from_last)?;
         Ok(())
     }
     pub fn start_mask_region(
@@ -642,7 +642,7 @@ impl VilogLayerWriter {
     ) -> Result<()>
     {
         let entry = self.writer.entry();
-        try!(entry.write_u8(VilogCommandKind::EndMaskRegion as u8));
+        entry.write_u8(VilogCommandKind::EndMaskRegion as u8)?;
         Ok(())
     }
 }
