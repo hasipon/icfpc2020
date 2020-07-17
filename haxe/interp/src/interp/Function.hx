@@ -6,6 +6,7 @@ using interp.CommandTools;
 {
 	var inc;
 	var dec;
+	var neg;
 	var add;
 	var mul;
 	
@@ -15,6 +16,7 @@ using interp.CommandTools;
 		{
 			case inc: 1;
 			case dec: 1;
+			case neg: 1;
 			case add: 2;
 			case mul: 2;
 		}
@@ -26,6 +28,7 @@ using interp.CommandTools;
 		{
 			case inc: Command.Int(args[0].toInt() + 1);
 			case dec: Command.Int(args[0].toInt() - 1);
+			case neg: Command.Int(-args[0].toInt());
 			case add: Command.Int(args[0].toInt() + args[1].toInt());
 			case mul: Command.Int(args[0].toInt() * args[1].toInt());
 		}
