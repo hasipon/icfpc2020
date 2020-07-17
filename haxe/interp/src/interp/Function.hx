@@ -9,6 +9,7 @@ using interp.CommandTools;
 	var neg;
 	var add;
 	var mul;
+	var div;
 	var lt;
 	var eq;
 	var s;
@@ -25,6 +26,7 @@ using interp.CommandTools;
 			case neg: 1;
 			case add: 2;
 			case mul: 2;
+			case div: 2;
 			case lt : 2;
 			case eq : 2;
 			case s  : 3;
@@ -46,6 +48,16 @@ using interp.CommandTools;
 				case neg: Command.Int (-args[0].toInt());
 				case add: Command.Int (args[0].toInt() + args[1].toInt());
 				case mul: Command.Int (args[0].toInt() * args[1].toInt());
+				case div: 
+					var x1 = args[1].toInt();
+					if (x1 == 1)
+					{
+						args[0];
+					}
+					else
+					{
+						Command.Int (Std.int(args[0].toInt() / x1));
+					}
 				case eq : Command.Bool(args[0].toString() == args[1].toString());
 				case lt : Command.Bool(args[0].toInt() <  args[1].toInt());
 				case s:
