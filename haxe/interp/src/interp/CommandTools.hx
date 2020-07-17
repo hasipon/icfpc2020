@@ -17,6 +17,9 @@ class CommandTools
 				}
 				result;
 				
+			case Command.Ap(a, b):
+				"ap " + toString(a) + " " + toString(b);
+				
 			case Command.Unknown(string):
 				string;
 		}
@@ -42,7 +45,7 @@ class CommandTools
 				args = a;
 				
 			case _:
-				throw throw new TypeError("ap x: must be function");
+				return Command.Ap(c, na);
 		}
 		var required = func.getRequiredSize();
 		if (args.length == required) 
