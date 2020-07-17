@@ -16,6 +16,8 @@ using interp.CommandTools;
 	var c;
 	var b;
 	var t;
+	var f;
+	
 	
 	public function getRequiredSize():Int
 	{
@@ -33,6 +35,7 @@ using interp.CommandTools;
 			case c  : 3;
 			case b  : 3;
 			case t  : 2;
+			case f  : 2;
 		}
 	}
 	
@@ -68,6 +71,8 @@ using interp.CommandTools;
 					args[0].ap(args[1].ap(args[2]));
 				case t:
 					args[0];
+				case f:
+					args[1];
 			}
 		}
 		catch (e:TypeError)

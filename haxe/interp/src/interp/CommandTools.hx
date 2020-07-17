@@ -37,8 +37,8 @@ class CommandTools
 		var func, args;
 		switch (c)
 		{
-			case Command.Func(f, a):
-				func = f;
+			case Command.Func(_func, a):
+				func = _func;
 				args = a;
 				
 			case _:
