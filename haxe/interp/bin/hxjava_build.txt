@@ -281,6 +281,7 @@ M java.util.concurrent.Future
 M java.util.regex.MatchResult
 M interp.Main
 C interp.Main
+C interp._Main.Environment
 M java.nio.channels.GatheringByteChannel
 M java.lang.NoSuchFieldException
 M haxe.io.BytesBuffer

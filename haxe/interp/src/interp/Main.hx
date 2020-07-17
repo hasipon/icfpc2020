@@ -8,7 +8,6 @@ import java.Lib;
  */
 class Main 
 {
-	
 	static function main() 
 	{
 		for (i in 0...0x7FFFFFFF)
@@ -20,9 +19,54 @@ class Main
 	static function waitInpt():Void
 	{
 		var line = Sys.stdin().readLine();
-		var stack = line.split(" ");
+		var env = new Environment(line.split(" "));
+		while (env.commands.length > 0)
+		{
+			var error = env.eval();
+			if (error != null) 
+			{
+				Sys.stderr().writeString("error: " + error + "\n");
+				return;
+			}
+		}
 		
-		Sys.stdout().writeString("= " + stack.join(" ") + "\n");
+		Sys.stdout().writeString("= " + env.result.join(" ") + "\n");
 	}
 	
+}
+
+private class Environment
+{
+	public var commands:Array<String>;
+	public var result:Array<String>;
+	
+	public function new(commands:Array<String>)
+	{
+		this.commands = commands;
+		result = [];
+	}
+	
+	public function eval():String
+	{
+		var data = commands.pop();
+		if (data == "ap")
+		{
+			var command = result.pop();
+			if (command == "inc")
+			{
+				var a = Std.parseInt(result.pop());
+				if (a == null) return "inc a should be number:" + a;
+				result.push(Std.string(a += 1));
+			}
+			else
+			{
+				return "ap: unknown command:" + command;
+			}
+		}
+		else
+		{
+			result.push(data);
+		}
+		return null;
+	}
 }
