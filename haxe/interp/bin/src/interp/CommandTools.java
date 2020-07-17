@@ -119,7 +119,7 @@ public class CommandTools extends haxe.lang.HxObject
 			default:
 			{
 				//line 30 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\CommandTools.hx"
-				throw ((java.lang.RuntimeException) (haxe.Exception.thrown(( interp.CommandTools.toString(result) + " should be int" ))) );
+				throw ((java.lang.RuntimeException) (haxe.Exception.thrown(new interp.TypeError(haxe.lang.Runtime.toString(( interp.CommandTools.toString(result) + " should be int" ))))) );
 			}
 			
 		}

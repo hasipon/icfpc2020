@@ -133,6 +133,8 @@ M java.lang.annotation.Annotation
 M java.util.AbstractSet
 M java.nio.channels.ScatteringByteChannel
 M java.util.Comparator
+M interp.TypeError
+C interp.TypeError
 M haxe.java.io.NativeInput
 C haxe.java.io.NativeInput
 M java.util.ListIterator

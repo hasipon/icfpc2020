@@ -28,15 +28,23 @@ using interp.CommandTools;
 	
 	public function execute(args:Array<Command>):Command
 	{
-		return switch ((cast this:Function))
+		var func = (cast this:Function);
+		return try 
 		{
-			case inc: Command.Int(args[0].toInt() + 1);
-			case dec: Command.Int(args[0].toInt() - 1);
-			case neg: Command.Int(-args[0].toInt());
-			case add: Command.Int(args[0].toInt() + args[1].toInt());
-			case mul: Command.Int(args[0].toInt() * args[1].toInt());
-			case eq : Command.Bool(args[0].toInt() == args[1].toInt());
-			case lt : Command.Bool(args[0].toInt() <  args[1].toInt());
+			switch (func)
+			{
+				case inc: Command.Int (args[0].toInt() + 1);
+				case dec: Command.Int (args[0].toInt() - 1);
+				case neg: Command.Int (-args[0].toInt());
+				case add: Command.Int (args[0].toInt() + args[1].toInt());
+				case mul: Command.Int (args[0].toInt() * args[1].toInt());
+				case eq : Command.Bool(args[0].toInt() == args[1].toInt());
+				case lt : Command.Bool(args[0].toInt() <  args[1].toInt());
+			}
+		}
+		catch (e:TypeError)
+		{
+			Command.Func(func, args);
 		}
 	}
 	

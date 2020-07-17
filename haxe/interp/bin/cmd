@@ -4,6 +4,7 @@ src/haxe/lang/IEquatable.java
 src/haxe/iterators/ArrayKeyValueIterator.java
 src/interp/AbstractEnumTools.java
 src/haxe/root/Array.java
+src/interp/TypeError.java
 src/haxe/java/io/NativeInput.java
 src/haxe/lang/IHxObject.java
 src/haxe/lang/HxObject.java

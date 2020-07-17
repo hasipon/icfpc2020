@@ -27,7 +27,7 @@ class CommandTools
 		return switch (result)
 		{
 			case Command.Int(i): i;
-			case _: throw toString(result) + " should be int";
+			case _: throw new TypeError(toString(result) + " should be int");
 		}
 	}
 }
