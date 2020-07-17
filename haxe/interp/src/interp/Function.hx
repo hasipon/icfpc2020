@@ -17,25 +17,27 @@ using interp.CommandTools;
 	var b;
 	var t;
 	var f;
+	var pwr2;
 	
 	
 	public function getRequiredSize():Int
 	{
 		return switch ((cast this:Function))
 		{
-			case inc: 1;
-			case dec: 1;
-			case neg: 1;
-			case add: 2;
-			case mul: 2;
-			case div: 2;
-			case lt : 2;
-			case eq : 2;
-			case s  : 3;
-			case c  : 3;
-			case b  : 3;
-			case t  : 2;
-			case f  : 2;
+			case inc : 1;
+			case dec : 1;
+			case neg : 1;
+			case add : 2;
+			case mul : 2;
+			case div : 2;
+			case lt  : 2;
+			case eq  : 2;
+			case s   : 3;
+			case c   : 3;
+			case b   : 3;
+			case t   : 2;
+			case f   : 2;
+			case pwr2: 1;
 		}
 	}
 	
@@ -73,6 +75,13 @@ using interp.CommandTools;
 					args[0];
 				case f:
 					args[1];
+				case pwr2:
+					var x0 = 1; 
+					for (i in 0...args[0].toInt())
+					{
+						x0 = x0 * 2;
+					}
+					Command.Int(x0);
 			}
 		}
 		catch (e:TypeError)
