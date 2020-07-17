@@ -241,7 +241,7 @@ public final class Function_Impl_
 								if (__temp_svar1.equals("eq")) 
 								{
 									//line 41 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
-									return interp.Command.Bool(( interp.CommandTools.toInt(args.__get(0)) == interp.CommandTools.toInt(args.__get(1)) ));
+									return interp.Command.Bool(haxe.lang.Runtime.valEq(interp.CommandTools.toString(args.__get(0)), interp.CommandTools.toString(args.__get(1))));
 								}
 								
 								//line 41 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"

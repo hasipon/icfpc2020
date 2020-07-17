@@ -17,6 +17,7 @@ class Main
 	{
 		var line = Sys.stdin().readLine();
 		var env = new Environment(line.split(" "));
+		
 		while (env.input.length > 0)
 		{
 			try
@@ -26,6 +27,7 @@ class Main
 			catch (error:Dynamic)
 			{
 				Sys.stderr().writeString("error: " + error + "\n");
+				break;
 			}
 		}
 		
@@ -76,11 +78,16 @@ private class Environment
 				case _:
 					throw "ap x: must be function";
 			}
+			var required = func.getRequiredSize();
+			if (args.length == required) 
+			{
+				throw "ap x: too long args";
+			}
 			
 			var na = output.pop();
-			if (na == null) "ap x: too short args";
+			if (na == null) throw "ap x: too short args";
 			args.push(na);
-			var required = func.getRequiredSize();
+			
 			return if (args.length == required)
 			{
 				func.execute(args);

@@ -38,7 +38,7 @@ using interp.CommandTools;
 				case neg: Command.Int (-args[0].toInt());
 				case add: Command.Int (args[0].toInt() + args[1].toInt());
 				case mul: Command.Int (args[0].toInt() * args[1].toInt());
-				case eq : Command.Bool(args[0].toInt() == args[1].toInt());
+				case eq : Command.Bool(args[0].toString() == args[1].toString());
 				case lt : Command.Bool(args[0].toInt() <  args[1].toInt());
 			}
 		}
