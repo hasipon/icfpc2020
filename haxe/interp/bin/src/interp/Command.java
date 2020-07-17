@@ -13,7 +13,7 @@ public class Command extends haxe.lang.ParamEnum
 	}
 	
 	
-	public static final java.lang.String[] __hx_constructs = new java.lang.String[]{"Int", "Func", "Ap", "Unknown"};
+	public static final java.lang.String[] __hx_constructs = new java.lang.String[]{"Int", "Func", "Ap", "Unknown", "Assign"};
 	
 	public static interp.Command Int(int i)
 	{
@@ -40,6 +40,13 @@ public class Command extends haxe.lang.ParamEnum
 	{
 		//line 8 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Command.hx"
 		return new interp.Command(3, new java.lang.Object[]{string});
+	}
+	
+	
+	public static interp.Command Assign(java.lang.String key, haxe.root.Array<interp.Command> value)
+	{
+		//line 9 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Command.hx"
+		return new interp.Command(4, new java.lang.Object[]{key, value});
 	}
 	
 	

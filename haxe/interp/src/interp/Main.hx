@@ -26,8 +26,8 @@ class Main
 			}
 			catch (error:Dynamic)
 			{
-				Sys.stderr().writeString("error: " + error + "\n");
-				break;
+				Sys.stdout().writeString("error: " + error + "\n");
+				return;
 			}
 		}
 		
@@ -53,31 +53,26 @@ private class Environment
 	public function new(input:Array<String>)
 	{
 		this.input = input;
-		node = new Node();
+		node = new Node(this);
 	}
 	
 	public function exec():Void
 	{
 		var data = input.pop();
-		if (data == "=")
-		{
-			variables[input.pop()] = node.output.copy();
-		}
-		else
-		{
-			node.add(data);
-		}
+		node.add(data);
 	}
 }
 
 private class Node
 {
+	public var env:Environment;
 	public var output:Array<Command>;
 	public var child:Node;
 	public var tail:Array<Array<Command>>;
 	
-	public function new()
+	public function new(env:Environment)
 	{
+		this.env = env;
 		output = [];
 		tail = [];
 		child = null;
@@ -115,20 +110,10 @@ private class Node
 		}
 		else if (data == ")")
 		{
-			child = new Node();
-		}	
-		if (Environment.variables.exists(data))
-		{
-			for (command in Environment.variables[data])
-			{
-				output.push(command);
-			}
+			child = new Node(env);
 		}
-		else
-		{
-			var command = getCommand(data);
-			output.push(command);
-		}
+		var command = getCommand(data);
+		output.push(command);
 	}
 	
 	public function getCommand(data:String):Command
@@ -140,7 +125,6 @@ private class Node
 			var na = output.pop();
 			if (na == null) throw "ap x: too short args";
 			return CommandTools.ap(c, na);
-			
 		}
 		for (func in AbstractEnumTools.getValues(Function))
 		{
@@ -153,6 +137,14 @@ private class Node
 		if (int != null)
 		{
 			return Command.Int(int);
+		}
+		if (data == "=")
+		{
+			var key = env.input.pop();
+			var value = output.copy();
+			output = [];
+			Environment.variables[key] = value;
+			return Command.Assign(key, value);
 		}
 		return Command.Unknown(data);
 	}

@@ -29,7 +29,7 @@ public class Environment extends haxe.lang.HxObject
 		//line 55 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
 		__hx_this.input = input;
 		//line 56 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
-		__hx_this.node = new interp._Main.Node();
+		__hx_this.node = new interp._Main.Node(((interp._Main.Environment) (__hx_this) ));
 	}
 	
 	
@@ -44,23 +44,7 @@ public class Environment extends haxe.lang.HxObject
 		//line 61 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
 		java.lang.String data = haxe.lang.Runtime.toString(this.input.pop());
 		//line 62 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
-		if (haxe.lang.Runtime.valEq(data, "=")) 
-		{
-			//line 64 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
-			haxe.IMap<java.lang.String, haxe.root.Array<interp.Command>> this1 = interp._Main.Environment.variables;
-			//line 64 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
-			java.lang.String k = haxe.lang.Runtime.toString(this.input.pop());
-			//line 64 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
-			haxe.root.Array<interp.Command> v = this.node.output.copy();
-			//line 64 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
-			((haxe.ds.StringMap<haxe.root.Array<interp.Command>>) (this1) ).set(k, v);
-		}
-		else
-		{
-			//line 68 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
-			this.node.add(data);
-		}
-		
+		this.node.add(data);
 	}
 	
 	

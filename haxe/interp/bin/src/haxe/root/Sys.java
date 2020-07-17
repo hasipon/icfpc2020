@@ -39,13 +39,6 @@ public class Sys extends haxe.lang.HxObject
 	}
 	
 	
-	public static haxe.io.Output stderr()
-	{
-		//line 162 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\Sys.hx"
-		return new haxe.java.io.NativeOutput(((java.io.OutputStream) (java.lang.System.err) ));
-	}
-	
-	
 }
 
 

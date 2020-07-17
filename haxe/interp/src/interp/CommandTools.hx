@@ -19,43 +19,41 @@ class CommandTools
 		}
 		return result;
 	}
-	public static function toString(result:Command):String
+	public static function toString(command:Command):String
 	{
-		return switch (result)
+		var result = "";
+		var commands = [command];
+		var first = true;
+		while (0 < commands.length)
 		{
-			case Command.Int (i): Std.string(i);
-			case Func(func, args):
-				var result = func.toString();
-				for (arg in args)
-				{
-					result = "ap " + result + " " + toString(arg);
-				}
-				result;
+			if (!first) result += " ";
+			result += switch (commands.pop())
+			{
+				case Command.Int (i): Std.string(i);
 				
-			case Command.Ap(a, b):
-				"ap " + toString(a) + " " + toString(b);
-				/*
-			case Command.List(list):
-				var result = "(";
-				var first = true;
-				for (element in list) 
-				{
-					if (first)
+				case Command.Ap(a, b):
+					commands.push(b);
+					commands.push(a);
+					"ap"; 
+					
+				case Func(func, args):
+					var name = func.toString();
+					for (i in 0...args.length)
 					{
-						result += " ";
+						name = "ap " + name;
+						commands.push(args[args.length - i - 1]);
 					}
-					else
-					{
-						result += " , ";
-					}
-					result += arrayToString(element);
-					first = false;
-				}
-				result + " )";
-				*/
-			case Command.Unknown(string):
-				string;
+					name;
+					
+				case Command.Unknown(string):
+					string;
+					
+				case Command.Assign(key, value):
+					key + " = " + arrayToString(value);
+			}
+			first = false;
 		}
+		return result;
 	}
 	
 	
@@ -82,7 +80,7 @@ class CommandTools
 		var required = func.getRequiredSize();
 		if (args.length == required) 
 		{
-			throw "ap x: too long args";
+			return Command.Ap(c, na);
 		}
 		args.push(na);
 		

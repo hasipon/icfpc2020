@@ -65,9 +65,9 @@ public class Main extends haxe.lang.HxObject
 				//line 1 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\?"
 				java.lang.Object error = ((java.lang.Object) (haxe.Exception.caught(_g).unwrap()) );
 				//line 29 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
-				haxe.root.Sys.stderr().writeString(( ( "error: " + haxe.root.Std.string(error) ) + "\n" ), null);
+				haxe.root.Sys.stdout().writeString(( ( "error: " + haxe.root.Std.string(error) ) + "\n" ), null);
 				//line 30 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
-				break;
+				return ;
 			}
 			
 			

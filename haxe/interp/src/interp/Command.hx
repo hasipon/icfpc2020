@@ -6,4 +6,5 @@ enum Command
 	Func   (func:Function, args:Array<Command>);
 	Ap     (a:Command, b:Command);
 	Unknown(string:String);
+	Assign (key:String, value:Array<Command>);
 }
