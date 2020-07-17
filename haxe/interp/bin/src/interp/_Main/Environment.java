@@ -57,18 +57,37 @@ public class Environment extends haxe.lang.HxObject
 			}
 			else
 			{
-				//line 63 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
-				return ( "ap: unknown command:" + command );
+				//line 61 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
+				if (haxe.lang.Runtime.valEq(command, "dec")) 
+				{
+					//line 63 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
+					java.lang.Object a1 = haxe.root.Std.parseInt(haxe.lang.Runtime.toString(this.result.pop()));
+					//line 64 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
+					if (haxe.lang.Runtime.eq(a1, null)) 
+					{
+						//line 64 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
+						return ( haxe.lang.Runtime.toString("dec a should be number:") + haxe.lang.Runtime.toString(a1) );
+					}
+					
+					//line 65 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
+					this.result.push(haxe.root.Std.string(((int) (haxe.lang.Runtime.toInt(a1 = ( ((int) (haxe.lang.Runtime.toInt(a1)) ) - 1 ))) )));
+				}
+				else
+				{
+					//line 69 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
+					return ( "ap: unknown command:" + command );
+				}
+				
 			}
 			
 		}
 		else
 		{
-			//line 68 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
+			//line 74 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
 			this.result.push(data);
 		}
 		
-		//line 70 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
+		//line 76 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
 		return null;
 	}
 	

@@ -58,6 +58,12 @@ private class Environment
 				if (a == null) return "inc a should be number:" + a;
 				result.push(Std.string(a += 1));
 			}
+			else if (command == "dec")
+			{
+				var a = Std.parseInt(result.pop());
+				if (a == null) return "dec a should be number:" + a;
+				result.push(Std.string(a -= 1));
+			}
 			else
 			{
 				return "ap: unknown command:" + command;
