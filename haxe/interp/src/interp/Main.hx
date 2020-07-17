@@ -88,17 +88,12 @@ private class Environment
 				Command.Func(func, args);
 			}
 		}
-		if (data == "inc")
+		for (func in AbstractEnumTools.getValues(Function))
 		{
-			return Command.Func(Function.inc, []);
-		}
-		if (data == "dec")
-		{
-			return Command.Func(Function.dec, []);
-		}
-		if (data == "add")
-		{
-			return Command.Func(Function.add, []);
+			if (data == func.toString())
+			{
+				return Command.Func(func, []);
+			}	
 		}
 		if (data == "t")
 		{

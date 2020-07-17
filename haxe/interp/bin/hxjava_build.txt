@@ -106,6 +106,8 @@ M haxe.root.EnumValue
 M java.lang.RuntimeException
 M haxe.iterators.ArrayKeyValueIterator
 C haxe.iterators.ArrayKeyValueIterator
+M interp.AbstractEnumTools
+C interp.AbstractEnumTools
 M java.nio.file.WatchKey
 M java.util.concurrent.TimeUnit
 M haxe.root.Array
