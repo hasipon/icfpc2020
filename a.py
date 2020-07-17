@@ -45,7 +45,7 @@ class Main:
                 r, _ = conv(a[1].split(' '), 0)
                 self.galaxy[a[0]] = r
 
-        hoge, _ = conv(['ap', 'ap', ':1338', 'nil', 'x3'], 0)
+        hoge, _ = conv(['ap', 'ap', ':1338', 'nil', 'ap', 'cons', 'nil'], 0)
         self.evalloop(hoge)
 
     def evalloop(self, hoge):
@@ -128,7 +128,20 @@ class Main:
                         v2 = self.evalloop(a[2])
                         if isinstance(v1, Node) and isinstance(v2, Node) and isinstance(v1.v, str) and isinstance(v2.v, str):
                             print(f"!!! eq ({v1.v}) ({v2.v})")
-                            if v1.v == v2.v:
+                            if int(v1.v) == int(v2.v):
+                                return Node('t')
+                            else:
+                                return Node('f')
+                        assert False, (v1, v2)
+                elif a[0] == 'lt':
+                    if len(a) < 3:
+                        return Node(a)
+                    else:
+                        v1 = self.evalloop(a[1])
+                        v2 = self.evalloop(a[2])
+                        if isinstance(v1, Node) and isinstance(v2, Node) and isinstance(v1.v, str) and isinstance(v2.v, str):
+                            print(f"!!! lt ({v1.v}) ({v2.v})")
+                            if int(v1.v) < int(v2.v):
                                 return Node('t')
                             else:
                                 return Node('f')
@@ -142,6 +155,15 @@ class Main:
                         if isinstance(v1, Node) and isinstance(v2, Node) and isinstance(v1.v, str) and isinstance(v2.v, str):
                             print(f"!!! add ({v1.v}) ({v2.v})")
                             return Node(str(int(v1.v) + int(v2.v)))
+                        assert False, (v1, v2)
+                elif a[0] == 'neg':
+                    if len(a) < 2:
+                        return Node(a)
+                    else:
+                        v1 = self.evalloop(a[1])
+                        if isinstance(v1, Node) and isinstance(v1.v, str):
+                            print(f"!!! neg ({v1.v})")
+                            return Node(str(-int(v1.v)))
                         assert False, (v1, v2)
                 else:
                     assert False, a
