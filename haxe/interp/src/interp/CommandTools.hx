@@ -15,6 +15,9 @@ class CommandTools
 					result = "ap " + result + " " + toString(arg);
 				}
 				result;
+				
+			case Command.Unknown(string):
+				string;
 		}
 	}
 	

@@ -132,30 +132,37 @@ public class Environment extends haxe.lang.HxObject
 		}
 		
 		//line 99 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
-		if (haxe.lang.Runtime.valEq(data, "t")) 
+		if (haxe.lang.Runtime.valEq(data, "add")) 
 		{
 			//line 101 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
-			return interp.Command.Bool(true);
+			return interp.Command.Func(haxe.lang.Runtime.toString("add"), new haxe.root.Array<interp.Command>(new interp.Command[]{}));
 		}
 		
 		//line 103 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
-		if (haxe.lang.Runtime.valEq(data, "f")) 
+		if (haxe.lang.Runtime.valEq(data, "t")) 
 		{
 			//line 105 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
-			return interp.Command.Bool(false);
+			return interp.Command.Bool(true);
 		}
 		
 		//line 107 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
+		if (haxe.lang.Runtime.valEq(data, "f")) 
+		{
+			//line 109 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
+			return interp.Command.Bool(false);
+		}
+		
+		//line 111 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
 		java.lang.Object _int = haxe.root.Std.parseInt(data);
-		//line 108 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
+		//line 112 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
 		if (( ! (haxe.lang.Runtime.eq(_int, null)) )) 
 		{
-			//line 110 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
+			//line 114 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
 			return interp.Command.Int(((int) (haxe.lang.Runtime.toInt(_int)) ));
 		}
 		
-		//line 113 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
-		throw ((java.lang.RuntimeException) (haxe.Exception.thrown(( "unknown value:" + data ))) );
+		//line 117 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
+		return interp.Command.Unknown(data);
 	}
 	
 	

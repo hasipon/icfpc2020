@@ -96,6 +96,10 @@ private class Environment
 		{
 			return Command.Func(Function.dec, []);
 		}
+		if (data == "add")
+		{
+			return Command.Func(Function.add, []);
+		}
 		if (data == "t")
 		{
 			return Command.Bool(true);
@@ -110,6 +114,6 @@ private class Environment
 			return Command.Int(int);
 		}
 		
-		throw "unknown value:" + data;
+		return Command.Unknown(data);
 	}
 }
