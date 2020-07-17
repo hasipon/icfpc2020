@@ -45,8 +45,9 @@ class Main:
                 r, _ = conv(a[1].split(' '), 0)
                 self.galaxy[a[0]] = r
 
-        hoge, _ = conv(['ap', 'ap', ':1338', 'nil', 'ap', 'cons', 'nil'], 0)
-        self.evalloop(hoge)
+        hoge, _ = conv(['ap', 'ap', ':1338', 'nil', 'ap', 'ap', 'cons', '0', '0'], 0)
+        result = self.evalloop(hoge)
+        print(result)
 
     def evalloop(self, hoge):
         while True:
