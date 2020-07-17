@@ -34,6 +34,12 @@ public final class Function_Impl_
 		interp._Function.Function_Impl_.t = haxe.lang.Runtime.toString("t");
 		//line 19 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
 		interp._Function.Function_Impl_.f = haxe.lang.Runtime.toString("f");
+		//line 20 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+		interp._Function.Function_Impl_.pwr2 = haxe.lang.Runtime.toString("pwr2");
+		//line 21 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+		interp._Function.Function_Impl_.i = haxe.lang.Runtime.toString("i");
+		//line 22 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+		interp._Function.Function_Impl_.cons = haxe.lang.Runtime.toString("cons");
 	}
 	
 	public static java.lang.String inc;
@@ -62,148 +68,28 @@ public final class Function_Impl_
 	
 	public static java.lang.String f;
 	
+	public static java.lang.String pwr2;
+	
+	public static java.lang.String i;
+	
+	public static java.lang.String cons;
+	
 	public static int getRequiredSize(java.lang.String this1)
 	{
-		//line 24 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+		//line 27 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
 		{
-			//line 24 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+			//line 27 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
 			java.lang.String __temp_svar1 = (haxe.lang.Runtime.toString(this1));
-			//line 24 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+			//line 27 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
 			if (( __temp_svar1 != null )) 
 			{
-				//line 24 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+				//line 27 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
 				switch (__temp_svar1.hashCode())
 				{
 					case 96417:
 					{
-						//line 29 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
-						if (__temp_svar1.equals("add")) 
-						{
-							//line 29 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
-							return 2;
-						}
-						
-						//line 29 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
-						break;
-					}
-					
-					
-					case 116:
-					{
-						//line 37 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
-						if (__temp_svar1.equals("t")) 
-						{
-							//line 37 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
-							return 2;
-						}
-						
-						//line 37 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
-						break;
-					}
-					
-					
-					case 98:
-					{
-						//line 36 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
-						if (__temp_svar1.equals("b")) 
-						{
-							//line 36 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
-							return 3;
-						}
-						
-						//line 36 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
-						break;
-					}
-					
-					
-					case 115:
-					{
-						//line 34 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
-						if (__temp_svar1.equals("s")) 
-						{
-							//line 34 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
-							return 3;
-						}
-						
-						//line 34 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
-						break;
-					}
-					
-					
-					case 99:
-					{
-						//line 35 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
-						if (__temp_svar1.equals("c")) 
-						{
-							//line 35 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
-							return 3;
-						}
-						
-						//line 35 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
-						break;
-					}
-					
-					
-					case 108944:
-					{
-						//line 28 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
-						if (__temp_svar1.equals("neg")) 
-						{
-							//line 28 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
-							return 1;
-						}
-						
-						//line 28 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
-						break;
-					}
-					
-					
-					case 99330:
-					{
-						//line 27 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
-						if (__temp_svar1.equals("dec")) 
-						{
-							//line 27 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
-							return 1;
-						}
-						
-						//line 27 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
-						break;
-					}
-					
-					
-					case 108484:
-					{
-						//line 30 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
-						if (__temp_svar1.equals("mul")) 
-						{
-							//line 30 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
-							return 2;
-						}
-						
-						//line 30 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
-						break;
-					}
-					
-					
-					case 99473:
-					{
-						//line 31 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
-						if (__temp_svar1.equals("div")) 
-						{
-							//line 31 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
-							return 2;
-						}
-						
-						//line 31 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
-						break;
-					}
-					
-					
-					case 3464:
-					{
 						//line 32 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
-						if (__temp_svar1.equals("lt")) 
+						if (__temp_svar1.equals("add")) 
 						{
 							//line 32 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
 							return 2;
@@ -214,10 +100,122 @@ public final class Function_Impl_
 					}
 					
 					
-					case 3244:
+					case 116:
+					{
+						//line 40 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+						if (__temp_svar1.equals("t")) 
+						{
+							//line 40 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+							return 2;
+						}
+						
+						//line 40 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+						break;
+					}
+					
+					
+					case 98:
+					{
+						//line 39 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+						if (__temp_svar1.equals("b")) 
+						{
+							//line 39 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+							return 3;
+						}
+						
+						//line 39 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+						break;
+					}
+					
+					
+					case 115:
+					{
+						//line 37 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+						if (__temp_svar1.equals("s")) 
+						{
+							//line 37 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+							return 3;
+						}
+						
+						//line 37 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+						break;
+					}
+					
+					
+					case 99:
+					{
+						//line 38 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+						if (__temp_svar1.equals("c")) 
+						{
+							//line 38 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+							return 3;
+						}
+						
+						//line 38 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+						break;
+					}
+					
+					
+					case 3454535:
+					{
+						//line 42 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+						if (__temp_svar1.equals("pwr2")) 
+						{
+							//line 42 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+							return 1;
+						}
+						
+						//line 42 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+						break;
+					}
+					
+					
+					case 3059505:
+					{
+						//line 44 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+						if (__temp_svar1.equals("cons")) 
+						{
+							//line 44 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+							return 3;
+						}
+						
+						//line 44 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+						break;
+					}
+					
+					
+					case 108944:
+					{
+						//line 31 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+						if (__temp_svar1.equals("neg")) 
+						{
+							//line 31 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+							return 1;
+						}
+						
+						//line 31 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+						break;
+					}
+					
+					
+					case 99330:
+					{
+						//line 30 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+						if (__temp_svar1.equals("dec")) 
+						{
+							//line 30 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+							return 1;
+						}
+						
+						//line 30 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+						break;
+					}
+					
+					
+					case 108484:
 					{
 						//line 33 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
-						if (__temp_svar1.equals("eq")) 
+						if (__temp_svar1.equals("mul")) 
 						{
 							//line 33 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
 							return 2;
@@ -228,30 +226,86 @@ public final class Function_Impl_
 					}
 					
 					
+					case 99473:
+					{
+						//line 34 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+						if (__temp_svar1.equals("div")) 
+						{
+							//line 34 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+							return 2;
+						}
+						
+						//line 34 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+						break;
+					}
+					
+					
+					case 3464:
+					{
+						//line 35 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+						if (__temp_svar1.equals("lt")) 
+						{
+							//line 35 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+							return 2;
+						}
+						
+						//line 35 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+						break;
+					}
+					
+					
+					case 3244:
+					{
+						//line 36 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+						if (__temp_svar1.equals("eq")) 
+						{
+							//line 36 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+							return 2;
+						}
+						
+						//line 36 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+						break;
+					}
+					
+					
 					case 104414:
 					{
-						//line 26 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+						//line 29 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
 						if (__temp_svar1.equals("inc")) 
 						{
-							//line 26 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+							//line 29 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
 							return 1;
 						}
 						
-						//line 26 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+						//line 29 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
 						break;
 					}
 					
 					
 					case 102:
 					{
-						//line 38 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+						//line 41 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
 						if (__temp_svar1.equals("f")) 
 						{
-							//line 38 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+							//line 41 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
 							return 2;
 						}
 						
-						//line 38 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+						//line 41 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+						break;
+					}
+					
+					
+					case 105:
+					{
+						//line 43 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+						if (__temp_svar1.equals("i")) 
+						{
+							//line 43 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+							return 1;
+						}
+						
+						//line 43 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
 						break;
 					}
 					
@@ -262,221 +316,282 @@ public final class Function_Impl_
 			
 		}
 		
-		//line 22 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+		//line 25 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
 		return 0;
 	}
 	
 	
 	public static interp.Command execute(java.lang.String this1, haxe.root.Array<interp.Command> args)
 	{
-		//line 42 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+		//line 48 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
 		try 
 		{
-			//line 44 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+			//line 50 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
 			java.lang.String func = haxe.lang.Runtime.toString(this1);
-			//line 47 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+			//line 53 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
 			try 
 			{
-				//line 47 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+				//line 53 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
 				{
-					//line 47 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+					//line 53 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
 					java.lang.String __temp_svar1 = (func);
-					//line 47 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+					//line 53 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
 					if (( __temp_svar1 != null )) 
 					{
-						//line 47 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+						//line 53 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
 						switch (__temp_svar1.hashCode())
 						{
 							case 96417:
 							{
-								//line 52 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+								//line 58 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
 								if (__temp_svar1.equals("add")) 
 								{
-									//line 52 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+									//line 58 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
 									return interp.Command.Int(( interp.CommandTools.toInt(args.__get(0)) + interp.CommandTools.toInt(args.__get(1)) ));
 								}
 								
-								//line 52 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+								//line 58 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
 								break;
 							}
 							
 							
 							case 116:
 							{
-								//line 73 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+								//line 79 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
 								if (__temp_svar1.equals("t")) 
 								{
-									//line 73 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+									//line 79 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
 									return args.__get(0);
 								}
 								
-								//line 73 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+								//line 79 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
 								break;
 							}
 							
 							
 							case 98:
 							{
-								//line 71 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+								//line 77 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
 								if (__temp_svar1.equals("b")) 
 								{
-									//line 71 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+									//line 77 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
 									return interp.CommandTools.ap(args.__get(0), interp.CommandTools.ap(args.__get(1), args.__get(2)));
 								}
 								
-								//line 71 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+								//line 77 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
 								break;
 							}
 							
 							
 							case 115:
 							{
-								//line 67 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+								//line 73 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
 								if (__temp_svar1.equals("s")) 
 								{
-									//line 67 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+									//line 73 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
 									return interp.CommandTools.ap(interp.CommandTools.ap(args.__get(0), args.__get(2)), interp.CommandTools.ap(args.__get(1), args.__get(2)));
 								}
 								
-								//line 67 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+								//line 73 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
 								break;
 							}
 							
 							
 							case 99:
 							{
-								//line 69 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+								//line 75 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
 								if (__temp_svar1.equals("c")) 
 								{
-									//line 69 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+									//line 75 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
 									return interp.CommandTools.ap(interp.CommandTools.ap(args.__get(0), args.__get(2)), args.__get(1));
 								}
 								
-								//line 69 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+								//line 75 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+								break;
+							}
+							
+							
+							case 3454535:
+							{
+								//line 82 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+								if (__temp_svar1.equals("pwr2")) 
+								{
+									//line 83 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+									int x0 = 1;
+									//line 84 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+									{
+										//line 84 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+										int _g = 0;
+										//line 84 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+										int _g1 = interp.CommandTools.toInt(args.__get(0));
+										//line 84 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+										while (( _g < _g1 ))
+										{
+											//line 84 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+											int i = _g++;
+											//line 86 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+											x0 *= 2;
+										}
+										
+									}
+									
+									//line 88 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+									return interp.Command.Int(x0);
+								}
+								
+								//line 82 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+								break;
+							}
+							
+							
+							case 3059505:
+							{
+								//line 94 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+								if (__temp_svar1.equals("cons")) 
+								{
+									//line 94 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+									return interp.CommandTools.ap(interp.CommandTools.ap(args.__get(2), args.__get(0)), args.__get(1));
+								}
+								
+								//line 94 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
 								break;
 							}
 							
 							
 							case 108944:
 							{
-								//line 51 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+								//line 57 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
 								if (__temp_svar1.equals("neg")) 
 								{
-									//line 51 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+									//line 57 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
 									return interp.Command.Int( - (interp.CommandTools.toInt(args.__get(0))) );
 								}
 								
-								//line 51 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+								//line 57 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
 								break;
 							}
 							
 							
 							case 99330:
 							{
-								//line 50 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+								//line 56 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
 								if (__temp_svar1.equals("dec")) 
 								{
-									//line 50 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+									//line 56 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
 									return interp.Command.Int(( interp.CommandTools.toInt(args.__get(0)) - 1 ));
 								}
 								
-								//line 50 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+								//line 56 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
 								break;
 							}
 							
 							
 							case 108484:
 							{
-								//line 53 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+								//line 59 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
 								if (__temp_svar1.equals("mul")) 
 								{
-									//line 53 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+									//line 59 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
 									return interp.Command.Int(( interp.CommandTools.toInt(args.__get(0)) * interp.CommandTools.toInt(args.__get(1)) ));
 								}
 								
-								//line 53 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+								//line 59 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
 								break;
 							}
 							
 							
 							case 99473:
 							{
-								//line 54 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+								//line 60 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
 								if (__temp_svar1.equals("div")) 
 								{
-									//line 55 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+									//line 61 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
 									int x1 = interp.CommandTools.toInt(args.__get(1));
-									//line 56 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+									//line 62 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
 									if (( x1 == 1 )) 
 									{
-										//line 58 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+										//line 64 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
 										return args.__get(0);
 									}
 									else
 									{
-										//line 62 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+										//line 68 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
 										return interp.Command.Int(((int) (( ((double) (interp.CommandTools.toInt(args.__get(0))) ) / x1 )) ));
 									}
 									
 								}
 								
-								//line 54 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+								//line 60 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
 								break;
 							}
 							
 							
 							case 3464:
 							{
-								//line 65 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+								//line 71 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
 								if (__temp_svar1.equals("lt")) 
 								{
-									//line 65 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+									//line 71 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
 									return interp.Command.Bool(( interp.CommandTools.toInt(args.__get(0)) < interp.CommandTools.toInt(args.__get(1)) ));
 								}
 								
-								//line 65 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+								//line 71 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
 								break;
 							}
 							
 							
 							case 3244:
 							{
-								//line 64 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+								//line 70 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
 								if (__temp_svar1.equals("eq")) 
 								{
-									//line 64 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+									//line 70 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
 									return interp.Command.Bool(haxe.lang.Runtime.valEq(interp.CommandTools.toString(args.__get(0)), interp.CommandTools.toString(args.__get(1))));
 								}
 								
-								//line 64 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+								//line 70 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
 								break;
 							}
 							
 							
 							case 104414:
 							{
-								//line 49 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+								//line 55 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
 								if (__temp_svar1.equals("inc")) 
 								{
-									//line 49 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+									//line 55 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
 									return interp.Command.Int(( interp.CommandTools.toInt(args.__get(0)) + 1 ));
 								}
 								
-								//line 49 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+								//line 55 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
 								break;
 							}
 							
 							
 							case 102:
 							{
-								//line 75 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+								//line 81 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
 								if (__temp_svar1.equals("f")) 
 								{
-									//line 75 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+									//line 81 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
 									return args.__get(1);
 								}
 								
-								//line 75 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+								//line 81 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+								break;
+							}
+							
+							
+							case 105:
+							{
+								//line 91 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+								if (__temp_svar1.equals("i")) 
+								{
+									//line 91 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+									return args.__get(0);
+								}
+								
+								//line 91 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
 								break;
 							}
 							
@@ -488,29 +603,29 @@ public final class Function_Impl_
 				}
 				
 			}
-			catch (java.lang.Throwable _g)
+			catch (java.lang.Throwable _g2)
 			{
-				//line 45 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
-				if (( ((java.lang.Object) (haxe.Exception.caught(_g).unwrap()) ) instanceof interp.TypeError )) 
+				//line 51 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+				if (( ((java.lang.Object) (haxe.Exception.caught(_g2).unwrap()) ) instanceof interp.TypeError )) 
 				{
-					//line 80 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+					//line 99 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
 					return interp.Command.Func(func, args);
 				}
 				else
 				{
-					//line 45 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
-					throw _g;
+					//line 51 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+					throw _g2;
 				}
 				
 			}
 			
 			
-			//line 42 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+			//line 48 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
 			return null;
 		}
 		catch (java.lang.Throwable typedException)
 		{
-			//line 42 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+			//line 48 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
 			throw ((java.lang.RuntimeException) (haxe.Exception.thrown(typedException)) );
 		}
 		
@@ -520,7 +635,7 @@ public final class Function_Impl_
 	
 	public static java.lang.String toString(java.lang.String this1)
 	{
-		//line 86 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
+		//line 105 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
 		return this1;
 	}
 	
