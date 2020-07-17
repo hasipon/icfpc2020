@@ -11,6 +11,7 @@ using interp.CommandTools;
 	var mul;
 	var lt;
 	var eq;
+	var s;
 	
 	public function getRequiredSize():Int
 	{
@@ -23,6 +24,7 @@ using interp.CommandTools;
 			case mul: 2;
 			case lt : 2;
 			case eq : 2;
+			case s  : 3;
 		}
 	}
 	
@@ -40,6 +42,8 @@ using interp.CommandTools;
 				case mul: Command.Int (args[0].toInt() * args[1].toInt());
 				case eq : Command.Bool(args[0].toString() == args[1].toString());
 				case lt : Command.Bool(args[0].toInt() <  args[1].toInt());
+				case s:
+					args[0].ap(args[2]).ap(args[1].ap(args[2]));
 			}
 		}
 		catch (e:TypeError)

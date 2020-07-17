@@ -66,36 +66,12 @@ private class Environment
 	{
 		if (data == "ap")
 		{
-			var func, args;
-			var c = output.pop();
-			if (c == null) "ap x: too short args";
-			switch (c)
-			{
-				case Command.Func(f, a):
-					func = f;
-					args = a;
-					
-				case _:
-					throw "ap x: must be function";
-			}
-			var required = func.getRequiredSize();
-			if (args.length == required) 
-			{
-				throw "ap x: too long args";
-			}
-			
+			var c  = output.pop();
+			if (c == null) throw "ap x: too short args";
 			var na = output.pop();
 			if (na == null) throw "ap x: too short args";
-			args.push(na);
+			return CommandTools.ap(c, na);
 			
-			return if (args.length == required)
-			{
-				func.execute(args);
-			}
-			else
-			{
-				Command.Func(func, args);
-			}
 		}
 		for (func in AbstractEnumTools.getValues(Function))
 		{

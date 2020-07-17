@@ -13,7 +13,7 @@ public class CommandTools extends haxe.lang.HxObject
 	
 	public CommandTools()
 	{
-		//line 3 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\CommandTools.hx"
+		//line 4 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\CommandTools.hx"
 		interp.CommandTools.__hx_ctor_interp_CommandTools(this);
 	}
 	
@@ -25,31 +25,31 @@ public class CommandTools extends haxe.lang.HxObject
 	
 	public static java.lang.String toString(interp.Command result)
 	{
-		//line 7 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\CommandTools.hx"
+		//line 8 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\CommandTools.hx"
 		switch (result.index)
 		{
 			case 0:
 			{
-				//line 10 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\CommandTools.hx"
+				//line 11 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\CommandTools.hx"
 				int i = ((int) (haxe.lang.Runtime.toInt(result.params[0])) );
-				//line 10 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\CommandTools.hx"
+				//line 11 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\CommandTools.hx"
 				return haxe.root.Std.string(i);
 			}
 			
 			
 			case 1:
 			{
-				//line 9 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\CommandTools.hx"
+				//line 10 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\CommandTools.hx"
 				boolean b = haxe.lang.Runtime.toBool(((java.lang.Boolean) (result.params[0]) ));
-				//line 9 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\CommandTools.hx"
+				//line 10 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\CommandTools.hx"
 				if (b) 
 				{
-					//line 9 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\CommandTools.hx"
+					//line 10 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\CommandTools.hx"
 					return "t";
 				}
 				else
 				{
-					//line 9 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\CommandTools.hx"
+					//line 10 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\CommandTools.hx"
 					return "f";
 				}
 				
@@ -58,70 +58,132 @@ public class CommandTools extends haxe.lang.HxObject
 			
 			case 2:
 			{
-				//line 11 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\CommandTools.hx"
-				haxe.root.Array<interp.Command> args = ((haxe.root.Array<interp.Command>) (result.params[1]) );
-				//line 11 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\CommandTools.hx"
-				java.lang.String func = haxe.lang.Runtime.toString(result.params[0]);
 				//line 12 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\CommandTools.hx"
-				java.lang.String result1 = interp._Function.Function_Impl_.toString(func);
+				haxe.root.Array<interp.Command> args = ((haxe.root.Array<interp.Command>) (result.params[1]) );
+				//line 12 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\CommandTools.hx"
+				java.lang.String func = haxe.lang.Runtime.toString(result.params[0]);
 				//line 13 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\CommandTools.hx"
+				java.lang.String result1 = interp._Function.Function_Impl_.toString(func);
+				//line 14 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\CommandTools.hx"
 				{
-					//line 13 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\CommandTools.hx"
+					//line 14 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\CommandTools.hx"
 					int _g = 0;
-					//line 13 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\CommandTools.hx"
+					//line 14 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\CommandTools.hx"
 					while (( _g < args.length ))
 					{
-						//line 13 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\CommandTools.hx"
+						//line 14 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\CommandTools.hx"
 						interp.Command arg = args.__get(_g);
-						//line 13 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\CommandTools.hx"
+						//line 14 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\CommandTools.hx"
 						 ++ _g;
-						//line 15 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\CommandTools.hx"
+						//line 16 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\CommandTools.hx"
 						result1 = ( ( ( "ap " + result1 ) + " " ) + interp.CommandTools.toString(arg) );
 					}
 					
 				}
 				
-				//line 17 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\CommandTools.hx"
+				//line 18 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\CommandTools.hx"
 				return result1;
 			}
 			
 			
 			case 3:
 			{
-				//line 19 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\CommandTools.hx"
-				java.lang.String string = haxe.lang.Runtime.toString(result.params[0]);
 				//line 20 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\CommandTools.hx"
+				java.lang.String string = haxe.lang.Runtime.toString(result.params[0]);
+				//line 21 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\CommandTools.hx"
 				return string;
 			}
 			
 			
 		}
 		
-		//line 5 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\CommandTools.hx"
+		//line 6 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\CommandTools.hx"
 		return null;
 	}
 	
 	
 	public static int toInt(interp.Command result)
 	{
-		//line 27 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\CommandTools.hx"
+		//line 28 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\CommandTools.hx"
 		switch (result.index)
 		{
 			case 0:
 			{
-				//line 29 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\CommandTools.hx"
+				//line 30 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\CommandTools.hx"
 				int i = ((int) (haxe.lang.Runtime.toInt(result.params[0])) );
-				//line 29 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\CommandTools.hx"
+				//line 30 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\CommandTools.hx"
 				return i;
 			}
 			
 			
 			default:
 			{
-				//line 30 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\CommandTools.hx"
+				//line 31 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\CommandTools.hx"
 				throw ((java.lang.RuntimeException) (haxe.Exception.thrown(new interp.TypeError(haxe.lang.Runtime.toString(( interp.CommandTools.toString(result) + " should be int" ))))) );
 			}
 			
+		}
+		
+	}
+	
+	
+	public static interp.Command ap(interp.Command c, interp.Command na)
+	{
+		//line 37 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\CommandTools.hx"
+		java.lang.String func = null;
+		//line 37 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\CommandTools.hx"
+		haxe.root.Array<interp.Command> args = null;
+		//line 38 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\CommandTools.hx"
+		switch (c.index)
+		{
+			case 2:
+			{
+				//line 40 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\CommandTools.hx"
+				haxe.root.Array<interp.Command> a = ((haxe.root.Array<interp.Command>) (c.params[1]) );
+				//line 40 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\CommandTools.hx"
+				java.lang.String f = haxe.lang.Runtime.toString(c.params[0]);
+				//line 40 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\CommandTools.hx"
+				{
+					//line 41 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\CommandTools.hx"
+					func = f;
+					//line 42 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\CommandTools.hx"
+					args = a;
+				}
+				
+				//line 40 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\CommandTools.hx"
+				break;
+			}
+			
+			
+			default:
+			{
+				//line 45 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\CommandTools.hx"
+				throw ((java.lang.RuntimeException) (haxe.Exception.thrown("ap x: must be function")) );
+			}
+			
+		}
+		
+		//line 47 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\CommandTools.hx"
+		int required = interp._Function.Function_Impl_.getRequiredSize(func);
+		//line 48 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\CommandTools.hx"
+		if (( args.length == required )) 
+		{
+			//line 50 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\CommandTools.hx"
+			throw ((java.lang.RuntimeException) (haxe.Exception.thrown("ap x: too long args")) );
+		}
+		
+		//line 52 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\CommandTools.hx"
+		args.push(na);
+		//line 54 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\CommandTools.hx"
+		if (( args.length == required )) 
+		{
+			//line 56 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\CommandTools.hx"
+			return interp._Function.Function_Impl_.execute(func, args);
+		}
+		else
+		{
+			//line 60 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\CommandTools.hx"
+			return interp.Command.Func(func, args);
 		}
 		
 	}

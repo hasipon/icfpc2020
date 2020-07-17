@@ -1,4 +1,5 @@
 package interp;
+import interp.Command;
 
 class CommandTools 
 {
@@ -28,6 +29,35 @@ class CommandTools
 		{
 			case Command.Int(i): i;
 			case _: throw new TypeError(toString(result) + " should be int");
+		}
+	}
+	
+	public static function ap(c:Command, na:Command):Command
+	{
+		var func, args;
+		switch (c)
+		{
+			case Command.Func(f, a):
+				func = f;
+				args = a;
+				
+			case _:
+				throw "ap x: must be function";
+		}
+		var required = func.getRequiredSize();
+		if (args.length == required) 
+		{
+			throw "ap x: too long args";
+		}
+		args.push(na);
+		
+		return if (args.length == required)
+		{
+			func.execute(args);
+		}
+		else
+		{
+			Command.Func(func, args);
 		}
 	}
 }
