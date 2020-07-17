@@ -1,6 +1,7 @@
 C:\Users\909mm\Desktop\Work\git\icfpc2020\haxe\interp
 begin defines
 dce
+debug
 haxe
 haxe3
 haxe4
@@ -30,6 +31,7 @@ utf16
 end defines
 begin defines_data
 dce=std
+debug=1
 haxe=4.1.1
 haxe3=1
 haxe4=1
@@ -291,6 +293,7 @@ M java.util.regex.MatchResult
 M interp.Main
 C interp.Main
 C interp._Main.Environment
+C interp._Main.Node
 M java.nio.channels.GatheringByteChannel
 M java.lang.NoSuchFieldException
 M haxe.io.BytesBuffer

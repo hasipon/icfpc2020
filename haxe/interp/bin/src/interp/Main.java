@@ -76,17 +76,17 @@ public class Main extends haxe.lang.HxObject
 		//line 34 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
 		boolean first = true;
 		//line 35 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
-		while (( env.output.length > 0 ))
+		while (( env.node.output.length > 0 ))
 		{
 			//line 37 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
-			haxe.root.Sys.stdout().writeString(interp.CommandTools.toString(((interp.Command) (env.output.pop()) )), null);
-			//line 38 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
 			if ( ! (first) ) 
 			{
-				//line 38 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
+				//line 37 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
 				haxe.root.Sys.stdout().writeString(" ", null);
 			}
 			
+			//line 38 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
+			haxe.root.Sys.stdout().writeString(interp.CommandTools.toString(((interp.Command) (env.node.output.pop()) )), null);
 			//line 39 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
 			first = false;
 		}

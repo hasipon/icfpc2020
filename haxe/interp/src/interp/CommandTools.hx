@@ -3,6 +3,22 @@ import interp.Command;
 
 class CommandTools 
 {
+	
+	public static function arrayToString(commands:Array<Command>):String
+	{
+		var result = "";
+		var first = true;
+		for (command in commands)
+		{
+			if (!first)
+			{
+				result += " ";
+			}
+			result += toString(command);
+			first = false;
+		}
+		return result;
+	}
 	public static function toString(result:Command):String
 	{
 		return switch (result)
@@ -19,9 +35,29 @@ class CommandTools
 				
 			case Command.Ap(a, b):
 				"ap " + toString(a) + " " + toString(b);
-				
+				/*
+			case Command.List(list):
+				var result = "(";
+				var first = true;
+				for (element in list) 
+				{
+					if (first)
+					{
+						result += " ";
+					}
+					else
+					{
+						result += " , ";
+					}
+					result += arrayToString(element);
+					first = false;
+				}
+				result + " )";
+				*/
 			case Command.Unknown(string):
 				string;
+			case Command.Nil:
+				"nil";
 		}
 	}
 	
@@ -34,7 +70,6 @@ class CommandTools
 			case _: throw new TypeError(toString(result) + " should be int");
 		}
 	}
-	
 	public static function ap(c:Command, na:Command):Command
 	{
 		var func, args;

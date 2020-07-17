@@ -32,10 +32,10 @@ class Main
 		}
 		
 		var first = true;
-		while (env.output.length > 0)
+		while (env.node.output.length > 0)
 		{
-			Sys.stdout().writeString(env.output.pop().toString());
 			if (!first) Sys.stdout().writeString(" ");
+			Sys.stdout().writeString(env.node.output.pop().toString());
 			first = false;
 		}
 		Sys.stdout().writeString("\n");
@@ -46,20 +46,72 @@ class Main
 private class Environment
 {
 	public var input:Array<String>;
-	public var output:Array<Command>;
+	public var node:Node;
 	
 	public function new(input:Array<String>)
 	{
 		this.input = input;
-		output = [];
+		node = new Node();
 	}
 	
 	public function exec():Void
 	{
-		var data = input.pop();
-		
-		var command = getCommand(data);
-		output.push(command);
+		node.add(input.pop());
+	}
+}
+
+private class Node
+{
+	public var output:Array<Command>;
+	public var child:Node;
+	public var tail:Array<Array<Command>>;
+	
+	public function new()
+	{
+		output = [];
+		tail = [];
+		child = null;
+	}
+	
+	public function add(data:String):Void
+	{
+		if (child != null)
+		{
+			if (data == "(")
+			{
+				var list = Command.Nil;
+				for (out in child.tail)
+				{
+					if (out.length > 0)
+					{
+						list = Command.Func(Function.cons, [out.pop(), list]);
+					}
+				}
+				if (child.output.length > 0)
+				{
+					list = Command.Func(Function.cons, [child.output.pop(), list]);
+				}
+				output.push(list);
+			}
+			else
+			{
+				child.add(data);
+			}
+		}
+		else if (data == ",")
+		{
+			tail.push(output);
+			output = [];
+		}
+		else if (data == ")")
+		{
+			child = new Node();
+		}
+		else
+		{
+			var command = getCommand(data);
+			output.push(command);
+		}
 	}
 	
 	public function getCommand(data:String):Command
@@ -93,7 +145,6 @@ private class Environment
 		{
 			return Command.Int(int);
 		}
-		
 		return Command.Unknown(data);
 	}
 }

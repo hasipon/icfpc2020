@@ -34,6 +34,7 @@ src/haxe/lang/VarArgsFunction.java
 src/haxe/lang/Closure.java
 src/interp/Main.java
 src/interp/_Main/Environment.java
+src/interp/_Main/Node.java
 src/haxe/io/BytesBuffer.java
 src/haxe/iterators/ArrayIterator.java
 src/haxe/root/Reflect.java

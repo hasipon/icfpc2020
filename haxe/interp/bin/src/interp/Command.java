@@ -13,7 +13,7 @@ public class Command extends haxe.lang.ParamEnum
 	}
 	
 	
-	public static final java.lang.String[] __hx_constructs = new java.lang.String[]{"Int", "Bool", "Func", "Ap", "Unknown"};
+	public static final java.lang.String[] __hx_constructs = new java.lang.String[]{"Int", "Bool", "Func", "Ap", "Unknown", "Nil"};
 	
 	public static interp.Command Int(int i)
 	{
@@ -49,6 +49,8 @@ public class Command extends haxe.lang.ParamEnum
 		return new interp.Command(4, new java.lang.Object[]{string});
 	}
 	
+	
+	public static final interp.Command Nil = new interp.Command(5, null);
 	
 	@Override public java.lang.String getTag()
 	{
