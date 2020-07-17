@@ -22,6 +22,7 @@ using interp.CommandTools;
 	var cons;
 	var car ;
 	var cdr ;
+	var isnil;
 	
 	public function getRequiredSize():Int
 	{
@@ -45,6 +46,7 @@ using interp.CommandTools;
 			case cons: 3;
 			case car : 1;
 			case cdr : 1;
+			case isnil: 1;
 		}
 	}
 	
@@ -114,6 +116,16 @@ using interp.CommandTools;
 							
 						case arg:
 							args[0].ap(Command.Func(Function.f, []));
+					}
+					
+				case isnil: 
+					return switch (args[0])
+					{
+						case Command.Nil:
+							Command.Bool(true);
+							
+						case _:
+							Command.Bool(false);
 					}
 			}
 		}
