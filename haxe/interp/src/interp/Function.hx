@@ -7,6 +7,7 @@ using interp.CommandTools;
 	var inc;
 	var dec;
 	var add;
+	var mul;
 	
 	public function getRequiredSize():Int
 	{
@@ -15,6 +16,7 @@ using interp.CommandTools;
 			case inc: 1;
 			case dec: 1;
 			case add: 2;
+			case mul: 2;
 		}
 	}
 	
@@ -25,6 +27,7 @@ using interp.CommandTools;
 			case inc: Command.Int(args[0].toInt() + 1);
 			case dec: Command.Int(args[0].toInt() - 1);
 			case add: Command.Int(args[0].toInt() + args[1].toInt());
+			case mul: Command.Int(args[0].toInt() * args[1].toInt());
 		}
 	}
 	
