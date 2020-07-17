@@ -22,6 +22,7 @@ using interp.CommandTools;
 	var cons;
 	var car ;
 	var cdr ;
+	var nil ; 
 	var isnil;
 	
 	public function getRequiredSize():Int
@@ -46,6 +47,7 @@ using interp.CommandTools;
 			case cons: 3;
 			case car : 1;
 			case cdr : 1;
+			case nil : 1;
 			case isnil: 1;
 		}
 	}
@@ -72,8 +74,8 @@ using interp.CommandTools;
 					{
 						Command.Int (Std.int(args[0].toInt() / x1));
 					}
-				case eq : Command.Bool(args[0].toString() == args[1].toString());
-				case lt : Command.Bool(args[0].toInt() <  args[1].toInt());
+				case eq : if (args[0].toString() == args[1].toString()) Command.Func(Function.t, []) else Command.Func(Function.f, []);
+				case lt : if (args[0].toInt() <  args[1].toInt()) Command.Func(Function.t, []) else Command.Func(Function.f, []);
 				case s:
 					args[0].ap(args[2]).ap(args[1].ap(args[2]));
 				case c:
@@ -94,6 +96,9 @@ using interp.CommandTools;
 					
 				case i:
 					args[0];
+					
+				case nil:
+					Command.Func(Function.t, []);
 					
 				case cons:
 					args[2].ap(args[0]).ap(args[1]);
@@ -121,11 +126,11 @@ using interp.CommandTools;
 				case isnil: 
 					return switch (args[0])
 					{
-						case Command.Nil:
-							Command.Bool(true);
+						case Command.Func(Function.nil, []):
+							Command.Func(Function.t, []);
 							
 						case _:
-							Command.Bool(false);
+							Command.Func(Function.f, []);
 					}
 			}
 		}

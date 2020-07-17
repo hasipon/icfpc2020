@@ -45,6 +45,8 @@ class Main
 
 private class Environment
 {
+	public static var variables:Map<String, Array<Command>> = [];
+	
 	public var input:Array<String>;
 	public var node:Node;
 	
@@ -56,7 +58,15 @@ private class Environment
 	
 	public function exec():Void
 	{
-		node.add(input.pop());
+		var data = input.pop();
+		if (data == "=")
+		{
+			variables[input.pop()] = node.output.copy();
+		}
+		else
+		{
+			node.add(data);
+		}
 	}
 }
 
@@ -79,7 +89,7 @@ private class Node
 		{
 			if (data == "(")
 			{
-				var list = Command.Nil;
+				var list = Command.Func(Function.nil, []);
 				for (out in child.tail)
 				{
 					if (out.length > 0)
@@ -106,6 +116,13 @@ private class Node
 		else if (data == ")")
 		{
 			child = new Node();
+		}	
+		if (Environment.variables.exists(data))
+		{
+			for (command in Environment.variables[data])
+			{
+				output.push(command);
+			}
 		}
 		else
 		{
@@ -131,14 +148,6 @@ private class Node
 			{
 				return Command.Func(func, []);
 			}	
-		}
-		if (data == "t")
-		{
-			return Command.Bool(true);
-		}
-		if (data == "f")
-		{
-			return Command.Bool(false);
 		}
 		var int = Std.parseInt(data);
 		if (int != null)

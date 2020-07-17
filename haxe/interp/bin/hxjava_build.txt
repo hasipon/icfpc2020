@@ -1,7 +1,6 @@
 C:\Users\909mm\Desktop\Work\git\icfpc2020\haxe\interp
 begin defines
 dce
-debug
 haxe
 haxe3
 haxe4
@@ -31,7 +30,6 @@ utf16
 end defines
 begin defines_data
 dce=std
-debug=1
 haxe=4.1.1
 haxe3=1
 haxe4=1
@@ -61,6 +59,7 @@ utf16=1
 end defines_data
 begin modules
 M haxe.Constraints
+C haxe.IMap
 M java.Boot
 M java.nio.file.DirectoryStream
 M java.net.URLConnection
@@ -115,6 +114,7 @@ M java.util.concurrent.TimeUnit
 M haxe.root.Array
 C haxe.root.Array
 M haxe.ds.StringMap
+C haxe.ds.StringMap
 M java.lang.Throwable
 M java.io.FileNotFoundException
 M java.net.URLDecoder

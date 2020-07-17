@@ -1,9 +1,11 @@
+src/haxe/IMap.java
 src/haxe/root/Std.java
 src/haxe/io/Output.java
 src/haxe/lang/IEquatable.java
 src/haxe/iterators/ArrayKeyValueIterator.java
 src/interp/AbstractEnumTools.java
 src/haxe/root/Array.java
+src/haxe/ds/StringMap.java
 src/interp/TypeError.java
 src/haxe/java/io/NativeInput.java
 src/haxe/lang/IHxObject.java

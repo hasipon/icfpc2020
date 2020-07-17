@@ -13,7 +13,7 @@ public class Command extends haxe.lang.ParamEnum
 	}
 	
 	
-	public static final java.lang.String[] __hx_constructs = new java.lang.String[]{"Int", "Bool", "Func", "Ap", "Unknown", "Nil"};
+	public static final java.lang.String[] __hx_constructs = new java.lang.String[]{"Int", "Func", "Ap", "Unknown"};
 	
 	public static interp.Command Int(int i)
 	{
@@ -22,35 +22,26 @@ public class Command extends haxe.lang.ParamEnum
 	}
 	
 	
-	public static interp.Command Bool(boolean b)
-	{
-		//line 6 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Command.hx"
-		return new interp.Command(1, new java.lang.Object[]{b});
-	}
-	
-	
 	public static interp.Command Func(java.lang.String func, haxe.root.Array<interp.Command> args)
 	{
-		//line 7 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Command.hx"
-		return new interp.Command(2, new java.lang.Object[]{func, args});
+		//line 6 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Command.hx"
+		return new interp.Command(1, new java.lang.Object[]{func, args});
 	}
 	
 	
 	public static interp.Command Ap(interp.Command a, interp.Command b)
 	{
-		//line 8 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Command.hx"
-		return new interp.Command(3, new java.lang.Object[]{a, b});
+		//line 7 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Command.hx"
+		return new interp.Command(2, new java.lang.Object[]{a, b});
 	}
 	
 	
 	public static interp.Command Unknown(java.lang.String string)
 	{
-		//line 9 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Command.hx"
-		return new interp.Command(4, new java.lang.Object[]{string});
+		//line 8 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Command.hx"
+		return new interp.Command(3, new java.lang.Object[]{string});
 	}
 	
-	
-	public static final interp.Command Nil = new interp.Command(5, null);
 	
 	@Override public java.lang.String getTag()
 	{

@@ -6,6 +6,12 @@ import haxe.root.*;
 @SuppressWarnings(value={"rawtypes", "unchecked"})
 public class Environment extends haxe.lang.HxObject
 {
+	static
+	{
+		//line 48 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
+		interp._Main.Environment.variables = new haxe.ds.StringMap<haxe.root.Array<interp.Command>>();
+	}
+	
 	public Environment(haxe.lang.EmptyObject empty)
 	{
 	}
@@ -13,19 +19,21 @@ public class Environment extends haxe.lang.HxObject
 	
 	public Environment(haxe.root.Array<java.lang.String> input)
 	{
-		//line 51 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
+		//line 53 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
 		interp._Main.Environment.__hx_ctor_interp__Main_Environment(this, input);
 	}
 	
 	
 	protected static void __hx_ctor_interp__Main_Environment(interp._Main.Environment __hx_this, haxe.root.Array<java.lang.String> input)
 	{
-		//line 53 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
+		//line 55 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
 		__hx_this.input = input;
-		//line 54 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
+		//line 56 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
 		__hx_this.node = new interp._Main.Node();
 	}
 	
+	
+	public static haxe.ds.StringMap<haxe.root.Array<interp.Command>> variables;
 	
 	public haxe.root.Array<java.lang.String> input;
 	
@@ -33,8 +41,26 @@ public class Environment extends haxe.lang.HxObject
 	
 	public void exec()
 	{
-		//line 59 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
-		this.node.add(haxe.lang.Runtime.toString(this.input.pop()));
+		//line 61 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
+		java.lang.String data = haxe.lang.Runtime.toString(this.input.pop());
+		//line 62 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
+		if (haxe.lang.Runtime.valEq(data, "=")) 
+		{
+			//line 64 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
+			haxe.IMap<java.lang.String, haxe.root.Array<interp.Command>> this1 = interp._Main.Environment.variables;
+			//line 64 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
+			java.lang.String k = haxe.lang.Runtime.toString(this.input.pop());
+			//line 64 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
+			haxe.root.Array<interp.Command> v = this.node.output.copy();
+			//line 64 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
+			((haxe.ds.StringMap<haxe.root.Array<interp.Command>>) (this1) ).set(k, v);
+		}
+		else
+		{
+			//line 68 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
+			this.node.add(data);
+		}
+		
 	}
 	
 	

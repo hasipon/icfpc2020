@@ -1,2 +1,2 @@
-ap x0 nil
-ap x0 ap ap cons x0 x1
+ap isnil nil
+ap isnil ap ap cons x0 x1

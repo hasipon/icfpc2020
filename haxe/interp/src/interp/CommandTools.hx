@@ -23,7 +23,6 @@ class CommandTools
 	{
 		return switch (result)
 		{
-			case Command.Bool(b): if (b) "t" else "f";
 			case Command.Int (i): Std.string(i);
 			case Func(func, args):
 				var result = func.toString();
@@ -56,8 +55,6 @@ class CommandTools
 				*/
 			case Command.Unknown(string):
 				string;
-			case Command.Nil:
-				"nil";
 		}
 	}
 	
