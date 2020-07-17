@@ -108,6 +108,18 @@ class Main:
                     else:
                         # cons x y z = z x y
                         return Ap(Ap(a[3], a[1]), a[2])
+                elif a[0] == 'isnil':
+                    if len(a) < 2:
+                        return Node(a)
+                    else:
+                        v1 = self.evalloop(a[1])
+                        if isinstance(v1, Node):
+                            if v1.v == 'nil':
+                                return Node('t')
+                            else:
+                                assert False, v1
+                        else:
+                            return Node('f')
                 elif a[0] == 'eq':
                     if len(a) < 3:
                         return Node(a)
@@ -121,18 +133,16 @@ class Main:
                             else:
                                 return Node('f')
                         assert False, (v1, v2)
-                elif a[0] == 'isnil':
-                    if len(a) < 2:
+                elif a[0] == 'add':
+                    if len(a) < 3:
                         return Node(a)
                     else:
                         v1 = self.evalloop(a[1])
-                        if isinstance(v1, Node):
-                            if v1.v == 'nil':
-                                return Node('t')
-                            else:
-                                assert False, v1
-                        else:
-                            return Node('f')
+                        v2 = self.evalloop(a[2])
+                        if isinstance(v1, Node) and isinstance(v2, Node) and isinstance(v1.v, str) and isinstance(v2.v, str):
+                            print(f"!!! add ({v1.v}) ({v2.v})")
+                            return Node(str(int(v1.v) + int(v2.v)))
+                        assert False, (v1, v2)
                 else:
                     assert False, a
             else:
