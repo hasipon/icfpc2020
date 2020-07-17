@@ -62,8 +62,26 @@ using interp.CommandTools;
 				case inc: Command.Int (args[0].toInt() + 1);
 				case dec: Command.Int (args[0].toInt() - 1);
 				case neg: Command.Int (-args[0].toInt());
-				case add: Command.Int (args[0].toInt() + args[1].toInt());
-				case mul: Command.Int (args[0].toInt() * args[1].toInt());
+				case add: 
+					return switch [args[0], args[1]]
+					{
+						case [Command.Int(0), x1]:
+							x1;
+						case [x0, Command.Int(0)]:
+							x0;
+						case [x0, x1]:
+							Command.Int(x0.toInt() + x1.toInt());
+					}
+				case mul: 
+					return switch [args[0], args[1]]
+					{
+						case [Command.Int(1), x1]:
+							x1;
+						case [x0, Command.Int(1)]:
+							x0;
+						case [x0, x1]:
+							Command.Int(x0.toInt() * x1.toInt());
+					}
 				case div: 
 					var x1 = args[1].toInt();
 					if (x1 == 1)
