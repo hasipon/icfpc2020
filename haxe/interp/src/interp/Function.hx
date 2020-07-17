@@ -18,6 +18,7 @@ using interp.CommandTools;
 	var t;
 	var f;
 	var pwr2;
+	var i;
 	
 	
 	public function getRequiredSize():Int
@@ -38,6 +39,7 @@ using interp.CommandTools;
 			case t   : 2;
 			case f   : 2;
 			case pwr2: 1;
+			case i   : 1;
 		}
 	}
 	
@@ -82,6 +84,9 @@ using interp.CommandTools;
 						x0 = x0 * 2;
 					}
 					Command.Int(x0);
+					
+				case i:
+					args[0];
 			}
 		}
 		catch (e:TypeError)
