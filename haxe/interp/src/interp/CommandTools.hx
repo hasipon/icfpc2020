@@ -42,7 +42,7 @@ class CommandTools
 				args = a;
 				
 			case _:
-				throw "ap x: must be function";
+				throw throw new TypeError("ap x: must be function");
 		}
 		var required = func.getRequiredSize();
 		if (args.length == required) 

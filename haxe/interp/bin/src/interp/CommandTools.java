@@ -158,7 +158,7 @@ public class CommandTools extends haxe.lang.HxObject
 			default:
 			{
 				//line 45 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\CommandTools.hx"
-				throw ((java.lang.RuntimeException) (haxe.Exception.thrown("ap x: must be function")) );
+				throw ((java.lang.RuntimeException) (haxe.Exception.thrown(new interp.TypeError(haxe.lang.Runtime.toString("ap x: must be function")))) );
 			}
 			
 		}

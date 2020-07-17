@@ -175,6 +175,32 @@ public class Environment extends haxe.lang.HxObject
 				
 			}
 			
+			//line 34 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\AbstractEnumTools.hx"
+			{
+				//line 35 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\AbstractEnumTools.hx"
+				java.lang.String func8 = haxe.lang.Runtime.toString("c");
+				//line 78 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
+				if (haxe.lang.Runtime.valEq(data, interp._Function.Function_Impl_.toString(func8))) 
+				{
+					//line 80 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
+					return interp.Command.Func(func8, new haxe.root.Array<interp.Command>(new interp.Command[]{}));
+				}
+				
+			}
+			
+			//line 34 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\AbstractEnumTools.hx"
+			{
+				//line 35 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\AbstractEnumTools.hx"
+				java.lang.String func9 = haxe.lang.Runtime.toString("b");
+				//line 78 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
+				if (haxe.lang.Runtime.valEq(data, interp._Function.Function_Impl_.toString(func9))) 
+				{
+					//line 80 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
+					return interp.Command.Func(func9, new haxe.root.Array<interp.Command>(new interp.Command[]{}));
+				}
+				
+			}
+			
 		}
 		
 		//line 83 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
