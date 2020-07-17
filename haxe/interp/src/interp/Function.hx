@@ -9,6 +9,8 @@ using interp.CommandTools;
 	var neg;
 	var add;
 	var mul;
+	var lt;
+	var eq;
 	
 	public function getRequiredSize():Int
 	{
@@ -19,6 +21,8 @@ using interp.CommandTools;
 			case neg: 1;
 			case add: 2;
 			case mul: 2;
+			case lt : 2;
+			case eq : 2;
 		}
 	}
 	
@@ -31,6 +35,8 @@ using interp.CommandTools;
 			case neg: Command.Int(-args[0].toInt());
 			case add: Command.Int(args[0].toInt() + args[1].toInt());
 			case mul: Command.Int(args[0].toInt() * args[1].toInt());
+			case eq : Command.Bool(args[0].toInt() == args[1].toInt());
+			case lt : Command.Bool(args[0].toInt() <  args[1].toInt());
 		}
 	}
 	

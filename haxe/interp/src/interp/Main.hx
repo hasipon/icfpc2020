@@ -29,10 +29,12 @@ class Main
 			}
 		}
 		
-		Sys.stdout().writeString("=");
+		var first = true;
 		while (env.output.length > 0)
 		{
-			Sys.stdout().writeString(" " + env.output.pop().toString());
+			Sys.stdout().writeString(env.output.pop().toString());
+			if (!first) Sys.stdout().writeString(" ");
+			first = false;
 		}
 		Sys.stdout().writeString("\n");
 	}
