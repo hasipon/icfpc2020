@@ -14,11 +14,14 @@ src/haxe/lang/Runtime.java
 src/haxe/ValueException.java
 src/haxe/lang/StringExt.java
 src/haxe/lang/StringRefl.java
+src/interp/Command.java
+src/interp/Command.java
 src/haxe/io/Encoding.java
 src/haxe/lang/FieldLookup.java
 src/haxe/root/Sys.java
 src/haxe/Exception.java
 src/haxe/io/Eof.java
+src/interp/_Function/Function_Impl_.java
 src/haxe/java/Init.java
 src/haxe/root/Type.java
 src/haxe/io/Error.java
@@ -34,5 +37,6 @@ src/haxe/iterators/ArrayIterator.java
 src/haxe/root/Reflect.java
 src/haxe/java/io/NativeOutput.java
 src/haxe/io/Bytes.java
+src/interp/CommandTools.java
 src/haxe/io/Input.java
 src/haxe/root/StringBuf.java

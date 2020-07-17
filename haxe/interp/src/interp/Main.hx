@@ -1,11 +1,8 @@
 package interp;
 
-import java.Lib;
+import interp.Command;
+using interp.CommandTools;
 
-/**
- * ...
- * @author shohei909
- */
 class Main 
 {
 	static function main() 
@@ -20,59 +17,99 @@ class Main
 	{
 		var line = Sys.stdin().readLine();
 		var env = new Environment(line.split(" "));
-		while (env.commands.length > 0)
+		while (env.input.length > 0)
 		{
-			var error = env.eval();
-			if (error != null) 
+			try
+			{
+				env.exec();
+			}
+			catch (error:Dynamic)
 			{
 				Sys.stderr().writeString("error: " + error + "\n");
-				return;
 			}
 		}
 		
-		Sys.stdout().writeString("= " + env.result.join(" ") + "\n");
+		Sys.stdout().writeString("=");
+		while (env.output.length > 0)
+		{
+			Sys.stdout().writeString(" " + env.output.pop().toString());
+		}
+		Sys.stdout().writeString("\n");
 	}
 	
 }
 
 private class Environment
 {
-	public var commands:Array<String>;
-	public var result:Array<String>;
+	public var input:Array<String>;
+	public var output:Array<Command>;
 	
-	public function new(commands:Array<String>)
+	public function new(input:Array<String>)
 	{
-		this.commands = commands;
-		result = [];
+		this.input = input;
+		output = [];
 	}
 	
-	public function eval():String
+	public function exec():Void
 	{
-		var data = commands.pop();
+		var data = input.pop();
+		
+		var command = getCommand(data);
+		output.push(command);
+	}
+	
+	public function getCommand(data:String):Command
+	{
 		if (data == "ap")
 		{
-			var command = result.pop();
-			if (command == "inc")
+			var func, args;
+			var c = output.pop();
+			if (c == null) "ap x: too short args";
+			switch (c)
 			{
-				var a = Std.parseInt(result.pop());
-				if (a == null) return "inc a should be number:" + a;
-				result.push(Std.string(a += 1));
+				case Command.Func(f, a):
+					func = f;
+					args = a;
+					
+				case _:
+					throw "ap x: must be function";
 			}
-			else if (command == "dec")
+			
+			var na = output.pop();
+			if (na == null) "ap x: too short args";
+			args.push(na);
+			var required = func.getRequiredSize();
+			return if (args.length == required)
 			{
-				var a = Std.parseInt(result.pop());
-				if (a == null) return "dec a should be number:" + a;
-				result.push(Std.string(a -= 1));
+				func.execute(args);
 			}
 			else
 			{
-				return "ap: unknown command:" + command;
+				Command.Func(func, args);
 			}
 		}
-		else
+		if (data == "inc")
 		{
-			result.push(data);
+			return Command.Func(Function.inc, []);
 		}
-		return null;
+		if (data == "dec")
+		{
+			return Command.Func(Function.dec, []);
+		}
+		if (data == "t")
+		{
+			return Command.Bool(true);
+		}
+		if (data == "f")
+		{
+			return Command.Bool(false);
+		}
+		var int = Std.parseInt(data);
+		if (int != null)
+		{
+			return Command.Int(int);
+		}
+		
+		throw "unknown value:" + data;
 	}
 }

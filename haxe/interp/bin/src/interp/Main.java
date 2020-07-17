@@ -19,7 +19,7 @@ public class Main extends haxe.lang.HxObject
 	
 	public Main()
 	{
-		//line 9 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
+		//line 6 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
 		interp.Main.__hx_ctor_interp_Main(this);
 	}
 	
@@ -31,14 +31,14 @@ public class Main extends haxe.lang.HxObject
 	
 	public static void main()
 	{
-		//line 13 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
+		//line 10 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
 		int _g = 0;
-		//line 13 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
+		//line 10 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
 		while (( _g < 2147483647 ))
 		{
-			//line 13 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
+			//line 10 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
 			int i = _g++;
-			//line 15 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
+			//line 12 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
 			interp.Main.waitInpt();
 		}
 		
@@ -47,28 +47,41 @@ public class Main extends haxe.lang.HxObject
 	
 	public static void waitInpt()
 	{
-		//line 21 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
+		//line 18 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
 		java.lang.String line = haxe.root.Sys.stdin().readLine();
-		//line 22 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
+		//line 19 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
 		interp._Main.Environment env = new interp._Main.Environment(((haxe.root.Array<java.lang.String>) (haxe.lang.StringExt.split(line, " ")) ));
-		//line 23 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
-		while (( env.commands.length > 0 ))
+		//line 20 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
+		while (( env.input.length > 0 ))
 		{
-			//line 25 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
-			java.lang.String error = env.eval();
-			//line 26 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
-			if (( error != null )) 
+			//line 24 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
+			try 
 			{
-				//line 28 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
-				haxe.root.Sys.stderr().writeString(( ( "error: " + error ) + "\n" ), null);
-				//line 29 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
-				return ;
+				//line 24 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
+				env.exec();
 			}
+			catch (java.lang.Throwable _g)
+			{
+				//line 1 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\?"
+				java.lang.Object error = ((java.lang.Object) (haxe.Exception.caught(_g).unwrap()) );
+				//line 28 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
+				haxe.root.Sys.stderr().writeString(( ( "error: " + haxe.root.Std.string(error) ) + "\n" ), null);
+			}
+			
 			
 		}
 		
+		//line 32 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
+		haxe.root.Sys.stdout().writeString("=", null);
 		//line 33 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
-		haxe.root.Sys.stdout().writeString(( ( "= " + env.result.join(" ") ) + "\n" ), null);
+		while (( env.output.length > 0 ))
+		{
+			//line 35 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
+			haxe.root.Sys.stdout().writeString(( " " + interp.CommandTools.toString(((interp.Command) (env.output.pop()) )) ), null);
+		}
+		
+		//line 37 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
+		haxe.root.Sys.stdout().writeString("\n", null);
 	}
 	
 	

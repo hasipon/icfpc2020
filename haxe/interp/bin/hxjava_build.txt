@@ -164,6 +164,9 @@ C haxe.lang.StringRefl
 M haxe.EnumTools
 M java.lang.ThreadGroup
 M java.nio.file.spi.FileSystemProvider
+M interp.Command
+E interp.Command
+C interp.Command
 M java.util.AbstractList
 M java.lang.ref.ReferenceQueue
 M java.lang.SecurityManager
@@ -227,6 +230,8 @@ M java.lang.ref.WeakReference
 M java.nio.file.Watchable
 M haxe.ds.ReadOnlyArray
 M java.lang.ref.SoftReference
+M interp.Function
+C interp._Function.Function_Impl_
 M java.util.spi.LocaleServiceProvider
 M java.nio.DoubleBuffer
 M java.util.RandomAccess
@@ -351,6 +356,8 @@ M haxe.ds.Vector
 M java.io.Serializable
 M java.nio.channels.ReadableByteChannel
 M java.net.SocketAddress
+M interp.CommandTools
+C interp.CommandTools
 M java.io.EOFException
 M java.sun.util.locale.BaseLocale
 M java.nio.file.attribute.FileAttributeView
