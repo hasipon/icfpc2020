@@ -137,12 +137,11 @@ private class Node
 		}
 		else
 		{
-			var command = getCommand(data);
-			output.push(command);
+			addCommand(data);
 		}
 	}
 	
-	public function getCommand(data:String):Command
+	public function addCommand(data:String):Void
 	{
 		if (data == "ap")
 		{
@@ -150,24 +149,29 @@ private class Node
 			if (c == null) throw "ap x: too short args";
 			var na = output.pop();
 			if (na == null) throw "ap x: too short args: " + c;
-			return CommandTools.ap(c, na);
+			output.push(CommandTools.ap(c, na));
+			return;
 		}
 		for (func in AbstractEnumTools.getValues(Function))
 		{
 			if (data == func.toString())
 			{
-				return Command.Func(func, []);
+				output.push(Command.Func(func, []));
+				return;
 			}	
 		}
 		if (data == "vec")
 		{
-			return Command.Func(Function.cons, []);
+			output.push(Command.Func(Function.cons, []));
+			return;
 		}
 		
 		if (intEReg.match(data))
 		{
-			return Command.Int(Int64.parseString(data));
+			output.push(Command.Int(Int64.parseString(data)));
+			return;
 		}
-		return Command.Unknown(data);
+		output.push(Command.Unknown(data));
+		return;
 	}
 }

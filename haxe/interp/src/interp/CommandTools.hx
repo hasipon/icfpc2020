@@ -344,7 +344,17 @@ class CommandTools
 		}
 		return result;
 	}
-	
+	public static function dem(command:Command):Command
+	{
+		return switch (command)
+		{
+			case Command.Func(Function.mod, [x0]):
+				x0;
+				
+			case arg:
+				Command.Func(Function.dem, [arg]);
+		}
+	}
 }
 
 enum ModTask

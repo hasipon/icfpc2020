@@ -26,7 +26,14 @@ using interp.CommandTools;
 	var nil ; 
 	var isnil;
 	var mod;
+	var dem;
+	var modem;
 	var if0;
+	var draw;
+	var multipledraw;
+	var f38;
+	var intract;
+	var send;
 	
 	public function getRequiredSize():Int
 	{
@@ -54,7 +61,14 @@ using interp.CommandTools;
 			case nil  : 1; // 
 			case isnil: 1; // 
 			case mod  : 1;
+			case dem  : 1;
+			case modem: 1;
 			case if0  : 3;
+			case draw : 1;
+			case multipledraw: 1;
+			case f38    : 2;
+			case intract: 3;
+			case send   : 1;
 		}
 	}
 	
@@ -160,24 +174,10 @@ using interp.CommandTools;
 					x2.ap(x0).ap(x1);
 				
 				case car:
-					switch (resolve(0))
-					{
-						case Command.Func(Function.cons, [x0, x1]):
-							x0;
-							
-						case arg:
-							arg.ap(Command.Func(Function.t, []));
-					}
+					execCar(resolve(0));
 					
 				case cdr: 
-					return switch (resolve(0))
-					{
-						case Command.Func(Function.cons, [x0, x1]):
-							x1;
-							
-						case arg:
-							arg.ap(Command.Func(Function.f, []));
-					}
+					execCdr(resolve(0));
 					
 				case isnil: 
 					return switch (resolve(0))
@@ -190,15 +190,104 @@ using interp.CommandTools;
 					}
 					
 				case if0:
-					return if (resolve(0).toInt() == 0) resolve(1) else resolve(2);
+					execIf0(resolve(0), resolve(1), resolve(2));
+					
+				case draw:
+					Command.Func(Function.draw, args);
+					
+				case multipledraw:
+					Command.Func(Function.multipledraw, args);
 					
 				case mod:
-					return Command.Modulate(resolve(0).modulate());
+					Command.Modulate(resolve(0).modulate());
+					
+				case dem:
+					resolve(0).dem();
+					
+				case modem:
+					execModem(resolve(0));
+					
+				case f38:
+					execF38(resolve(0), resolve(1));
+					
+				case intract:
+					var x2 = resolve(0);
+					var x4 = resolve(1);
+					var x3 = resolve(2);
+					Command.Func(
+						Function.f38,
+						[
+							x2,
+							x2.ap(x4).ap(x3)
+						]
+					);
+					
+				case send:
+					Command.Func(func, args);
 			}
 		}
 		catch (e:TypeError)
 		{
 			Command.Func(func, args);
+		}
+	}
+	private static function pair(x0:Command, x1:Command):Command
+	{
+		return Command.Func(Function.cons, [x0, x1]);
+	}
+	private static function execF38(x2:Command, x0:Command):Command
+	{	
+		return if (execCar(x0).toInt() == 0) 
+		{
+			pair(
+				Command.Func(Function.modem, [execCar(execCdr(x0))]), 
+				pair(
+					Command.Func(Function.multipledraw, [
+						execCar(execCdr(execCdr(x0)))
+					]),
+					Command.Func(Function.nil, [])
+				)
+			);
+		}
+		else
+		{
+			Command.Func(Function.intract, [
+				x2,
+				Command.Func(Function.modem, [execCar(execCdr(x0))]), 
+				Command.Func(Function.send, [
+					execCar(execCdr(execCdr(x0)))
+				])
+			]);
+		}
+	}
+	private static function execIf0(x0:Command, x1:Command, x2:Command):Command
+	{
+		return if (x0.toInt() == 0) x1 else x2;
+	}
+	private static function execModem(command:Command):Command
+	{
+		return Command.Modulate(command.modulate()).dem();
+	}
+	private static function execCar(command:Command):Command
+	{
+		return switch (command)
+		{
+			case Command.Func(Function.cons, [x0, x1]):
+				x0;
+				
+			case arg:
+				arg.ap(Command.Func(Function.t, []));
+		}
+	}
+	private static function execCdr(command:Command):Command
+	{
+		return switch (command)
+		{
+			case Command.Func(Function.cons, [x0, x1]):
+				x1;
+				
+			case arg:
+				arg.ap(Command.Func(Function.f, []));
 		}
 	}
 	

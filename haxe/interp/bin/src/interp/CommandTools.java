@@ -1600,6 +1600,99 @@ public class CommandTools extends haxe.lang.HxObject
 	}
 	
 	
+	public static interp.Command dem(interp.Command command)
+	{
+		//line 349 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\CommandTools.hx"
+		switch (command.index)
+		{
+			case 1:
+			{
+				//line 351 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\CommandTools.hx"
+				haxe.root.Array<interp.Command> _g = ((haxe.root.Array<interp.Command>) (command.params[1]) );
+				//line 351 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\CommandTools.hx"
+				{
+					//line 351 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\CommandTools.hx"
+					java.lang.String __temp_svar1 = (haxe.lang.Runtime.toString(command.params[0]));
+					//line 351 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\CommandTools.hx"
+					boolean __temp_executeDef2 = true;
+					//line 351 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\CommandTools.hx"
+					if (( __temp_svar1 != null )) 
+					{
+						//line 351 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\CommandTools.hx"
+						switch (__temp_svar1.hashCode())
+						{
+							case 108290:
+							{
+								//line 351 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\CommandTools.hx"
+								if (__temp_svar1.equals("mod")) 
+								{
+									//line 351 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\CommandTools.hx"
+									__temp_executeDef2 = false;
+									//line 351 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\CommandTools.hx"
+									switch (_g.length)
+									{
+										case 1:
+										{
+											//line 351 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\CommandTools.hx"
+											interp.Command x0 = _g.__get(0);
+											//line 352 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\CommandTools.hx"
+											return x0;
+										}
+										
+										
+										default:
+										{
+											//line 354 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\CommandTools.hx"
+											interp.Command arg = command;
+											//line 355 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\CommandTools.hx"
+											return interp.Command.Func(haxe.lang.Runtime.toString("dem"), new haxe.root.Array<interp.Command>(new interp.Command[]{arg}));
+										}
+										
+									}
+									
+								}
+								
+								//line 351 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\CommandTools.hx"
+								break;
+							}
+							
+							
+						}
+						
+					}
+					
+					//line 354 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\CommandTools.hx"
+					if (__temp_executeDef2) 
+					{
+						//line 354 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\CommandTools.hx"
+						interp.Command arg1 = command;
+						//line 355 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\CommandTools.hx"
+						return interp.Command.Func(haxe.lang.Runtime.toString("dem"), new haxe.root.Array<interp.Command>(new interp.Command[]{arg1}));
+					}
+					else
+					{
+						//line 354 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\CommandTools.hx"
+						throw null;
+					}
+					
+				}
+				
+			}
+			
+			
+			default:
+			{
+				//line 354 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\CommandTools.hx"
+				interp.Command arg2 = command;
+				//line 355 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\CommandTools.hx"
+				return interp.Command.Func(haxe.lang.Runtime.toString("dem"), new haxe.root.Array<interp.Command>(new interp.Command[]{arg2}));
+			}
+			
+		}
+		
+	}
+	
+	
 }
 
 
