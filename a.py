@@ -1,8 +1,11 @@
-import sys
-import requests
-from functools import reduce
 import os
+import requests
+import sys
+import time
+from functools import reduce
 from collections import namedtuple
+from modulate import modulate
+from demodulate import demodulate
 
 sys.setrecursionlimit(100000)
 
@@ -316,10 +319,12 @@ class Main:
                         v1 = self.evalloop(a[1])
                         print(v1)
                         print(self.cons_2_pyarray(v1))
-                        response = call_send_api(self.cons_2_pyarray(v1))
+                        print(modulate(self.cons_2_pyarray(v1)))
+                        response = call_send_api(modulate(self.cons_2_pyarray(v1)))
                         print(response)
-                        print(self.pyarray_2_cons(response))
-                        return self.pyarray_2_cons(response)
+                        print(demodulate(response))
+                        print(self.pyarray_2_cons(demodulate(response)))
+                        return self.pyarray_2_cons(demodulate(response))
                 elif a[0] == 'car':
                     if len(a) < 2:
                         return Node(a)
