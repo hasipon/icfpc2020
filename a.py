@@ -149,6 +149,7 @@ class Main:
                             if not line:
                                 break
                             print(eval(line), flush=True)
+                        print('----', flush=True)
                         continue
             hoge = Ap(Ap(Ap(Node('interact'), Node(':1338')), x4), Ap(Ap(Node('cons'), Node(x)), Node(y)))
             result = self.evalloop(hoge)
