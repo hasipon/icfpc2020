@@ -7,20 +7,20 @@ if(fragment != "" ){
 	fragment = atob(fragment);
 	const lines = document.getElementById('input').value = fragment;
 }
+var xbase = 0;
+var ybase = 0;
+var bigFlag = false;
 
 function clearCanvas(){
     console.log("clear");
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
+	xbase = 0;
+	ybase = 0;
 }
 
-var xbase = 1000;
-var ybase = 1000;
-var bigFlag = false;
 
 function draw(){
 	bigFlag = false;
-    xbase = 1000;
-	ybase = 1000;
 	const scale = Number(document.getElementById('scale').value);
 	const lines = document.getElementById('input').value;
 	const element = document.getElementById( "color" ) ;
@@ -30,20 +30,20 @@ function draw(){
 	const line = lines.split(/\r\n|\r|\n/).join();
 	const regexp = /[\(\[](-?[0-9]+), *(-?[0-9]+)[\)\]]/g;
 	const poss = line.match(regexp);
-	poss.forEach(
-		pos => {
-			const regexp2 = /[\(\[](-?[0-9]+), *(-?[0-9]+)[\)\]]/;
-			pos = pos.match(regexp2)
-			xbase = Math.min(Number(pos[1]), xbase);
-			ybase = Math.min(Number(pos[2]), ybase);
-		}
-	);
-	xbase *= -1;
-	ybase *= -1;
-	xbase += 2;
-	ybase += 2;
-	console.log(xbase);
-	console.log(ybase);
+	if(xbase == 0 && ybase == 0){
+		poss.forEach(
+			pos => {
+				const regexp2 = /[\(\[](-?[0-9]+), *(-?[0-9]+)[\)\]]/;
+				pos = pos.match(regexp2)
+				xbase = Math.min(Number(pos[1]), xbase);
+				ybase = Math.min(Number(pos[2]), ybase);
+			}
+		);
+		xbase *= -1;
+		ybase *= -1;
+		console.log(xbase);
+		console.log(ybase);
+	}
 	poss.forEach(
 		pos => {
 			const regexp2 = /[\(\[](-?[0-9]+), *(-?[0-9]+)[\)\]]/;
@@ -66,14 +66,14 @@ function plot(x, y, scale){
 }
 
 function conv(x, scale, base){
-	return Number(scale) * (Number(base) + Number(x));
+	return 500 + Number(scale) * (Number(base) + Number(x));
 }
 
 canvas.onclick = function(e) {
 	const scale = document.getElementById('scale').value;
 	var rect = e.target.getBoundingClientRect();
-	mouseX = Math.floor((e.clientX - rect.left + 2)/scale ) - xbase;
-	mouseY = Math.floor((e.clientY - rect.left + 2)/scale ) - ybase;
+	mouseX = Math.floor((e.clientX - rect.left + 2 - 500)/scale ) - xbase;
+	mouseY = Math.floor((e.clientY - rect.top + 2-500)/scale ) - ybase;
 
 	document.getElementById("log").value += "\n(" + mouseX + ", " + mouseY + ")";
 	console.log(mouseX, mouseY);
