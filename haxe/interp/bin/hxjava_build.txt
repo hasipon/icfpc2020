@@ -1,6 +1,7 @@
 C:\Users\909mm\Desktop\Work\git\icfpc2020\haxe\interp
 begin defines
 dce
+debug
 haxe
 haxe3
 haxe4
@@ -30,6 +31,7 @@ utf16
 end defines
 begin defines_data
 dce=std
+debug=1
 haxe=4.1.1
 haxe3=1
 haxe4=1
@@ -105,6 +107,7 @@ M java.util.Properties
 M java.lang.reflect.Member
 M haxe.root.EnumValue
 M java.lang.RuntimeException
+M interp.MaybeBool
 M haxe.iterators.ArrayKeyValueIterator
 C haxe.iterators.ArrayKeyValueIterator
 M interp.AbstractEnumTools
@@ -185,6 +188,8 @@ M java.security.PermissionCollection
 M java.lang.Readable
 M java.lang.ThreadLocal
 M java.lang.reflect.InvocationTargetException
+M interp.Valiables
+C interp.Valiables
 M java.lang.ClassNotFoundException
 M java.net.URLStreamHandlerFactory
 M haxe.io.Encoding
@@ -193,6 +198,8 @@ M java.net.URL
 M java.net.ContentHandlerFactory
 M java.lang.reflect.Method
 M java.nio.channels.InterruptibleChannel
+M haxe.root.EReg
+C haxe.root.EReg
 M haxe.Int32
 M java.nio.CharBuffer
 M haxe.lang.FieldLookup
@@ -313,8 +320,11 @@ M java.net.Proxy
 M java.nio.file.PathMatcher
 M java.util.MissingResourceException
 M java.nio.file.WatchService
+M haxe.Int64Helper
+C haxe.Int64Helper
 M java.io.PrintWriter
 M haxe.Int64
+C haxe._Int64.Int64_Impl_
 M haxe.iterators.ArrayIterator
 C haxe.iterators.ArrayIterator
 M java.net.NetworkInterface
@@ -384,6 +394,7 @@ M java.io.InputStream
 M java.nio.channels.SeekableByteChannel
 M haxe.CallStack
 M java.net.MalformedURLException
+M sys.ssl.Key
 M haxe.root.StringBuf
 C haxe.root.StringBuf
 end modules

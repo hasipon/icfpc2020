@@ -13,46 +13,39 @@ public class Command extends haxe.lang.ParamEnum
 	}
 	
 	
-	public static final java.lang.String[] __hx_constructs = new java.lang.String[]{"Int", "Func", "Ap", "Unknown", "Assign"};
+	public static final java.lang.String[] __hx_constructs = new java.lang.String[]{"Int", "Func", "Ap", "Unknown"};
 	
-	public static interp.Command Int(int i)
+	public static interp.Command Int(long i)
 	{
-		//line 5 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Command.hx"
+		//line 6 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Command.hx"
 		return new interp.Command(0, new java.lang.Object[]{i});
 	}
 	
 	
 	public static interp.Command Func(java.lang.String func, haxe.root.Array<interp.Command> args)
 	{
-		//line 6 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Command.hx"
+		//line 7 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Command.hx"
 		return new interp.Command(1, new java.lang.Object[]{func, args});
 	}
 	
 	
 	public static interp.Command Ap(interp.Command a, interp.Command b)
 	{
-		//line 7 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Command.hx"
+		//line 8 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Command.hx"
 		return new interp.Command(2, new java.lang.Object[]{a, b});
 	}
 	
 	
 	public static interp.Command Unknown(java.lang.String string)
 	{
-		//line 8 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Command.hx"
-		return new interp.Command(3, new java.lang.Object[]{string});
-	}
-	
-	
-	public static interp.Command Assign(java.lang.String key, haxe.root.Array<interp.Command> value)
-	{
 		//line 9 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Command.hx"
-		return new interp.Command(4, new java.lang.Object[]{key, value});
+		return new interp.Command(3, new java.lang.Object[]{string});
 	}
 	
 	
 	@Override public java.lang.String getTag()
 	{
-		//line 3 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Command.hx"
+		//line 4 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Command.hx"
 		return interp.Command.__hx_constructs[this.index];
 	}
 	

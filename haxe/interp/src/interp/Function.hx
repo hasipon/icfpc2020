@@ -1,5 +1,6 @@
 package interp;
 import interp.Command;
+import interp.TypeError;
 using interp.CommandTools;
 
 @:enum abstract Function(String) 
@@ -29,52 +30,54 @@ using interp.CommandTools;
 	{
 		return switch ((cast this:Function))
 		{
-			case inc : 1;
-			case dec : 1;
-			case neg : 1;
-			case add : 2;
-			case mul : 2;
-			case div : 2;
-			case lt  : 2;
-			case eq  : 2;
-			case s   : 3;
-			case c   : 3;
-			case b   : 3;
-			case t   : 2;
-			case f   : 2;
-			case pwr2: 1;
-			case i   : 1;
-			case cons: 3;
-			case car : 1;
-			case cdr : 1;
-			case nil : 1;
-			case isnil: 1;
+			// Bool = A, B -> A
+			case inc  : 1; // Int      -> Int ;
+			case dec  : 1; // Int      -> Int ;
+			case neg  : 1; // Int      -> Int ;
+			case add  : 2; // Int, Int -> Int ;
+			case mul  : 2; // Int, Int -> Int ;
+			case div  : 2; // Int, Int -> Int ;
+			case lt   : 2; // Int, Int -> Bool;
+			case eq   : 2; // Int, Int -> Bool;
+			case s    : 3; // (A -> B -> C), (A -> B), A -> C
+			case c    : 3; // 
+			case b    : 3; // 
+			case t    : 2; // A, B -> A
+			case f    : 2; // A, B -> B
+			case pwr2 : 1; // Int -> Int
+			case i    : 1; // A   -> A
+			case cons : 3; // 
+			case car  : 1; // 
+			case cdr  : 1; // 
+			case nil  : 1; // 
+			case isnil: 1; // Cons
 		}
 	}
 	
-	public function execute(args:Array<Command>):Command
+	public function execute(args:Array<Command>, shouldEval:Bool):Command
 	{
 		var func = (cast this:Function);
+		inline function resolve(i:Int):Command
+		{
+			return args[i];
+		}
+		
 		return try 
 		{
 			switch (func)
 			{
-				case inc: Command.Int (args[0].toInt() + 1);
-				case dec: Command.Int (args[0].toInt() - 1);
-				case neg: Command.Int (-args[0].toInt());
-				case add: 
-					return switch [args[0], args[1]]
+				case inc: resolve(0).add(Command.Int( 1));
+				case dec: resolve(0).add(Command.Int(-1));
+				case neg: Command.Int (-resolve(0).toInt());
+				case add: resolve(0).add(resolve(1));
+					
+				case mul: 
+					return switch [resolve(0), resolve(1)]
 					{
 						case [Command.Int(0), x1]:
-							x1;
+							Command.Int(0);
 						case [x0, Command.Int(0)]:
-							x0;
-						case [x0, x1]:
-							Command.Int(x0.toInt() + x1.toInt());
-					}
-				case mul: 
-					return switch [args[0], args[1]]
-					{
+							Command.Int(0);
 						case [Command.Int(1), x1]:
 							x1;
 						case [x0, Command.Int(1)]:
@@ -83,66 +86,89 @@ using interp.CommandTools;
 							Command.Int(x0.toInt() * x1.toInt());
 					}
 				case div: 
-					var x1 = args[1].toInt();
+					var x1 = resolve(1).toInt();
 					if (x1 == 1)
 					{
-						args[0];
+						resolve(0);
 					}
 					else
 					{
-						Command.Int (Std.int(args[0].toInt() / x1));
+						Command.Int (resolve(0).toInt() / x1);
 					}
-				case eq : if (args[0].toString() == args[1].toString()) Command.Func(Function.t, []) else Command.Func(Function.f, []);
-				case lt : if (args[0].toInt() <  args[1].toInt()) Command.Func(Function.t, []) else Command.Func(Function.f, []);
+				case eq : 
+					switch (resolve(0).eq(resolve(1))) 
+					{
+						case MaybeBool.Unknown:
+							throw new TypeError("unknown eq");
+						
+						case MaybeBool.True:
+							Command.Func(Function.t, []);
+							
+						case MaybeBool.False:
+							Command.Func(Function.f, []);
+					}
+				case lt : if (resolve(0).toInt() <  resolve(1).toInt()) Command.Func(Function.t, []) else Command.Func(Function.f, []);
 				case s:
-					args[0].ap(args[2]).ap(args[1].ap(args[2]));
+					var x0 = resolve(0);
+					var x1 = resolve(1);
+					var x2 = resolve(2);
+					x0.ap(x2, shouldEval).ap(x1.ap(x2, shouldEval), shouldEval);
 				case c:
-					args[0].ap(args[2]).ap(args[1]);
+					var x0 = resolve(0);
+					var x1 = resolve(1);
+					var x2 = resolve(2);
+					x0.ap(x2, shouldEval).ap(x1, shouldEval);
 				case b:
-					args[0].ap(args[1].ap(args[2]));
+					var x0 = resolve(0);
+					var x1 = resolve(1);
+					var x2 = resolve(2);
+					x0.ap(x1.ap(x2, shouldEval), shouldEval);
 				case t:
-					args[0];
+					resolve(0);
 				case f:
-					args[1];
+					resolve(1);
 				case pwr2:
 					var x0 = 1; 
-					for (i in 0...args[0].toInt())
+					for (i in 0...resolve(0).toInt().low)
 					{
 						x0 = x0 * 2;
 					}
 					Command.Int(x0);
 					
 				case i:
-					args[0];
+					resolve(0);
 					
 				case nil:
 					Command.Func(Function.t, []);
 					
 				case cons:
-					args[2].ap(args[0]).ap(args[1]);
+					var x0 = resolve(0);
+					var x1 = resolve(1);
+					var x2 = resolve(2);
+					x2.ap(x0, shouldEval).ap(x1, shouldEval);
 				
 				case car:
-					switch (args[0])
+					switch (resolve(0))
 					{
 						case Command.Func(Function.cons, [x0, x1]):
 							x0;
 							
 						case arg:
-							args[0].ap(Command.Func(Function.t, []));
+							arg.ap(Command.Func(Function.t, []), shouldEval);
 					}
 					
 				case cdr: 
-					return switch (args[0])
+					return switch (resolve(0))
 					{
 						case Command.Func(Function.cons, [x0, x1]):
 							x1;
 							
 						case arg:
-							args[0].ap(Command.Func(Function.f, []));
+							arg.ap(Command.Func(Function.f, []), shouldEval);
 					}
 					
 				case isnil: 
-					return switch (args[0])
+					return switch (resolve(0))
 					{
 						case Command.Func(Function.nil, []):
 							Command.Func(Function.t, []);

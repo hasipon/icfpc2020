@@ -219,6 +219,97 @@ public class StringMap<T> extends haxe.lang.HxObject implements haxe.IMap<java.l
 	}
 	
 	
+	public int lookup(java.lang.String key)
+	{
+		//line 141 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
+		if (( this.nBuckets != 0 )) 
+		{
+			//line 142 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
+			int[] hashes = this.hashes;
+			//line 142 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
+			java.lang.String[] keys = this._keys;
+			//line 144 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
+			int mask = ( this.nBuckets - 1 );
+			//line 144 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
+			int k = ((java.lang.String) (((java.lang.Object) (key) )) ).hashCode();
+			//line 144 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
+			k = ( ( k + 2127912214 ) + (( k << 12 )) );
+			//line 144 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
+			k = ( ( k ^ -949894596 ) ^ ( k >> 19 ) );
+			//line 144 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
+			k = ( ( k + 374761393 ) + (( k << 5 )) );
+			//line 144 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
+			k = ( ( k + (-744332180) ) ^ ( k << 9 ) );
+			//line 144 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
+			k = ( ( k + (-42973499) ) + (( k << 3 )) );
+			//line 144 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
+			k = ( ( k ^ -1252372727 ) ^ ( k >> 16 ) );
+			//line 144 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
+			int ret = k;
+			//line 144 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
+			if (( (( ret & -2 )) == 0 )) 
+			{
+				//line 144 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
+				if (( ret == 0 )) 
+				{
+					//line 144 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
+					ret = 2;
+				}
+				else
+				{
+					//line 144 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
+					ret = -1;
+				}
+				
+			}
+			
+			//line 144 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
+			int hash = ret;
+			//line 144 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
+			int k1 = hash;
+			//line 144 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
+			int nProbes = 0;
+			//line 145 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
+			int i = ( k1 & mask );
+			//line 146 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
+			int last = i;
+			//line 146 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
+			int flag = 0;
+			//line 148 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
+			while (true)
+			{
+				//line 148 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
+				flag = hashes[i];
+				//line 148 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
+				if ( ! ((( ( flag != 0 ) && (( ( ( flag == 1 ) || ( flag != k1 ) ) ||  ! (haxe.lang.Runtime.valEq(keys[i], key))  )) ))) ) 
+				{
+					//line 148 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
+					break;
+				}
+				
+				//line 149 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
+				i = ( ( i +  ++ nProbes ) & mask );
+			}
+			
+			//line 162 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
+			if (( (( flag & -2 )) == 0 )) 
+			{
+				//line 162 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
+				return -1;
+			}
+			else
+			{
+				//line 162 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
+				return i;
+			}
+			
+		}
+		
+		//line 165 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
+		return -1;
+	}
+	
+	
 	public void resize(int newNBuckets)
 	{
 		//line 170 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
@@ -441,6 +532,96 @@ public class StringMap<T> extends haxe.lang.HxObject implements haxe.IMap<java.l
 			this.upperBound = ((int) (( ( newNBuckets * 0.77 ) + .5 )) );
 		}
 		
+	}
+	
+	
+	public java.lang.Object get(java.lang.String key)
+	{
+		//line 274 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
+		int idx = -1;
+		//line 276 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
+		boolean tmp = false;
+		//line 276 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
+		if (haxe.lang.Runtime.valEq(this.cachedKey, key)) 
+		{
+			//line 276 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
+			idx = this.cachedIndex;
+			//line 276 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
+			tmp = ( idx != -1 );
+		}
+		else
+		{
+			//line 276 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
+			tmp = false;
+		}
+		
+		//line 276 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
+		if (tmp) 
+		{
+			//line 277 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
+			return this.vals[idx];
+		}
+		
+		//line 280 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
+		idx = this.lookup(key);
+		//line 281 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
+		if (( idx != -1 )) 
+		{
+			//line 283 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
+			this.cachedKey = key;
+			//line 284 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
+			this.cachedIndex = idx;
+			//line 286 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
+			return this.vals[idx];
+		}
+		
+		//line 289 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
+		return null;
+	}
+	
+	
+	public boolean exists(java.lang.String key)
+	{
+		//line 314 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
+		int idx = -1;
+		//line 316 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
+		boolean tmp = false;
+		//line 316 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
+		if (haxe.lang.Runtime.valEq(this.cachedKey, key)) 
+		{
+			//line 316 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
+			idx = this.cachedIndex;
+			//line 316 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
+			tmp = ( idx != -1 );
+		}
+		else
+		{
+			//line 316 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
+			tmp = false;
+		}
+		
+		//line 316 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
+		if (tmp) 
+		{
+			//line 317 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
+			return true;
+		}
+		
+		//line 321 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
+		idx = this.lookup(key);
+		//line 322 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
+		if (( idx != -1 )) 
+		{
+			//line 324 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
+			this.cachedKey = key;
+			//line 325 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
+			this.cachedIndex = idx;
+			//line 327 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
+			return true;
+		}
+		
+		//line 330 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
+		return false;
 	}
 	
 	
@@ -774,15 +955,15 @@ public class StringMap<T> extends haxe.lang.HxObject implements haxe.IMap<java.l
 				//line 27 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
 				switch (field.hashCode())
 				{
-					case -934437708:
+					case -1289358244:
 					{
 						//line 27 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
-						if (field.equals("resize")) 
+						if (field.equals("exists")) 
 						{
 							//line 27 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
 							__temp_executeDef1 = false;
 							//line 27 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
-							return ((haxe.lang.Function) (new haxe.lang.Closure(this, "resize")) );
+							return ((haxe.lang.Function) (new haxe.lang.Closure(this, "exists")) );
 						}
 						
 						//line 27 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
@@ -806,15 +987,15 @@ public class StringMap<T> extends haxe.lang.HxObject implements haxe.IMap<java.l
 					}
 					
 					
-					case 113762:
+					case 102230:
 					{
 						//line 27 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
-						if (field.equals("set")) 
+						if (field.equals("get")) 
 						{
 							//line 27 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
 							__temp_executeDef1 = false;
 							//line 27 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
-							return ((haxe.lang.Function) (new haxe.lang.Closure(this, "set")) );
+							return ((haxe.lang.Function) (new haxe.lang.Closure(this, "get")) );
 						}
 						
 						//line 27 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
@@ -838,15 +1019,15 @@ public class StringMap<T> extends haxe.lang.HxObject implements haxe.IMap<java.l
 					}
 					
 					
-					case 1005083856:
+					case -934437708:
 					{
 						//line 27 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
-						if (field.equals("cachedIndex")) 
+						if (field.equals("resize")) 
 						{
 							//line 27 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
 							__temp_executeDef1 = false;
 							//line 27 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
-							return this.cachedIndex;
+							return ((haxe.lang.Function) (new haxe.lang.Closure(this, "resize")) );
 						}
 						
 						//line 27 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
@@ -870,15 +1051,15 @@ public class StringMap<T> extends haxe.lang.HxObject implements haxe.IMap<java.l
 					}
 					
 					
-					case -553141795:
+					case -1097094790:
 					{
 						//line 27 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
-						if (field.equals("cachedKey")) 
+						if (field.equals("lookup")) 
 						{
 							//line 27 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
 							__temp_executeDef1 = false;
 							//line 27 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
-							return this.cachedKey;
+							return ((haxe.lang.Function) (new haxe.lang.Closure(this, "lookup")) );
 						}
 						
 						//line 27 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
@@ -902,15 +1083,15 @@ public class StringMap<T> extends haxe.lang.HxObject implements haxe.IMap<java.l
 					}
 					
 					
-					case -1690761732:
+					case 113762:
 					{
 						//line 27 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
-						if (field.equals("upperBound")) 
+						if (field.equals("set")) 
 						{
 							//line 27 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
 							__temp_executeDef1 = false;
 							//line 27 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
-							return this.upperBound;
+							return ((haxe.lang.Function) (new haxe.lang.Closure(this, "set")) );
 						}
 						
 						//line 27 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
@@ -934,6 +1115,22 @@ public class StringMap<T> extends haxe.lang.HxObject implements haxe.IMap<java.l
 					}
 					
 					
+					case 1005083856:
+					{
+						//line 27 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
+						if (field.equals("cachedIndex")) 
+						{
+							//line 27 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
+							__temp_executeDef1 = false;
+							//line 27 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
+							return this.cachedIndex;
+						}
+						
+						//line 27 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
+						break;
+					}
+					
+					
 					case -394102484:
 					{
 						//line 27 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
@@ -943,6 +1140,38 @@ public class StringMap<T> extends haxe.lang.HxObject implements haxe.IMap<java.l
 							__temp_executeDef1 = false;
 							//line 27 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
 							return this.nOccupied;
+						}
+						
+						//line 27 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
+						break;
+					}
+					
+					
+					case -553141795:
+					{
+						//line 27 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
+						if (field.equals("cachedKey")) 
+						{
+							//line 27 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
+							__temp_executeDef1 = false;
+							//line 27 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
+							return this.cachedKey;
+						}
+						
+						//line 27 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
+						break;
+					}
+					
+					
+					case -1690761732:
+					{
+						//line 27 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
+						if (field.equals("upperBound")) 
+						{
+							//line 27 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
+							__temp_executeDef1 = false;
+							//line 27 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
+							return this.upperBound;
 						}
 						
 						//line 27 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
@@ -1096,15 +1325,15 @@ public class StringMap<T> extends haxe.lang.HxObject implements haxe.IMap<java.l
 				//line 27 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
 				switch (field.hashCode())
 				{
-					case -934437708:
+					case -1289358244:
 					{
 						//line 27 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
-						if (field.equals("resize")) 
+						if (field.equals("exists")) 
 						{
 							//line 27 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
 							__temp_executeDef1 = false;
 							//line 27 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
-							this.resize(((int) (haxe.lang.Runtime.toInt(dynargs[0])) ));
+							return this.exists(haxe.lang.Runtime.toString(dynargs[0]));
 						}
 						
 						//line 27 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
@@ -1121,6 +1350,54 @@ public class StringMap<T> extends haxe.lang.HxObject implements haxe.IMap<java.l
 							__temp_executeDef1 = false;
 							//line 27 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
 							this.set(haxe.lang.Runtime.toString(dynargs[0]), ((T) (dynargs[1]) ));
+						}
+						
+						//line 27 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
+						break;
+					}
+					
+					
+					case 102230:
+					{
+						//line 27 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
+						if (field.equals("get")) 
+						{
+							//line 27 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
+							__temp_executeDef1 = false;
+							//line 27 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
+							return this.get(haxe.lang.Runtime.toString(dynargs[0]));
+						}
+						
+						//line 27 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
+						break;
+					}
+					
+					
+					case -1097094790:
+					{
+						//line 27 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
+						if (field.equals("lookup")) 
+						{
+							//line 27 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
+							__temp_executeDef1 = false;
+							//line 27 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
+							return this.lookup(haxe.lang.Runtime.toString(dynargs[0]));
+						}
+						
+						//line 27 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
+						break;
+					}
+					
+					
+					case -934437708:
+					{
+						//line 27 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
+						if (field.equals("resize")) 
+						{
+							//line 27 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
+							__temp_executeDef1 = false;
+							//line 27 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"
+							this.resize(((int) (haxe.lang.Runtime.toInt(dynargs[0])) ));
 						}
 						
 						//line 27 "C:\\HaxeToolkit\\haxe\\std\\java\\_std\\haxe\\ds\\StringMap.hx"

@@ -20,7 +20,9 @@ src/haxe/lang/StringExt.java
 src/haxe/lang/StringRefl.java
 src/interp/Command.java
 src/interp/Command.java
+src/interp/Valiables.java
 src/haxe/io/Encoding.java
+src/haxe/root/EReg.java
 src/haxe/lang/FieldLookup.java
 src/haxe/root/Sys.java
 src/haxe/Exception.java
@@ -38,6 +40,8 @@ src/interp/Main.java
 src/interp/_Main/Environment.java
 src/interp/_Main/Node.java
 src/haxe/io/BytesBuffer.java
+src/haxe/Int64Helper.java
+src/haxe/_Int64/Int64_Impl_.java
 src/haxe/iterators/ArrayIterator.java
 src/haxe/root/Reflect.java
 src/haxe/java/io/NativeOutput.java

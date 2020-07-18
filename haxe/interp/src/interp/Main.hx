@@ -1,10 +1,14 @@
 package interp;
 
+import haxe.Int64;
 import interp.Command;
+import interp.Valiables;
+import sys.ssl.Key;
 using interp.CommandTools;
 
 class Main 
 {
+	public static var variables:Map<String, Valiables> = [];
 	static function main() 
 	{
 		for (i in 0...0x7FFFFFFF)
@@ -24,29 +28,32 @@ class Main
 			{
 				env.exec();
 			}
-			catch (error:Dynamic)
-			{
-				Sys.stdout().writeString("error: " + error + "\n");
-				return;
-			}
+			//catch (error:Dynamic)
+			//{
+			//	Sys.stdout().writeString("error: " + error + "\n");
+			//	return;
+			//}
 		}
 		
 		var first = true;
+		if (env.key != null) 
+		{
+			Sys.stdout().writeString(env.key + " = ");
+		}
 		while (env.node.output.length > 0)
 		{
-			if (!first) Sys.stdout().writeString(" ");
-			Sys.stdout().writeString(env.node.output.pop().toString());
+			if (!first) Sys.stdout().writeString(" | ");
+			var command = env.node.output.pop();
+			Sys.stdout().writeString(command.toString());
 			first = false;
 		}
 		Sys.stdout().writeString("\n");
 	}
-	
 }
 
 private class Environment
 {
-	public static var variables:Map<String, Array<Command>> = [];
-	
+	public var key:String;
 	public var input:Array<String>;
 	public var node:Node;
 	
@@ -59,12 +66,27 @@ private class Environment
 	public function exec():Void
 	{
 		var data = input.pop();
+		
+		if (data == "=")
+		{
+			var key = input.pop();
+			var value = node.output.copy();
+			if (value.length != 1)
+			{
+				throw "invalid value size: " + 1;
+			}
+			Main.variables[key] = new Valiables(value[0], value[0].resolveRestSize());
+			this.key = key;
+			return;
+		}
+		
 		node.add(data);
 	}
 }
 
 private class Node
 {
+	private static var intEReg:EReg = ~/^[-0-9]+$/;
 	public var env:Environment;
 	public var output:Array<Command>;
 	public var child:Node;
@@ -123,8 +145,8 @@ private class Node
 			var c  = output.pop();
 			if (c == null) throw "ap x: too short args";
 			var na = output.pop();
-			if (na == null) throw "ap x: too short args";
-			return CommandTools.ap(c, na);
+			if (na == null) throw "ap x: too short args: " + c;
+			return CommandTools.ap(c, na, false);
 		}
 		for (func in AbstractEnumTools.getValues(Function))
 		{
@@ -133,18 +155,10 @@ private class Node
 				return Command.Func(func, []);
 			}	
 		}
-		var int = Std.parseInt(data);
-		if (int != null)
+		
+		if (intEReg.match(data))
 		{
-			return Command.Int(int);
-		}
-		if (data == "=")
-		{
-			var key = env.input.pop();
-			var value = output.copy();
-			output = [];
-			Environment.variables[key] = value;
-			return Command.Assign(key, value);
+			return Command.Int(Int64.parseString(data));
 		}
 		return Command.Unknown(data);
 	}
