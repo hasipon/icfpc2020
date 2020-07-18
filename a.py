@@ -143,7 +143,7 @@ class Main:
                                 return Node('t')
                             else:
                                 return Node('f')
-                            assert False, (v1, v2)
+                        assert False, (v1, v2)
                 elif a[0] == 'lt':
                     if len(a) < 3:
                         return Node(a)
