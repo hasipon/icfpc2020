@@ -1,3 +1,4 @@
+import gc
 import os
 import requests
 import sys
@@ -134,36 +135,43 @@ class Main:
             history.append(f'{x}_{y}')
             pp = Path('rcache') / '_'.join(history)
             if pp.exists():
+                self.cache = {}
                 with pp.open() as f:
-                    x4 = eval(f.readline())
-                    while True:
-                        line = f.readline()
-                        if not line:
-                            break
-                        print(eval(line), flush=True)
+                    ok = True
+                    try:
+                        x4_tmp = eval(f.readline())
+                    except MemoryError:
+                        ok = False
+                    if ok:
+                        x4 = x4_tmp
+                        while True:
+                            line = f.readline()
+                            if not line:
+                                break
+                            print(eval(line), flush=True)
+                        continue
+            hoge = Ap(Ap(Ap(Node('interact'), Node(':1338')), x4), Ap(Ap(Node('cons'), Node(x)), Node(y)))
+            result = self.evalloop(hoge)
+            if isinstance(result, Node) and len(result.v) == 3 and result.v[0] == 'cons':
+                with pp.open('w') as f:
+                    x4 = result.v[1]
+                    f.write(f'{repr(x4)}\n')
+                    drawings = self.evalloop(result.v[2])
+                    if isinstance(drawings, Node) and len(drawings.v) == 3 and drawings.v[0] == 'cons':
+                        pictures = self.evalloop(drawings.v[1])
+                        while True:
+                            print(pictures, flush=True)
+                            f.write(f'{repr(pictures)}\n')
+                            if isinstance(pictures, Node) and len(pictures.v) == 3 and pictures.v[0] == 'cons':
+                                assert isinstance(pictures.v[1], Picture)
+                                print(pictures.v[1].v, flush=True)
+                                f.write(f'{repr(pictures.v[1].v)}\n')
+                                pictures = self.evalloop(pictures.v[2])
+                            else:
+                                break
             else:
-                hoge = Ap(Ap(Ap(Node('interact'), Node(':1338')), x4), Ap(Ap(Node('cons'), Node(x)), Node(y)))
-                result = self.evalloop(hoge)
-                if isinstance(result, Node) and len(result.v) == 3 and result.v[0] == 'cons':
-                    with pp.open('w') as f:
-                        x4 = result.v[1]
-                        f.write(f'{repr(x4)}\n')
-                        drawings = self.evalloop(result.v[2])
-                        if isinstance(drawings, Node) and len(drawings.v) == 3 and drawings.v[0] == 'cons':
-                            pictures = self.evalloop(drawings.v[1])
-                            while True:
-                                print(pictures, flush=True)
-                                f.write(f'{repr(pictures)}\n')
-                                if isinstance(pictures, Node) and len(pictures.v) == 3 and pictures.v[0] == 'cons':
-                                    assert isinstance(pictures.v[1], Picture)
-                                    print(pictures.v[1].v, flush=True)
-                                    f.write(f'{repr(pictures.v[1].v)}\n')
-                                    pictures = self.evalloop(pictures.v[2])
-                                else:
-                                    break
-                else:
-                    print(result)
-                    break
+                print(result)
+                break
             print('----', flush=True)
 
     def evalloop(self, hoge):
