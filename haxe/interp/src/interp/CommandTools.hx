@@ -285,7 +285,7 @@ class CommandTools
 		var result = output[0];
 		while (aps.length > 0)
 		{
-			result = Command.Ap(result, aps.pop());
+			result = Command.Ap(result, modulate(aps.pop()));
 		}
 		return result;
 	}

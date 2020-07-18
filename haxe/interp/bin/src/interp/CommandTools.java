@@ -1248,7 +1248,7 @@ public class CommandTools extends haxe.lang.HxObject
 		while (( aps.length > 0 ))
 		{
 			//line 288 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\CommandTools.hx"
-			result = interp.Command.Ap(result, ((interp.Command) (aps.pop()) ));
+			result = interp.Command.Ap(result, interp.CommandTools.modulate(((interp.Command) (aps.pop()) )));
 		}
 		
 		//line 290 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\CommandTools.hx"
