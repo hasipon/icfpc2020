@@ -49,13 +49,13 @@ class Main:
         while True:
             hoge = Ap(Ap(Ap(Node('interact'), Node(':1338')), x4), Ap(Ap(Node('cons'), Node('0')), Node('1')))
             result = self.evalloop(hoge)
-            if result.v[0] == 'cons':
-                x4 = result.v[1]
-                print('1st', result.v[1])
-                print('2nd', self.evalloop(result.v[2]))
+            if isinstance(result, Node) and len(result.v) == 3 and result.v[0] == 'cons':
+                result2 = self.evalloop(result.v[2])
+                if isinstance(result2, Node) and len(result2.v) == 3 and result2.v[0] == 'cons' and isinstance(result2.v[2], Node) and result2.v[2].v == 'nil':
+                    print(result.v[1])
+                    print(self.evalloop(result2.v[1]))
                 break
-            else:
-                break
+            break
 
     def evalloop(self, hoge):
         while True:
@@ -159,6 +159,20 @@ class Main:
                                 return Node('f')
                         else:
                             return Node('f')
+                elif a[0] == 'multipledraw':
+                    if len(a) < 2:
+                        return Node(a)
+                    else:
+                        v1 = self.evalloop(a[1])
+                        assert isinstance(v1, Node)
+                        if v1.v == 'nil':
+                            return Node('nil')
+                        assert isinstance(v1.v, list)
+                        assert len(v1.v) == 3
+                        assert v1.v[0] == 'cons'
+                        x0 = v1.v[1]
+                        x1 = v1.v[2]
+                        return Ap(Ap(Node('cons'), self.evalloop(Ap(Node('draw'), x0))), self.evalloop(Ap(Node('multipledraw'), x1)))
                 elif a[0] == 'eq':
                     if len(a) < 3:
                         return Node(a)
