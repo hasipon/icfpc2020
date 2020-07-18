@@ -1,4 +1,4 @@
-package interp;
+package macr;
 
 #if macro
 import haxe.macro.Context;

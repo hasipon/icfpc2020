@@ -1,10 +1,10 @@
 import sys
+from collections import namedtuple
 
 sys.setrecursionlimit(100000)
 
-class Node:
-    def __init__(self, v):
-        self.v = v
+class Node(namedtuple('Node', ['v'])):
+    __slots__ = ()
 
     def __repr__(self):
         return f'Node({repr(self.v)})'
@@ -16,26 +16,75 @@ class Node:
             return self.v
         return f'({self.v})'
 
-class Picture:
-    def __init__(self, v):
-        self.v = v
+    def __eq__(self, other):
+        if isinstance(other, Node):
+            return self.v == other.v
+        else:
+            return False
+
+    def __hash__(self):
+        if isinstance(self.v, list):
+            r = 0
+            for x in self.v:
+                r ^= hash(x)
+                r *= 3
+            return r
+        else:
+            try:
+                return hash(self.v)
+            except:
+                print('Node error', flush=True)
+                sys.exit(1)
+
+class Picture(namedtuple('Picture', ['v'])):
+    __slots__ = ()
 
     def __repr__(self):
         return f'Picture({repr(self.v)})'
 
     def __str__(self):
-        return f'(picture{repr(self.v)})'
+        return f'(picture)'
 
-class Ap:
-    def __init__(self, v1, v2):
-        self.v1 = v1
-        self.v2 = v2
+    def __eq__(self, other):
+        if isinstance(other, Picture):
+            return self.v == other.v
+        else:
+            return False
+
+    def __hash__(self):
+        if isinstance(self.v, list):
+            r = 0
+            for x in self.v:
+                r ^= hash(x)
+                r *= 3
+            return r
+        else:
+            print('Picture error', flush=True)
+            sys.exit(1)
+
+class Ap(namedtuple('Ap', ['v1', 'v2'])):
+    __slots__ = ()
 
     def __repr__(self):
         return f'Ap({repr(self.v1)}, {repr(self.v2)})'
 
     def __str__(self):
         return f'{str(self.v1)}({str(self.v2)})'
+
+    def __eq__(self, other):
+        if isinstance(other, Ap):
+            return self.v1 == other.v1 and self.v2 == other.v2
+        else:
+            return False
+
+    def __hash__(self):
+        try:
+            h1 = hash(self.v1)
+            h2 = hash(self.v2)
+            return h1 ^ (3 * h2)
+        except:
+            print('Ap error', flush=True)
+            sys.exit(1)
 
 def conv(a, idx):
     if a[idx] == 'ap':
@@ -59,7 +108,6 @@ class Main:
         x4 = Node('nil')
         x40 = None
         for counter in range(40016):
-            self.cache = {}
             if counter < 8:
                 hoge = Ap(Ap(Ap(Node('interact'), Node(':1338')), x4), Ap(Ap(Node('cons'), Node('0')), Node('0')))
             elif counter == 8:
@@ -102,7 +150,7 @@ class Main:
             print('----', flush=True)
 
     def evalloop(self, hoge):
-        hoge0 = str(hoge)
+        hoge0 = hoge
         if hoge0 in self.cache:
             return self.cache[hoge0]
         while True:
