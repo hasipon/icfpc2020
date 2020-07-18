@@ -91,7 +91,7 @@
 :1137 = ap ap b ap b c ap ap b ap b isnil :1135
 :1138 = ap ap s ap ap c ap ap c ap ap s ap ap b s ap ap b ap b ap ap s i i lt eq 0 nil ap ap s ap ap b :1115 ap add -1 ap ap b :1138 ap add -1
 :1139 = ap ap s ap ap b :1126 :1138 ap ap b ap b ap add -1 ap c ap ap b add neg
-:1141 = ap ap c b ap ap s ap ap b c ap ap b ap b b ap eq 0 ap ap b ap c :1141 ap add -1
+:1141 = ap ap c b ap ap s ap ap b c ap ap b ap b b ap eq 0 ap ap b ap c 0 ap add -1
 :1142 = ap ap s ap ap b b ap ap c isnil nil ap ap c b ap ap s ap ap b c ap ap b ap b b ap eq 0 ap ap b ap c :1142 ap add -1
 :1143 = ap ap c ap ap c :1132 0 add
 :1144 = ap ap c ap ap b b b ap ap s ap ap b s ap ap b ap b b ap ap b ap b s ap ap c ap ap b b ap ap b b ap eq 0 :1115 ap ap b ap b ap c ap ap b b :1115 ap ap b c ap ap b ap c :1144 ap add -1
@@ -394,3 +394,5 @@ galaxy = :1338
 ap mod ap :1029 0
 ap mod ap :1030 0
 ap mod ap galaxy 0
+ap mod ap ap galaxy 0 0
+ap mod ap ap ap galaxy 0 0 0

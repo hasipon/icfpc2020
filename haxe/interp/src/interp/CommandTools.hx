@@ -216,17 +216,35 @@ class CommandTools
 							aps.push(ap);
 							
 						case Command.Func(func, args):
-							tasks.push(ModTask.Func(func, output.length));
-							for (arg in args) 
-							{
-								addCommand(arg);
-							}
 							var required = func.getRequiredSize();
-							for (_ in args.length...required)
+							if (args.length + aps.length >= required)
 							{
-								if (aps.length <= 0) break;
-								addCommand(aps.pop());
+								tasks.push(ModTask.Func(func, output.length));
+								for (arg in args) 
+								{
+									addCommand(arg);
+								}
+								for (_ in args.length...required)
+								{
+									if (aps.length <= 0) break;
+									addCommand(aps.pop());
+								}
 							}
+							else
+							{
+								var newArgs = [];
+								for (arg in args) 
+								{
+									newArgs.push(arg);
+								}
+								for (_ in args.length...required)
+								{
+									if (aps.length <= 0) break;
+									newArgs.push(aps.pop());
+								}
+								output.push(Command.Func(func, newArgs));
+							}
+							
 						case Command.Modulate(_):
 							output.push(command);
 						
@@ -236,7 +254,6 @@ class CommandTools
 						case Command.Unknown(string):
 							if (Main.variables.exists(string))
 							{
-								trace(string);
 								addCommand(Main.variables[string].command);
 							}
 							else
