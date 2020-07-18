@@ -1,4 +1,5 @@
 import sys
+import os
 from collections import namedtuple
 
 sys.setrecursionlimit(100000)
@@ -98,6 +99,34 @@ class Main:
     def __init__(self):
         self.cache = {}
         self.galaxy = {}
+
+        history = []
+        taps = [
+            (0,0),
+            (0,0),
+            (0,0),
+            (0,0),
+            (0,0),
+            (0,0),
+            (0,0),
+            (0,0),
+            (8,4),
+            (2,-8),
+            (3,6),
+            (0,-14),
+            (-4,-10),
+            (9,-3),
+            (-4,10),
+            (1,4),
+            (0,0),
+            (-108,0),
+            (0,0),
+            (0,0),
+            (0,0),
+            (0,0),
+            (0,0)
+        ]
+
         with open('galaxy.txt') as f:
             for x in f:
                 a = x.rstrip('\n').split(' = ')
@@ -105,35 +134,39 @@ class Main:
                 r, _ = conv(a[1].split(' '), 0)
                 self.galaxy[a[0]] = r
 
+        result_cache = {}
+        if os.path.exists("result_cache"):
+            with open("result_cache") as fp:
+                for line in fp:
+                    kv = line.strip().split(":", 1)
+                    print(kv)
+                    result_cache[kv[0]] = eval(kv[1])
+
+        def make_hoge(x4, x, y):
+            return Ap(Ap(Ap(Node('interact'), Node(':1338')), x4), Ap(Ap(Node('cons'), Node(str(x))), Node(str(y))))
+
         x4 = Node('nil')
         x40 = None
         for counter in range(40016):
-            print("counter: ", counter)
-            if counter < 8:
-                hoge = Ap(Ap(Ap(Node('interact'), Node(':1338')), x4), Ap(Ap(Node('cons'), Node('0')), Node('0')))
-            elif counter == 8:
-                hoge = Ap(Ap(Ap(Node('interact'), Node(':1338')), x4), Ap(Ap(Node('cons'), Node('8')), Node('4')))
-            elif counter == 9:
-                hoge = Ap(Ap(Ap(Node('interact'), Node(':1338')), x4), Ap(Ap(Node('cons'), Node('2')), Node('-8')))
-            elif counter == 10:
-                hoge = Ap(Ap(Ap(Node('interact'), Node(':1338')), x4), Ap(Ap(Node('cons'), Node('3')), Node('6')))
-            elif counter == 11:
-                hoge = Ap(Ap(Ap(Node('interact'), Node(':1338')), x4), Ap(Ap(Node('cons'), Node('0')), Node('-14')))
-            elif counter == 12:
-                hoge = Ap(Ap(Ap(Node('interact'), Node(':1338')), x4), Ap(Ap(Node('cons'), Node('-4')), Node('10')))
-            elif counter == 13:
-                hoge = Ap(Ap(Ap(Node('interact'), Node(':1338')), x4), Ap(Ap(Node('cons'), Node('9')), Node('-3')))
-            elif counter == 14:
-                hoge = Ap(Ap(Ap(Node('interact'), Node(':1338')), x4), Ap(Ap(Node('cons'), Node('-4')), Node('10')))
-            elif counter == 15:
-                hoge = Ap(Ap(Ap(Node('interact'), Node(':1338')), x4), Ap(Ap(Node('cons'), Node('1')), Node('4')))
-            elif counter == 16:
-                hoge = Ap(Ap(Ap(Node('interact'), Node(':1338')), x4), Ap(Ap(Node('cons'), Node('0')), Node('0')))
-            elif counter == 18:
-                hoge = Ap(Ap(Ap(Node('interact'), Node(':1338')), x4), Ap(Ap(Node('cons'), Node('-108')), Node('0')))
+            print("counter", counter)
+
+            if counter < len(taps):
+                tap = taps[counter]
             else:
-                hoge = Ap(Ap(Ap(Node('interact'), Node(':1338')), x4), Ap(Ap(Node('cons'), Node('0')), Node('0')))
-            result = self.evalloop(hoge)
+                tap = (0, 0)
+
+            history.append(tap)
+            if repr(history) in result_cache:
+                result = result_cache[repr(history)]
+            else:
+                hoge = make_hoge(x4, tap[0], tap[1])
+                result = self.evalloop(hoge)
+                with open("result_cache", "a+") as fp:
+                    fp.write(repr(history))
+                    fp.write(":")
+                    fp.write(repr(result))
+                    fp.write("\n")
+
             if isinstance(result, Node) and len(result.v) == 3 and result.v[0] == 'cons':
                 x4 = result.v[1]
                 drawings = self.evalloop(result.v[2])
@@ -420,7 +453,6 @@ class Main:
                 if x.v[0] == ':':
                     return self.galaxy[x.v]
             return None
-
 
 inst = Main()
 #for x, y in inst.cache.items():
