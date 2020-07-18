@@ -16,6 +16,16 @@ class Node:
             return self.v
         return f'({self.v})'
 
+class Picture:
+    def __init__(self, v):
+        self.v = v
+
+    def __repr__(self):
+        return f'Picture({repr(self.v)})'
+
+    def __str__(self):
+        return '(picture)'
+
 class Ap:
     def __init__(self, v1, v2):
         self.v1 = v1
@@ -47,14 +57,16 @@ class Main:
 
         x4 = Node('nil')
         while True:
-            hoge = Ap(Ap(Ap(Node('interact'), Node(':1338')), x4), Ap(Ap(Node('cons'), Node('0')), Node('1')))
+            hoge = Ap(Ap(Ap(Node('interact'), Node(':1338')), x4), Ap(Ap(Node('cons'), Node('0')), Node('0')))
             result = self.evalloop(hoge)
             if isinstance(result, Node) and len(result.v) == 3 and result.v[0] == 'cons':
-                result2 = self.evalloop(result.v[2])
-                if isinstance(result2, Node) and len(result2.v) == 3 and result2.v[0] == 'cons' and isinstance(result2.v[2], Node) and result2.v[2].v == 'nil':
-                    result1 = result.v[1]
-                    result21 = self.evalloop(result2.v[1])
-                    break
+                x16 = result.v[1]
+                drawings = self.evalloop(result.v[2])
+                if isinstance(drawings, Node) and len(drawings.v) == 3 and drawings.v[0] == 'cons':
+                    pictures = self.evalloop(drawings.v[1])
+                    if isinstance(pictures, Node) and len(pictures.v) == 3 and pictures.v[0] == 'cons':
+                        assert isinstance(pictures.v[1], Picture)
+                        print(pictures.v[1].v)
             break
 
     def evalloop(self, hoge):
@@ -78,18 +90,32 @@ class Main:
         return (int(r1.v), int(r2.v))
 
     def draw(self, x):
+        result = []
         while True:
             v1 = self.evalloop(x)
             assert isinstance(v1, Node)
             if v1.v == 'nil':
-                return []
+                break
             assert isinstance(v1.v, list)
             assert len(v1.v) == 3
             assert v1.v[0] == 'cons'
             x0 = self.point(v1.v[1])
-            print(x0)
+            result.append(x0)
             x = v1.v[2]
-        assert False
+        # print(result)
+        return Picture(result)
+
+    def multipledraw(self, x):
+        v1 = self.evalloop(x)
+        assert isinstance(v1, Node)
+        if v1.v == 'nil':
+            return Node('nil')
+        assert isinstance(v1.v, list)
+        assert len(v1.v) == 3
+        assert v1.v[0] == 'cons'
+        x0 = self.draw(v1.v[1])
+        x1 = v1.v[2]
+        return Ap(Ap(Node('cons'), x0), Ap(Node('multipledraw'), x1))
 
     def eval(self, x):
         if isinstance(x, Ap):
@@ -156,12 +182,14 @@ class Main:
                         car = Node('car')
                         cdr = Node('cdr')
                         cons = Node('cons')
-                        car_cdr_y = Ap(car, Ap(cdr, a[2]))
-                        car_cdr_cdr_y = Ap(car, Ap(cdr, Ap(cdr, a[2])))
-                        # f38 x y = ifzero car(y) ( car(cdr(y)) , multipledraw(car(cdr(cdr(y)))) ) (interact x car(cdr(y)) send(car(cdr(cdr(y)))))
-                        v1 = Ap(Ap(cons, car_cdr_y), Ap(Ap(cons, Ap(Node('multipledraw'), car_cdr_cdr_y)), Node('nil')))
-                        v2 = Ap(Ap(Ap(Node('interact'), a[1]), car_cdr_y), Ap('send', car_cdr_cdr_y))
-                        return Ap(Ap(Ap(Node('ifzero'), Ap(car, a[2])), v1), v2)
+                        flag = self.evalloop(Ap(car, a[2]))
+                        assert isinstance(flag, Node)
+                        if flag.v == '0':
+                            car_cdr_y = Ap(car, Ap(cdr, a[2]))
+                            car_cdr_cdr_y = Ap(car, Ap(cdr, Ap(cdr, a[2])))
+                            return Ap(Ap(cons, car_cdr_y), Ap(Ap(cons, Ap(Node('multipledraw'), car_cdr_cdr_y)), Node('nil')))
+                        if flag.v == '1':
+                            assert False
                 elif a[0] == 'car':
                     if len(a) < 2:
                         return Node(a)
@@ -189,22 +217,12 @@ class Main:
                     if len(a) < 2:
                         return Node(a)
                     else:
-                        v1 = self.evalloop(a[1])
-                        assert isinstance(v1, Node)
-                        if v1.v == 'nil':
-                            return Node('nil')
-                        assert isinstance(v1.v, list)
-                        assert len(v1.v) == 3
-                        assert v1.v[0] == 'cons'
-                        x0 = v1.v[1]
-                        x1 = v1.v[2]
-                        return Ap(Ap(Node('cons'), self.evalloop(Ap(Node('draw'), x0))), self.evalloop(Ap(Node('multipledraw'), x1)))
+                        return self.multipledraw(a[1])
                 elif a[0] == 'draw':
                     if len(a) < 2:
                         return Node(a)
                     else:
-                        self.draw(a[1])
-                        assert False
+                        return self.draw(a[1])
                 elif a[0] == 'eq':
                     if len(a) < 3:
                         return Node(a)
@@ -295,8 +313,10 @@ class Main:
                     assert False, a
             else:
                 return Ap(self.eval(x.v1), x.v2)
+        elif isinstance(x, Picture):
+            return x
         else:
-            assert isinstance(x, Node)
+            assert isinstance(x, Node), x
             if isinstance(x.v, str):
                 if x.v[0] == ':':
                     return self.galaxy[x.v]
