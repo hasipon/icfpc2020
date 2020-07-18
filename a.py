@@ -1,3 +1,4 @@
+import os
 import sys
 
 sys.setrecursionlimit(100000)
@@ -48,16 +49,19 @@ def debug(data):
 class Main:
     def __init__(self):
         self.galaxy = {}
-#         with open('galaxy.txt') as f:
-#             for x in f:
-#                 a = x.rstrip('\n').split(' = ')
-#                 assert len(a) == 2
-#                 r, _ = conv(a[1].split(' '), 0)
-#                 self.galaxy[a[0]] = r
-#
-#         hoge, _ = conv(['ap', 'ap', ':1338', 'nil', 'ap', 'ap', 'cons', '0', '0'], 0)
-#         result = self.evalloop(hoge)
-#         print(result)
+
+    def run_galaxy(self):
+        with open('galaxy.txt') as f:
+            for x in f:
+                a = x.rstrip('\n').split(' = ')
+                assert len(a) == 2
+                r, _ = conv(a[1].split(' '), 0)
+                self.galaxy[a[0]] = r
+
+        hoge, _ = conv(['ap', 'ap', ':1338', 'nil', 'ap', 'ap', 'cons', '0', '0'], 0)
+        result = self.evalloop(hoge)
+        print(result)
+
 
     def evalloop(self, hoge):
         while True:
@@ -187,8 +191,11 @@ class Main:
                     return self.galaxy[x.v]
             return None
 
-
-for line in sys.stdin:
-    m = Main()
-    input_exp, _ = conv(line.split(), 0)
-    print(m.evalloop(input_exp))
+m = Main()
+if os.environ.get("TEST") is None:
+    m.run_galaxy()
+else:
+  for line in sys.stdin:
+     m = Main()
+     input_exp, _ = conv(line.split(), 0)
+     print(m.evalloop(input_exp))
