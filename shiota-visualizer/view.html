@@ -9,12 +9,16 @@
 scale<input id="scale" value="3">
 <br>
 <form id="color">
+    <input type="radio" name="color" value="purple"> purple </input><br>
+    <input type="radio" name="color" value="black"> black </input><br>
     <input type="radio" name="color" value="blue"> blue </input><br>
     <input type="radio" name="color" value="green"> green </input><br>
     <input type="radio" name="color" value="red"> red </input><br>
 </form>
 <button type="button" onclick="draw()">draw</button>
 <button type="button" onclick="clearCanvas()">clear</button>
+<br>
+clicked position<input id="log" >
 <br>
 <canvas id="canvas" width="1000" height="1000"></canvas>
 <script src="view.js"></script>
