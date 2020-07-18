@@ -40,18 +40,21 @@ def main():
     player_key = int(sys.argv[2])
     print('ServerUrl: %s; PlayerKey: %s' % (server_url, player_key))
 
+    def send(send_data):
+        res = requests.post(f'{server_url}/aliens/send', data=send_data)
+        if res.status_code != 200:
+            print('Unexpected server response:')
+            print('HTTP code:', res.status_code)
+            print('Response body:', res.text)
+            exit(2)
+        print('Server response:', res.text)
+        return res.text
+
     print("send JOIN")
-    join_request = modulate([2, player_key])
+    join_request = modulate([2, player_key, []])
     print(f"join_request = {repr(join_request)}")
 
-    res = requests.post(f'{server_url}/aliens/send', data=join_request)
-    if res.status_code != 200:
-        print('Unexpected server response:')
-        print('HTTP code:', res.status_code)
-        print('Response body:', res.text)
-        exit(2)
-    print('Server response:', res.text)
-
+    send(join_request)
 
 
 if __name__ == '__main__':
