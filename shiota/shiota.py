@@ -281,6 +281,7 @@ class Main:
                             print('send?', self.evalloop(car_cdr_cdr_y))
                             return Ap(Ap(Ap(Node('interact'), a[1]), Ap(Node('i'), car_cdr_y)), Ap(Node('send'), car_cdr_cdr_y))
                 elif a[0] == 'send':
+                    # TODO
                     if len(a) < 2:
                         return Node(a)
                     else:
