@@ -1,5 +1,5 @@
 import unittest
-from modulate import modulate, demodulate 
+from modulate import modulate
 
 class TestModulate(unittest.TestCase):
     def test_modulate(self):

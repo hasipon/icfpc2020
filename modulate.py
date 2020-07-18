@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import sys
 from typing import *
 
 def modulate(o: Any) -> str:
@@ -34,6 +35,9 @@ def modulate(o: Any) -> str:
         raise ValueError("unsupported object type")
 
 
-
-def demodulate(s: str) -> str:
-    pass
+if __name__ == "__main__":
+    for line in sys.stdin:
+        if not line.strip():
+            break
+        o = eval(line) # dangerous
+        print(modulate(o))
