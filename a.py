@@ -45,13 +45,21 @@ class Main:
                 r, _ = conv(a[1].split(' '), 0)
                 self.galaxy[a[0]] = r
 
-        hoge, _ = conv(['ap', 'ap', ':1338', 'nil', 'ap', 'ap', 'cons', '0', '0'], 0)
-        result = self.evalloop(hoge)
-        print(result)
+        x4 = Node('nil')
+        while True:
+            hoge = Ap(Ap(Ap(Node('interact'), Node(':1338')), x4), Ap(Ap(Node('cons'), Node('0')), Node('1')))
+            result = self.evalloop(hoge)
+            if result.v[0] == 'cons':
+                x4 = result.v[1]
+                print('1st', result.v[1])
+                print('2nd', self.evalloop(result.v[2]))
+                break
+            else:
+                break
 
     def evalloop(self, hoge):
         while True:
-            print(hoge)
+            # print(hoge)
             hoge1 = self.eval(hoge)
             if hoge1 is None:
                 return hoge
@@ -109,6 +117,35 @@ class Main:
                     else:
                         # cons x y z = z x y
                         return Ap(Ap(a[3], a[1]), a[2])
+                elif a[0] == 'interact':
+                    if len(a) < 4:
+                        return Node(a)
+                    else:
+                        # interact x y z = f38 x (x y z)
+                        return Ap(Ap(Node('f38'), a[1]), Ap(Ap(a[1], a[2]), a[3]))
+                elif a[0] == 'f38':
+                    if len(a) < 3:
+                        return Node(a)
+                    else:
+                        car = Node('car')
+                        cdr = Node('cdr')
+                        cons = Node('cons')
+                        car_cdr_y = Ap(car, Ap(cdr, a[2]))
+                        car_cdr_cdr_y = Ap(car, Ap(cdr, Ap(cdr, a[2])))
+                        # f38 x y = ifzero car(y) ( car(cdr(y)) , multipledraw(car(cdr(cdr(y)))) ) (interact x car(cdr(y)) send(car(cdr(cdr(y)))))
+                        v1 = Ap(Ap(cons, car_cdr_y), Ap(Ap(cons, Ap(Node('multipledraw'), car_cdr_cdr_y)), Node('nil')))
+                        v2 = Ap(Ap(Ap(Node('interact'), a[1]), car_cdr_y), Ap('send', car_cdr_cdr_y))
+                        return Ap(Ap(Ap(Node('ifzero'), Ap(car, a[2])), v1), v2)
+                elif a[0] == 'car':
+                    if len(a) < 2:
+                        return Node(a)
+                    else:
+                        return self.evalloop(Ap(a[1], Node('t')))
+                elif a[0] == 'cdr':
+                    if len(a) < 2:
+                        return Node(a)
+                    else:
+                        return self.evalloop(Ap(a[1], Node('f')))
                 elif a[0] == 'isnil':
                     if len(a) < 2:
                         return Node(a)
@@ -118,7 +155,8 @@ class Main:
                             if v1.v == 'nil':
                                 return Node('t')
                             else:
-                                assert False, v1
+                                # print(f"!!! isnil ({v1.v})")
+                                return Node('f')
                         else:
                             return Node('f')
                 elif a[0] == 'eq':
@@ -128,7 +166,7 @@ class Main:
                         v1 = self.evalloop(a[1])
                         v2 = self.evalloop(a[2])
                         if isinstance(v1, Node) and isinstance(v2, Node) and isinstance(v1.v, str) and isinstance(v2.v, str):
-                            print(f"!!! eq ({v1.v}) ({v2.v})")
+                            # print(f"!!! eq ({v1.v}) ({v2.v})")
                             if int(v1.v) == int(v2.v):
                                 return Node('t')
                             else:
@@ -141,7 +179,7 @@ class Main:
                         v1 = self.evalloop(a[1])
                         v2 = self.evalloop(a[2])
                         if isinstance(v1, Node) and isinstance(v2, Node) and isinstance(v1.v, str) and isinstance(v2.v, str):
-                            print(f"!!! lt ({v1.v}) ({v2.v})")
+                            # print(f"!!! lt ({v1.v}) ({v2.v})")
                             if int(v1.v) < int(v2.v):
                                 return Node('t')
                             else:
@@ -154,7 +192,7 @@ class Main:
                         v1 = self.evalloop(a[1])
                         v2 = self.evalloop(a[2])
                         if isinstance(v1, Node) and isinstance(v2, Node) and isinstance(v1.v, str) and isinstance(v2.v, str):
-                            print(f"!!! add ({v1.v}) ({v2.v})")
+                            # print(f"!!! add ({v1.v}) ({v2.v})")
                             return Node(str(int(v1.v) + int(v2.v)))
                         assert False, (v1, v2)
                 elif a[0] == 'neg':
@@ -163,8 +201,19 @@ class Main:
                     else:
                         v1 = self.evalloop(a[1])
                         if isinstance(v1, Node) and isinstance(v1.v, str):
-                            print(f"!!! neg ({v1.v})")
+                            # print(f"!!! neg ({v1.v})")
                             return Node(str(-int(v1.v)))
+                        assert False, (v1, v2)
+                elif a[0] == 'ifzero':
+                    if len(a) < 4:
+                        return Node(a)
+                    else:
+                        v1 = self.evalloop(a[1])
+                        if isinstance(v1, Node) and isinstance(v1.v, str):
+                            if v1.v == '0':
+                                return a[2]
+                            elif v1.v == '1':
+                                return a[3]
                         assert False, (v1, v2)
                 else:
                     assert False, a
