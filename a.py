@@ -47,6 +47,7 @@ def conv(a, idx):
 
 class Main:
     def __init__(self):
+        self.cache = {}
         self.galaxy = {}
         with open('galaxy.txt') as f:
             for x in f:
@@ -78,10 +79,16 @@ class Main:
             print('----', flush=True)
 
     def evalloop(self, hoge):
+        hoge0 = str(hoge)
+        if hoge0 in self.cache and '(picture)' not in hoge0:
+            return self.cache[hoge0]
         while True:
             # print(hoge)
             hoge1 = self.eval(hoge)
             if hoge1 is None:
+                # print('input', hoge0)
+                # print('output', hoge)
+                self.cache[hoge0] = hoge
                 return hoge
             hoge = hoge1
 
@@ -331,4 +338,8 @@ class Main:
             return None
 
 
-Main()
+inst = Main()
+for x, y in inst.cache.items():
+    print(x)
+    print(y)
+    print("----")
