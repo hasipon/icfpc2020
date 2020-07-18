@@ -80,12 +80,12 @@ using interp.CommandTools;
 			case _    : getRequiredSize(); 
 		}
 	}
-	public function execute(args:Array<Command>):Command
+	public function execute(args:Array<Command>, shouldModulate:Bool = false):Command
 	{
 		var func = (cast this:Function);
 		inline function resolve(i:Int):Command
 		{
-			return args[i];
+			return if (shouldModulate) args[i].modulate() else args[i];
 		}
 		
 		return try 
@@ -208,7 +208,30 @@ using interp.CommandTools;
 					execModem(resolve(0));
 					
 				case f38:
-					execF38(resolve(0), resolve(1));
+					var x2 = resolve(0);
+					var x0 = resolve(1);
+					return Command.Func(
+						Function.if0,
+						[
+							_car(x0),
+							pair(
+								Command.Func(Function.modem, [_car(_cdr(x0))]), 
+								pair(
+									Command.Func(Function.multipledraw, [
+										_car(_cdr(_cdr(x0)))
+									]),
+									Command.Func(Function.nil, [])
+								)
+							),
+							Command.Func(Function.interact, [
+								x2,
+								Command.Func(Function.modem, [_car(_cdr(x0))]), 
+								Command.Func(Function.send, [
+									_car(_cdr(_cdr(x0)))
+								])
+							])
+						]
+					);
 					
 				case interact:
 					var x2 = resolve(0);
@@ -234,31 +257,6 @@ using interp.CommandTools;
 	private static function pair(x0:Command, x1:Command):Command
 	{
 		return Command.Func(Function.cons, [x0, x1]);
-	}
-	private static function execF38(x2:Command, x0:Command):Command
-	{	
-		return if (execCar(x0).toInt() == 0) 
-		{
-			pair(
-				Command.Func(Function.modem, [execCar(execCdr(x0))]), 
-				pair(
-					Command.Func(Function.multipledraw, [
-						execCar(execCdr(execCdr(x0)))
-					]),
-					Command.Func(Function.nil, [])
-				)
-			);
-		}
-		else
-		{
-			Command.Func(Function.interact, [
-				x2,
-				Command.Func(Function.modem, [execCar(execCdr(x0))]), 
-				Command.Func(Function.send, [
-					execCar(execCdr(execCdr(x0)))
-				])
-			]);
-		}
 	}
 	private static function execIf0(x0:Command, x1:Command, x2:Command):Command
 	{
@@ -289,6 +287,14 @@ using interp.CommandTools;
 			case arg:
 				arg.ap(Command.Func(Function.f, []));
 		}
+	}
+	private static function _car(command:Command):Command
+	{
+		return Command.Func(Function.car, [command]);
+	}
+	private static function _cdr(command:Command):Command
+	{
+		return Command.Func(Function.cdr, [command]);
 	}
 	
 	public function toString():String

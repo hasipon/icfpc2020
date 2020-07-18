@@ -232,6 +232,7 @@ class CommandTools
 			input.push(c);
 		}
 		
+		var recCount = 0;
 		while (0 < tasks.length)
 		{
 			switch (tasks.pop())
@@ -292,6 +293,7 @@ class CommandTools
 						case Command.Unknown(string):
 							if (Main.variables.exists(string))
 							{
+								trace(string, recCount);
 								addCommand(Main.variables[string].command);
 							}
 							else
@@ -318,13 +320,20 @@ class CommandTools
 					var result = if (args.length == required)
 					{
 						var result = func.execute(args);
+						if (200 < recCount)
+						{
+							recCount = 0;
+							result;
+						}
+						else 
 						if (result.eq(Command.Func(func, args)) == MaybeBool.True)
 						{
 							result;
 						}
 						else
 						{
-							output.push(result);
+							recCount += 1;
+							addCommand(result);
 							continue;
 						}
 					}

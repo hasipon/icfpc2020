@@ -84,11 +84,15 @@ M java.lang.reflect.AnnotatedElement
 M java.net.URLEncoder
 M java.nio.LongBuffer
 M java.lang.Enum
+M haxe.Log
+C haxe.Log
+C haxe.Log_Anon_62__Fun
 M haxe.lang.IEquatable
 C haxe.lang.IEquatable
 M java.lang.StackTraceElement
 M java.net.FileNameMap
 M java.util.concurrent.ExecutorService
+M haxe.PosInfos
 M java.lang.String
 M java.util.concurrent.TimeoutException
 M haxe.extern.Rest
