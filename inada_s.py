@@ -1,19 +1,8 @@
 import sys
-import requests
-from functools import reduce
 import os
 from collections import namedtuple
 
 sys.setrecursionlimit(100000)
-
-baseurl = 'https://icfpc2020-api.testkontur.ru'
-apikey = os.getenv('APIKEY')
-
-def call_send_api(data) -> str:
-    r = requests.post(f'{baseurl}/aliens/send?apiKey={apikey}', data=data)
-    time.sleep(0.5)
-    assert r.status_code == 200
-    return r.text
 
 class Node(namedtuple('Node', ['v'])):
     __slots__ = ()
@@ -111,6 +100,33 @@ class Main:
         self.cache = {}
         self.galaxy = {}
 
+        history = []
+        taps = [
+            (0,0),
+            (0,0),
+            (0,0),
+            (0,0),
+            (0,0),
+            (0,0),
+            (0,0),
+            (0,0),
+            (8,4),
+            (2,-8),
+            (3,6),
+            (0,-14),
+            (-4,10),
+            (9,-3),
+            (-4,10),
+            (1,4),
+            (0,0),
+            (-108,0),
+            (0,0),
+            (0,0),
+            (0,0),
+            (0,0),
+            (0,0)
+        ]
+
         with open('galaxy.txt') as f:
             for x in f:
                 a = x.rstrip('\n').split(' = ')
@@ -118,35 +134,47 @@ class Main:
                 r, _ = conv(a[1].split(' '), 0)
                 self.galaxy[a[0]] = r
 
+        result_cache = {}
+        if os.path.exists("result_cache"):
+            with open("result_cache") as fp:
+                lineno = 0
+                for line in fp:
+                    kv = line.strip().split(":", 1)
+                    result_cache[kv[0]] = lineno
+                    lineno += 1
+
+        def make_hoge(x4, x, y):
+            return Ap(Ap(Ap(Node('interact'), Node(':1338')), x4), Ap(Ap(Node('cons'), Node(str(x))), Node(str(y))))
+
         x4 = Node('nil')
         x40 = None
         for counter in range(40016):
-            print("counter: ", counter)
-            if counter < 8:
-                hoge = Ap(Ap(Ap(Node('interact'), Node(':1338')), x4), Ap(Ap(Node('cons'), Node('0')), Node('0')))
-            elif counter == 8:
-                hoge = Ap(Ap(Ap(Node('interact'), Node(':1338')), x4), Ap(Ap(Node('cons'), Node('8')), Node('4')))
-            elif counter == 9:
-                hoge = Ap(Ap(Ap(Node('interact'), Node(':1338')), x4), Ap(Ap(Node('cons'), Node('2')), Node('-8')))
-            elif counter == 10:
-                hoge = Ap(Ap(Ap(Node('interact'), Node(':1338')), x4), Ap(Ap(Node('cons'), Node('3')), Node('6')))
-            elif counter == 11:
-                hoge = Ap(Ap(Ap(Node('interact'), Node(':1338')), x4), Ap(Ap(Node('cons'), Node('0')), Node('-14')))
-            elif counter == 12:
-                hoge = Ap(Ap(Ap(Node('interact'), Node(':1338')), x4), Ap(Ap(Node('cons'), Node('-4')), Node('10')))
-            elif counter == 13:
-                hoge = Ap(Ap(Ap(Node('interact'), Node(':1338')), x4), Ap(Ap(Node('cons'), Node('9')), Node('-3')))
-            elif counter == 14:
-                hoge = Ap(Ap(Ap(Node('interact'), Node(':1338')), x4), Ap(Ap(Node('cons'), Node('-4')), Node('10')))
-            elif counter == 15:
-                hoge = Ap(Ap(Ap(Node('interact'), Node(':1338')), x4), Ap(Ap(Node('cons'), Node('1')), Node('4')))
-            elif counter == 16:
-                hoge = Ap(Ap(Ap(Node('interact'), Node(':1338')), x4), Ap(Ap(Node('cons'), Node('0')), Node('0')))
-            elif counter == 18:
-                hoge = Ap(Ap(Ap(Node('interact'), Node(':1338')), x4), Ap(Ap(Node('cons'), Node('-108')), Node('0')))
+            print("counter", counter)
+
+            if counter < len(taps):
+                tap = taps[counter]
             else:
-                hoge = Ap(Ap(Ap(Node('interact'), Node(':1338')), x4), Ap(Ap(Node('cons'), Node('0')), Node('0')))
-            result = self.evalloop(hoge)
+                tap = (0, 0)
+
+            history.append(tap)
+            if repr(history) in result_cache:
+                cache_line = result_cache[repr(history)]
+                print("cache_line", cache_line)
+                with open("result_cache") as fp:
+                    for _ in range(cache_line):
+                        next(fp)
+                    line = fp.readline()
+                    kv = line.strip().split(":", 1)
+                    result = eval(kv[1])
+            else:
+                hoge = make_hoge(x4, tap[0], tap[1])
+                result = self.evalloop(hoge)
+                with open("result_cache", "a+") as fp:
+                    fp.write(repr(history))
+                    fp.write(":")
+                    fp.write(repr(result))
+                    fp.write("\n")
+
             if isinstance(result, Node) and len(result.v) == 3 and result.v[0] == 'cons':
                 x4 = result.v[1]
                 drawings = self.evalloop(result.v[2])
@@ -218,22 +246,6 @@ class Main:
         x0 = self.draw(v1.v[1])
         x1 = v1.v[2]
         return Ap(Ap(Node('cons'), x0), Ap(Node('multipledraw'), x1))
-
-    def cons_2_pyarray(self, x):
-        x = self.evalloop(x)
-        a = []
-        while True:
-            if str(x) == '(nil)':
-                break
-            a.append(self.evalloop(Ap(Node('car'), x)).v[0])
-            x = self.evalloop(Ap(Node('cdr'), x))
-        return list(map(int, a))
-
-    def pyarray_2_cons(self, a):
-        a.reverse()
-        a = map(str, a)
-        a, _ = conv(reduce(lambda x, y: ['ap', 'ap', 'cons', y] + x, a, ['nil']), 0)
-        return a
 
     def eval(self, x):
         if isinstance(x, Ap):
@@ -313,13 +325,11 @@ class Main:
                     if len(a) < 2:
                         return Node(a)
                     else:
-                        v1 = self.evalloop(a[1])
-                        print(v1)
-                        print(self.cons_2_pyarray(v1))
-                        response = call_send_api(self.cons_2_pyarray(v1))
-                        print(response)
-                        print(self.pyarray_2_cons(response))
-                        return self.pyarray_2_cons(response)
+                        v1 = str(self.evalloop(a[1]))
+                        if v1 == '*(cons)((0))((nil))':
+                            # [1, 57107]
+                            return Ap(Ap(Node('cons'), Node('1')), Ap(Ap(Node('cons'), Node('57107')), Node('nil')))
+                        assert False
                 elif a[0] == 'car':
                     if len(a) < 2:
                         return Node(a)
@@ -451,7 +461,6 @@ class Main:
                 if x.v[0] == ':':
                     return self.galaxy[x.v]
             return None
-
 
 inst = Main()
 #for x, y in inst.cache.items():

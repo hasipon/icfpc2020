@@ -1,19 +1,7 @@
 import sys
-import requests
-from functools import reduce
-import os
 from collections import namedtuple
 
 sys.setrecursionlimit(100000)
-
-baseurl = 'https://icfpc2020-api.testkontur.ru'
-apikey = os.getenv('APIKEY')
-
-def call_send_api(data) -> str:
-    r = requests.post(f'{baseurl}/aliens/send?apiKey={apikey}', data=data)
-    time.sleep(0.5)
-    assert r.status_code == 200
-    return r.text
 
 class Node(namedtuple('Node', ['v'])):
     __slots__ = ()
@@ -110,7 +98,6 @@ class Main:
     def __init__(self):
         self.cache = {}
         self.galaxy = {}
-
         with open('galaxy.txt') as f:
             for x in f:
                 a = x.rstrip('\n').split(' = ')
@@ -219,22 +206,6 @@ class Main:
         x1 = v1.v[2]
         return Ap(Ap(Node('cons'), x0), Ap(Node('multipledraw'), x1))
 
-    def cons_2_pyarray(self, x):
-        x = self.evalloop(x)
-        a = []
-        while True:
-            if str(x) == '(nil)':
-                break
-            a.append(self.evalloop(Ap(Node('car'), x)).v[0])
-            x = self.evalloop(Ap(Node('cdr'), x))
-        return list(map(int, a))
-
-    def pyarray_2_cons(self, a):
-        a.reverse()
-        a = map(str, a)
-        a, _ = conv(reduce(lambda x, y: ['ap', 'ap', 'cons', y] + x, a, ['nil']), 0)
-        return a
-
     def eval(self, x):
         if isinstance(x, Ap):
             if isinstance(x.v1, Node):
@@ -310,16 +281,15 @@ class Main:
                             print('send?', self.evalloop(car_cdr_cdr_y))
                             return Ap(Ap(Ap(Node('interact'), a[1]), Ap(Node('i'), car_cdr_y)), Ap(Node('send'), car_cdr_cdr_y))
                 elif a[0] == 'send':
+                    # TODO
                     if len(a) < 2:
                         return Node(a)
                     else:
-                        v1 = self.evalloop(a[1])
-                        print(v1)
-                        print(self.cons_2_pyarray(v1))
-                        response = call_send_api(self.cons_2_pyarray(v1))
-                        print(response)
-                        print(self.pyarray_2_cons(response))
-                        return self.pyarray_2_cons(response)
+                        v1 = str(self.evalloop(a[1]))
+                        if v1 == '*(cons)((0))((nil))':
+                            # [1, 57107]
+                            return Ap(Ap(Node('cons'), Node('1')), Ap(Ap(Node('cons'), Node('57107')), Node('nil')))
+                        assert False
                 elif a[0] == 'car':
                     if len(a) < 2:
                         return Node(a)
