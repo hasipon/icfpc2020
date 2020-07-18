@@ -1,7 +1,6 @@
 C:\Users\909mm\Desktop\Work\git\icfpc2020\haxe\interp
 begin defines
 dce
-debug
 haxe
 haxe3
 haxe4
@@ -31,7 +30,6 @@ utf16
 end defines
 begin defines_data
 dce=std
-debug=1
 haxe=4.1.1
 haxe3=1
 haxe4=1
@@ -86,11 +84,15 @@ M java.lang.reflect.AnnotatedElement
 M java.net.URLEncoder
 M java.nio.LongBuffer
 M java.lang.Enum
+M haxe.Log
+C haxe.Log
+C haxe.Log_Anon_62__Fun
 M haxe.lang.IEquatable
 C haxe.lang.IEquatable
 M java.lang.StackTraceElement
 M java.net.FileNameMap
 M java.util.concurrent.ExecutorService
+M haxe.PosInfos
 M java.lang.String
 M java.util.concurrent.TimeoutException
 M haxe.extern.Rest
@@ -375,6 +377,8 @@ M java.nio.channels.ReadableByteChannel
 M java.net.SocketAddress
 M interp.CommandTools
 C interp.CommandTools
+E interp.ModTask
+C interp.ModTask
 M java.io.EOFException
 M java.sun.util.locale.BaseLocale
 M java.nio.file.attribute.FileAttributeView

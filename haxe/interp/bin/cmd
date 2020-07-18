@@ -1,6 +1,8 @@
 src/haxe/IMap.java
 src/haxe/root/Std.java
 src/haxe/io/Output.java
+src/haxe/Log.java
+src/haxe/Log_Anon_62__Fun.java
 src/haxe/lang/IEquatable.java
 src/haxe/iterators/ArrayKeyValueIterator.java
 src/interp/AbstractEnumTools.java
@@ -47,5 +49,7 @@ src/haxe/root/Reflect.java
 src/haxe/java/io/NativeOutput.java
 src/haxe/io/Bytes.java
 src/interp/CommandTools.java
+src/interp/ModTask.java
+src/interp/ModTask.java
 src/haxe/io/Input.java
 src/haxe/root/StringBuf.java

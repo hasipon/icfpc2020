@@ -25,6 +25,7 @@ using interp.CommandTools;
 	var cdr ;
 	var nil ; 
 	var isnil;
+	var mod;
 	
 	public function getRequiredSize():Int
 	{
@@ -50,11 +51,12 @@ using interp.CommandTools;
 			case car  : 1; // 
 			case cdr  : 1; // 
 			case nil  : 1; // 
-			case isnil: 1; // Cons
+			case isnil: 1; // 
+			case mod  : 1;
 		}
 	}
 	
-	public function execute(args:Array<Command>, shouldEval:Bool):Command
+	public function execute(args:Array<Command>):Command
 	{
 		var func = (cast this:Function);
 		inline function resolve(i:Int):Command
@@ -112,17 +114,17 @@ using interp.CommandTools;
 					var x0 = resolve(0);
 					var x1 = resolve(1);
 					var x2 = resolve(2);
-					x0.ap(x2, shouldEval).ap(x1.ap(x2, shouldEval), shouldEval);
+					x0.ap(x2).ap(x1.ap(x2));
 				case c:
 					var x0 = resolve(0);
 					var x1 = resolve(1);
 					var x2 = resolve(2);
-					x0.ap(x2, shouldEval).ap(x1, shouldEval);
+					x0.ap(x2).ap(x1);
 				case b:
 					var x0 = resolve(0);
 					var x1 = resolve(1);
 					var x2 = resolve(2);
-					x0.ap(x1.ap(x2, shouldEval), shouldEval);
+					x0.ap(x1.ap(x2));
 				case t:
 					resolve(0);
 				case f:
@@ -145,7 +147,7 @@ using interp.CommandTools;
 					var x0 = resolve(0);
 					var x1 = resolve(1);
 					var x2 = resolve(2);
-					x2.ap(x0, shouldEval).ap(x1, shouldEval);
+					x2.ap(x0).ap(x1);
 				
 				case car:
 					switch (resolve(0))
@@ -154,7 +156,7 @@ using interp.CommandTools;
 							x0;
 							
 						case arg:
-							arg.ap(Command.Func(Function.t, []), shouldEval);
+							arg.ap(Command.Func(Function.t, []));
 					}
 					
 				case cdr: 
@@ -164,7 +166,7 @@ using interp.CommandTools;
 							x1;
 							
 						case arg:
-							arg.ap(Command.Func(Function.f, []), shouldEval);
+							arg.ap(Command.Func(Function.f, []));
 					}
 					
 				case isnil: 
@@ -176,6 +178,9 @@ using interp.CommandTools;
 						case _:
 							Command.Func(Function.f, []);
 					}
+					
+				case mod:
+					return Command.Modulate(resolve(0).modulate());
 			}
 		}
 		catch (e:TypeError)

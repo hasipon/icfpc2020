@@ -56,7 +56,7 @@ public class Environment extends haxe.lang.HxObject
 				//line 78 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
 				haxe.IMap<java.lang.String, interp.Valiables> this1 = interp.Main.variables;
 				//line 78 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
-				interp.Valiables v = new interp.Valiables(value.__get(0), interp.CommandTools.resolveRestSize(value.__get(0)));
+				interp.Valiables v = new interp.Valiables(((interp.Command) (value.__get(0)) ));
 				//line 78 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
 				((haxe.ds.StringMap<interp.Valiables>) (this1) ).set(key, v);
 			}

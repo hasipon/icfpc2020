@@ -49,6 +49,9 @@ class CommandTools
 					
 				case Command.Unknown(string):
 					string;
+					
+				case Command.Modulate(result):
+					"[" + result.toString() + "]";
 			}
 			first = false;
 		}
@@ -147,9 +150,19 @@ class CommandTools
 						MaybeBool.Unknown;
 				}
 				
+			case Command.Modulate(c0):
+				switch x1 
+				{
+					case Command.Modulate(c1) if (c0.eq(c1) == MaybeBool.True):
+						MaybeBool.True;
+						
+					case _:
+						MaybeBool.Unknown;
+				}
+				
 		}
 	}
-	public static function ap(c:Command, na:Command, shouldEval:Bool):Command
+	public static function ap(c:Command, na:Command):Command
 	{
 		return switch (c)
 		{
@@ -165,91 +178,105 @@ class CommandTools
 				
 				if (args.length == required)
 				{
-					func.execute(args, shouldEval);
+					func.execute(args);
 				}
 				else
 				{
 					Command.Func(func, args);
 				}
 				
-				/*
-			case Command.Unknown(key):
-				if (!Main.variables.exists(key))
-				{
-					return Command.Ap(c, na);
-				}
-				var v = Main.variables[key];
-				if (v.resolveArgLength() != 1)
-				{
-					return Command.Ap(c, na);
-				}
-				executeValiables(key, v.command, [na], depth);
-				
-			case Command.Ap(command, a) if (resolveRestSize(command) == 2):
-				var args = [na, a];
-				while (true)
-				{
-					switch (command)
-					{
-						case Command.Ap(next, a):
-							command = next;
-							args.push(a);
-							
-						case Command.Unknown(key) if (Main.variables.exists(key)):
-							var v = Main.variables[key];
-							
-							return executeValiables(key, v.command, args, depth);
-							
-						case _:
-							return Command.Ap(c, na);
-					}
-				}
-				return Command.Ap(c, na);
-				*/
-				
 			case _:
 				Command.Ap(c, na);
 		}
 	}
 	
-	/*
-	public static function executeValiables(key:String, command:Command):Command
+	public static function modulate(command:Command):Command
 	{
-	}
-	*/
-	
-	public static var UNKOWN_LENGTH:Int = -99999;
-	public static function resolveRestSize(command:Command):Int
-	{
-		return switch (command)
+		var tasks  = [ModTask.Com];
+		var input  = [command];
+		var output = [];
+		var aps    = [];
+		
+		inline function addCommand(c:Command):Void
 		{
-			case Command.Ap(a, _):
-				var size = resolveRestSize(a);
-				if (size == UNKOWN_LENGTH) size else size - 1;
-				
-			case Command.Func(func, args):
-				var base = func.getRequiredSize() - args.length;
-				return switch [func, args]
-				{
-					case [i , [a0    ]]: base + resolveRestSize(a0); // A    -> A
-					case [t , [a0, _ ]]: base + resolveRestSize(a0); // A, B -> A
-					case [f , [_ , a1]]: base + resolveRestSize(a1); // A, B -> B
-					case _: base; // Cons
-				}
-			
-			case Command.Int(i):
-				0;
-				
-			case Command.Unknown(string):
-				if (Main.variables.exists(string))
-				{
-					var v = Main.variables[string];
-					v.resolveArgLength();
-				}
-				else
-				{
-					UNKOWN_LENGTH;
-				}
+			tasks.push(ModTask.Com);
+			input.push(c);
 		}
+		
+		while (0 < tasks.length)
+		{
+			switch (tasks.pop())
+			{
+				case ModTask.Com:
+					var command = input.pop();
+					switch (command)
+					{
+						case Command.Ap(c, ap):
+							addCommand(c);
+							aps.push(ap);
+							
+						case Command.Func(func, args):
+							tasks.push(ModTask.Func(func, output.length));
+							for (arg in args) 
+							{
+								addCommand(arg);
+							}
+							var required = func.getRequiredSize();
+							for (_ in args.length...required)
+							{
+								if (aps.length <= 0) break;
+								addCommand(aps.pop());
+							}
+						case Command.Modulate(_):
+							output.push(command);
+						
+						case Command.Int(i):
+							output.push(command);
+							
+						case Command.Unknown(string):
+							if (Main.variables.exists(string))
+							{
+								//trace(string);
+								addCommand(Main.variables[string].command);
+							}
+							else
+							{
+								output.push(command);
+							}
+					}
+					
+				case ModTask.Func(func, length):
+					var args = [];
+					for (_ in length...output.length)
+					{
+						args.push(output.pop());
+					}
+					var required = func.getRequiredSize();
+					output.push(
+						if (args.length == required)
+						{
+							func.execute(args);
+						}
+						else 
+						{
+							Command.Func(func, args);
+						}
+					);
+			}
+		}
+		
+		var result = output[0];
+		while (aps.length > 0)
+		{
+			result = Command.Ap(result, aps.pop());
+		}
+		return result;
 	}
+	
+}
+
+enum ModTask
+{
+	Com;
+	Func(func:Function, size:Int);
 }

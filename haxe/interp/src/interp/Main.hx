@@ -75,7 +75,7 @@ private class Environment
 			{
 				throw "invalid value size: " + 1;
 			}
-			Main.variables[key] = new Valiables(value[0], value[0].resolveRestSize());
+			Main.variables[key] = new Valiables(value[0]);
 			this.key = key;
 			return;
 		}
@@ -146,7 +146,7 @@ private class Node
 			if (c == null) throw "ap x: too short args";
 			var na = output.pop();
 			if (na == null) throw "ap x: too short args: " + c;
-			return CommandTools.ap(c, na, false);
+			return CommandTools.ap(c, na);
 		}
 		for (func in AbstractEnumTools.getValues(Function))
 		{

@@ -7,4 +7,5 @@ enum Command
 	Func     (func:Function, args:Array<Command>);
 	Ap       (a:Command, b:Command);
 	Unknown  (string:String);
+	Modulate (a:Command);
 }
