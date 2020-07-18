@@ -111,18 +111,6 @@ class Main:
         self.cache = {}
         self.galaxy = {}
 
-        # c5     = Ap(Ap(Node('cons'), Node('5')), Node('nil'))
-        # c45    = Ap(Ap(Node('cons'), Node('4')), c5)
-        # c345   = Ap(Ap(Node('cons'), Node('3')), c45)
-        # c2345  = Ap(Ap(Node('cons'), Node('2')), c345)
-        # c12345 = Ap(Ap(Node('cons'), Node('1')), c2345)
-        # a = self.cons_2_pyarray(c12345)
-        # print(a)
-
-        # b = Ap(Ap(Node('cons'), Node('0')), Node('nil'))
-        # a = self.cons_2_pyarray(b)
-        # print(a)
-
         with open('galaxy.txt') as f:
             for x in f:
                 a = x.rstrip('\n').split(' = ')
