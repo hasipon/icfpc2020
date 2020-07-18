@@ -2,10 +2,12 @@ import os
 import requests
 import sys
 import time
-from functools import reduce
+
 from collections import namedtuple
-from modulate import modulate
 from demodulate import demodulate
+from functools import reduce
+from modulate import modulate
+from pathlib import Path
 
 sys.setrecursionlimit(100000)
 
@@ -17,6 +19,7 @@ def call_send_api(data) -> str:
     time.sleep(0.5)
     assert r.status_code == 200
     return r.text
+
 
 class Node(namedtuple('Node', ['v'])):
     __slots__ = ()
@@ -113,7 +116,6 @@ class Main:
     def __init__(self):
         self.cache = {}
         self.galaxy = {}
-
         with open('galaxy.txt') as f:
             for x in f:
                 a = x.rstrip('\n').split(' = ')
@@ -121,51 +123,47 @@ class Main:
                 r, _ = conv(a[1].split(' '), 0)
                 self.galaxy[a[0]] = r
 
+        history = []
         x4 = Node('nil')
-        x40 = None
-        for counter in range(40016):
+        counter = 0
+        while True:
             print("counter: ", counter)
-            if counter < 8:
-                hoge = Ap(Ap(Ap(Node('interact'), Node(':1338')), x4), Ap(Ap(Node('cons'), Node('0')), Node('0')))
-            elif counter == 8:
-                hoge = Ap(Ap(Ap(Node('interact'), Node(':1338')), x4), Ap(Ap(Node('cons'), Node('8')), Node('4')))
-            elif counter == 9:
-                hoge = Ap(Ap(Ap(Node('interact'), Node(':1338')), x4), Ap(Ap(Node('cons'), Node('2')), Node('-8')))
-            elif counter == 10:
-                hoge = Ap(Ap(Ap(Node('interact'), Node(':1338')), x4), Ap(Ap(Node('cons'), Node('3')), Node('6')))
-            elif counter == 11:
-                hoge = Ap(Ap(Ap(Node('interact'), Node(':1338')), x4), Ap(Ap(Node('cons'), Node('0')), Node('-14')))
-            elif counter == 12:
-                hoge = Ap(Ap(Ap(Node('interact'), Node(':1338')), x4), Ap(Ap(Node('cons'), Node('-4')), Node('10')))
-            elif counter == 13:
-                hoge = Ap(Ap(Ap(Node('interact'), Node(':1338')), x4), Ap(Ap(Node('cons'), Node('9')), Node('-3')))
-            elif counter == 14:
-                hoge = Ap(Ap(Ap(Node('interact'), Node(':1338')), x4), Ap(Ap(Node('cons'), Node('-4')), Node('10')))
-            elif counter == 15:
-                hoge = Ap(Ap(Ap(Node('interact'), Node(':1338')), x4), Ap(Ap(Node('cons'), Node('1')), Node('4')))
-            elif counter == 16:
-                hoge = Ap(Ap(Ap(Node('interact'), Node(':1338')), x4), Ap(Ap(Node('cons'), Node('0')), Node('0')))
-            elif counter == 18:
-                hoge = Ap(Ap(Ap(Node('interact'), Node(':1338')), x4), Ap(Ap(Node('cons'), Node('-108')), Node('0')))
-            else:
-                hoge = Ap(Ap(Ap(Node('interact'), Node(':1338')), x4), Ap(Ap(Node('cons'), Node('0')), Node('0')))
-            result = self.evalloop(hoge)
-            if isinstance(result, Node) and len(result.v) == 3 and result.v[0] == 'cons':
-                x4 = result.v[1]
-                drawings = self.evalloop(result.v[2])
-                if isinstance(drawings, Node) and len(drawings.v) == 3 and drawings.v[0] == 'cons':
-                    pictures = self.evalloop(drawings.v[1])
+            counter += 1
+            x = str(int(input('x: ')))
+            y = str(int(input('y: ')))
+            history.append(f'{x}_{y}')
+            pp = Path('rcache') / '_'.join(history)
+            if pp.exists():
+                with pp.open() as f:
+                    x4 = eval(f.readline())
                     while True:
-                        print(pictures, flush=True)
-                        if isinstance(pictures, Node) and len(pictures.v) == 3 and pictures.v[0] == 'cons':
-                            assert isinstance(pictures.v[1], Picture)
-                            print(pictures.v[1].v, flush=True)
-                            pictures = self.evalloop(pictures.v[2])
-                        else:
+                        line = f.readline()
+                        if not line:
                             break
+                        print(eval(line), flush=True)
             else:
-                print(result)
-                break
+                hoge = Ap(Ap(Ap(Node('interact'), Node(':1338')), x4), Ap(Ap(Node('cons'), Node(x)), Node(y)))
+                result = self.evalloop(hoge)
+                if isinstance(result, Node) and len(result.v) == 3 and result.v[0] == 'cons':
+                    with pp.open('w') as f:
+                        x4 = result.v[1]
+                        f.write(f'{repr(x4)}\n')
+                        drawings = self.evalloop(result.v[2])
+                        if isinstance(drawings, Node) and len(drawings.v) == 3 and drawings.v[0] == 'cons':
+                            pictures = self.evalloop(drawings.v[1])
+                            while True:
+                                print(pictures, flush=True)
+                                f.write(f'{repr(pictures)}\n')
+                                if isinstance(pictures, Node) and len(pictures.v) == 3 and pictures.v[0] == 'cons':
+                                    assert isinstance(pictures.v[1], Picture)
+                                    print(pictures.v[1].v, flush=True)
+                                    f.write(f'{repr(pictures.v[1].v)}\n')
+                                    pictures = self.evalloop(pictures.v[2])
+                                else:
+                                    break
+                else:
+                    print(result)
+                    break
             print('----', flush=True)
 
     def evalloop(self, hoge):
