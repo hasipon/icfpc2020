@@ -52,9 +52,9 @@ class Main:
             if isinstance(result, Node) and len(result.v) == 3 and result.v[0] == 'cons':
                 result2 = self.evalloop(result.v[2])
                 if isinstance(result2, Node) and len(result2.v) == 3 and result2.v[0] == 'cons' and isinstance(result2.v[2], Node) and result2.v[2].v == 'nil':
-                    print(result.v[1])
-                    print(self.evalloop(result2.v[1]))
-                break
+                    result1 = result.v[1]
+                    result21 = self.evalloop(result2.v[1])
+                    break
             break
 
     def evalloop(self, hoge):
@@ -173,6 +173,13 @@ class Main:
                         x0 = v1.v[1]
                         x1 = v1.v[2]
                         return Ap(Ap(Node('cons'), self.evalloop(Ap(Node('draw'), x0))), self.evalloop(Ap(Node('multipledraw'), x1)))
+                elif a[0] == 'draw':
+                    if len(a) < 2:
+                        return Node(a)
+                    else:
+                        v1 = self.evalloop(a[1])
+                        print(v1)
+                        assert False
                 elif a[0] == 'eq':
                     if len(a) < 3:
                         return Node(a)
@@ -208,6 +215,36 @@ class Main:
                         if isinstance(v1, Node) and isinstance(v2, Node) and isinstance(v1.v, str) and isinstance(v2.v, str):
                             # print(f"!!! add ({v1.v}) ({v2.v})")
                             return Node(str(int(v1.v) + int(v2.v)))
+                        assert False, (v1, v2)
+                elif a[0] == 'mul':
+                    if len(a) < 3:
+                        return Node(a)
+                    else:
+                        v1 = self.evalloop(a[1])
+                        v2 = self.evalloop(a[2])
+                        if isinstance(v1, Node) and isinstance(v2, Node) and isinstance(v1.v, str) and isinstance(v2.v, str):
+                            # print(f"!!! mul ({v1.v}) ({v2.v})")
+                            return Node(str(int(v1.v) * int(v2.v)))
+                        assert False, (v1, v2)
+                elif a[0] == 'div':
+                    if len(a) < 3:
+                        return Node(a)
+                    else:
+                        v1 = self.evalloop(a[1])
+                        v2 = self.evalloop(a[2])
+                        if isinstance(v1, Node) and isinstance(v2, Node) and isinstance(v1.v, str) and isinstance(v2.v, str):
+                            # print(f"!!! div ({v1.v}) ({v2.v})")
+                            v1 = int(v1.v)
+                            v2 = int(v2.v)
+                            assert v2 != 0
+                            if v2 < 0:
+                                v1 = -v1
+                                v2 = -v2
+                            if v1 < 0:
+                                pass
+                                return Node(str(-((-v1) // v2)))
+                            else:
+                                return Node(str(v1 // v2))
                         assert False, (v1, v2)
                 elif a[0] == 'neg':
                     if len(a) < 2:
