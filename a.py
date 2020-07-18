@@ -57,8 +57,8 @@ class Main:
                 self.galaxy[a[0]] = r
 
         x4 = Node('nil')
-        for counter in range(10):
-            hoge = Ap(Ap(Ap(Node('interact'), Node(':1338')), x4), Ap(Ap(Node('cons'), Node(str(counter * 100))), Node('0')))
+        for counter in range(50):
+            hoge = Ap(Ap(Ap(Node('interact'), Node(':1338')), x4), Ap(Ap(Node('cons'), Node('0')), Node('0')))
             result = self.evalloop(hoge)
             if isinstance(result, Node) and len(result.v) == 3 and result.v[0] == 'cons':
                 x4 = result.v[1]
