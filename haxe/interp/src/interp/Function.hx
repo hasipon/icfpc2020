@@ -90,7 +90,7 @@ import interp.TypeError;
 		var func = (cast this:Function);
 		inline function resolve(i:Int):Value
 		{
-			return args.get(args.size - i - 1);
+			return args.get(i);
 		}
 		
 		return try 
@@ -179,6 +179,8 @@ import interp.TypeError;
 					var x0 = resolve(0);
 					var x1 = resolve(1);
 					var x2 = resolve(2);
+					trace(x2.ap(x0).toString());
+					trace(x2.ap(x0).ap(x1).toString());
 					x2.ap(x0).ap(x1);
 				
 				case car:
@@ -298,7 +300,7 @@ import interp.TypeError;
 		return switch (command)
 		{
 			case Value.Func(Function.cons, value) if (value.size == 2):
-				value.get(1);
+				value.get(0);
 				
 			case arg:
 				arg.ap(Value.Func(Function.t, null));
@@ -309,7 +311,7 @@ import interp.TypeError;
 		return switch (command)
 		{
 			case Value.Func(Function.cons, value) if (value.size == 2):
-				value.get(0);
+				value.get(1);
 				
 			case arg:
 				arg.ap(Value.Func(Function.f, null));
