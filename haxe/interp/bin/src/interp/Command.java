@@ -13,7 +13,7 @@ public class Command extends haxe.lang.ParamEnum
 	}
 	
 	
-	public static final java.lang.String[] __hx_constructs = new java.lang.String[]{"Int", "Func", "Ap", "Unknown", "Modulate"};
+	public static final java.lang.String[] __hx_constructs = new java.lang.String[]{"Int", "Func", "List", "Ap", "Unknown", "Modulate"};
 	
 	public static interp.Command Int(long i)
 	{
@@ -29,24 +29,31 @@ public class Command extends haxe.lang.ParamEnum
 	}
 	
 	
-	public static interp.Command Ap(interp.Command a, interp.Command b)
+	public static interp.Command List(haxe.root.Array<interp.Command> element)
 	{
 		//line 8 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Command.hx"
-		return new interp.Command(2, new java.lang.Object[]{a, b});
+		return new interp.Command(2, new java.lang.Object[]{element});
+	}
+	
+	
+	public static interp.Command Ap(interp.Command a, interp.Command b)
+	{
+		//line 9 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Command.hx"
+		return new interp.Command(3, new java.lang.Object[]{a, b});
 	}
 	
 	
 	public static interp.Command Unknown(java.lang.String string)
 	{
-		//line 9 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Command.hx"
-		return new interp.Command(3, new java.lang.Object[]{string});
+		//line 10 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Command.hx"
+		return new interp.Command(4, new java.lang.Object[]{string});
 	}
 	
 	
 	public static interp.Command Modulate(interp.Command a)
 	{
-		//line 10 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Command.hx"
-		return new interp.Command(4, new java.lang.Object[]{a});
+		//line 11 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Command.hx"
+		return new interp.Command(5, new java.lang.Object[]{a});
 	}
 	
 	

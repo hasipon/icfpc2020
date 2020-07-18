@@ -29,14 +29,23 @@ class CommandTools
 		while (0 < commands.length)
 		{
 			if (!first) result += " ";
-			result += switch (commands.pop())
+			var command = commands.pop();
+			result += switch (command)
 			{
 				case Command.Int (i): Std.string(i);
-				
-				case Command.Ap(a, b):
-					commands.push(b);
-					commands.push(a);
-					"ap"; 
+				case Command.List(elments):
+					var first = true;
+					var str = "";
+					for (element in elments)
+					{
+						if (!first)
+						{
+							str += " , ";
+						}
+						str += toString(element);
+						first = false;
+					}
+					"( " + str + " )";
 					
 				case Func(func, args):
 					var name = func.toString();
@@ -46,6 +55,11 @@ class CommandTools
 						commands.push(args[args.length - i - 1]);
 					}
 					name;
+					
+				case Command.Ap(a, b):
+					commands.push(b);
+					commands.push(a);
+					"ap"; 
 					
 				case Command.Unknown(string):
 					string;
@@ -129,6 +143,21 @@ class CommandTools
 						MaybeBool.Unknown;
 				}
 			
+			case Command.List(elements0):
+				switch x1 
+				{
+					case Command.List(elements1):
+						if (elements0.length != elements1.length) return MaybeBool.False;
+						for (i in 0...elements1.length)
+						{
+							if (eq(elements0[i], elements1[i]) != MaybeBool.True) return MaybeBool.Unknown;
+						}
+						MaybeBool.True;
+						
+					case _:
+						MaybeBool.Unknown;
+				}
+				
 			case Command.Int(i0):
 				switch x1 
 				{
@@ -223,6 +252,7 @@ class CommandTools
 								tasks.push(ModTask.Func(func, output.length));
 								for (arg in args) 
 								{
+									
 									addCommand(arg);
 								}
 								for (_ in args.length...required)
@@ -246,6 +276,13 @@ class CommandTools
 								output.push(Command.Func(func, newArgs));
 							}
 							
+						case Command.List(elements):
+							tasks.push(ModTask.EndList(output.length));
+							for (element in elements) 
+							{
+								addCommand(element);
+							}
+							
 						case Command.Modulate(_):
 							output.push(command);
 						
@@ -263,6 +300,14 @@ class CommandTools
 							}
 					}
 					
+				case ModTask.EndList(length):
+					var list = [];
+					for (_ in length...output.length)
+					{
+						list.push(output.pop());
+					}
+					output.push(Command.List(list));
+					
 				case ModTask.Func(func, length):
 					var args = [];
 					for (_ in length...output.length)
@@ -270,16 +315,25 @@ class CommandTools
 						args.push(output.pop());
 					}
 					var required = func.getRequiredSize();
-					output.push(
-						if (args.length == required)
-						{
-							func.execute(args);
-						}
-						else 
-						{
-							Command.Func(func, args);
-						}
-					);
+					var result = if (args.length == required)
+					{
+						func.execute(args);
+					}
+					else 
+					{
+						Command.Func(func, args);
+					}
+					switch (result)
+					{
+						case Command.Func(Function.cons, [x0, Command.Func(Function.nil, [])]):
+							result = Command.List([x0]);
+							
+						case Command.Func(Function.cons, [x0, Command.List(elements)]):
+							result = Command.List([x0].concat(elements));
+							
+						case _:
+					}
+					output.push(result);
 			}
 		}
 		
@@ -296,5 +350,6 @@ class CommandTools
 enum ModTask
 {
 	Com;
+	EndList(size:Int);
 	Func(func:Function, size:Int);
 }

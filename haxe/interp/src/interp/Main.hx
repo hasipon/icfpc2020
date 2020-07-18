@@ -119,6 +119,7 @@ private class Node
 					list = Command.Func(Function.cons, [child.output.pop(), list]);
 				}
 				output.push(list);
+				child = null;
 			}
 			else
 			{
@@ -134,8 +135,11 @@ private class Node
 		{
 			child = new Node(env);
 		}
-		var command = getCommand(data);
-		output.push(command);
+		else
+		{
+			var command = getCommand(data);
+			output.push(command);
+		}
 	}
 	
 	public function getCommand(data:String):Command

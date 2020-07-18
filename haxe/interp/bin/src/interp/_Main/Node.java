@@ -90,88 +90,93 @@ public class Node extends haxe.lang.HxObject
 				
 				//line 121 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
 				this.output.push(list);
+				//line 122 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
+				this.child = null;
 			}
 			else
 			{
-				//line 125 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
+				//line 126 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
 				this.child.add(data);
 			}
 			
 		}
 		else
 		{
-			//line 128 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
+			//line 129 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
 			if (haxe.lang.Runtime.valEq(data, ",")) 
 			{
-				//line 130 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
-				this.tail.push(this.output);
 				//line 131 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
+				this.tail.push(this.output);
+				//line 132 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
 				this.output = new haxe.root.Array<interp.Command>(new interp.Command[]{});
 			}
 			else
 			{
-				//line 133 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
+				//line 134 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
 				if (haxe.lang.Runtime.valEq(data, ")")) 
 				{
-					//line 135 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
+					//line 136 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
 					this.child = new interp._Main.Node(((interp._Main.Environment) (this.env) ));
+				}
+				else
+				{
+					//line 140 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
+					interp.Command command = this.getCommand(data);
+					//line 141 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
+					this.output.push(command);
 				}
 				
 			}
 			
 		}
 		
-		//line 137 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
-		interp.Command command = this.getCommand(data);
-		//line 138 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
-		this.output.push(command);
 	}
 	
 	
 	public interp.Command getCommand(java.lang.String data)
 	{
-		//line 143 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
+		//line 147 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
 		if (haxe.lang.Runtime.valEq(data, "ap")) 
 		{
-			//line 145 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
+			//line 149 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
 			interp.Command c = ((interp.Command) (this.output.pop()) );
-			//line 146 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
+			//line 150 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
 			if (( c == null )) 
 			{
-				//line 146 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
+				//line 150 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
 				throw ((java.lang.RuntimeException) (haxe.Exception.thrown("ap x: too short args")) );
 			}
 			
-			//line 147 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
+			//line 151 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
 			interp.Command na = ((interp.Command) (this.output.pop()) );
-			//line 148 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
+			//line 152 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
 			if (( na == null )) 
 			{
-				//line 148 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
+				//line 152 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
 				throw ((java.lang.RuntimeException) (haxe.Exception.thrown(( "ap x: too short args: " + haxe.root.Std.string(c) ))) );
 			}
 			
-			//line 149 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
+			//line 153 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
 			return interp.CommandTools.ap(c, na);
 		}
 		
-		//line 151 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
+		//line 155 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
 		{
-			//line 151 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
+			//line 155 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
 			int _g = 0;
-			//line 151 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
+			//line 155 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
 			haxe.root.Array<java.lang.String> _g1 = new haxe.root.Array<java.lang.String>(new java.lang.String[]{haxe.lang.Runtime.toString("inc"), haxe.lang.Runtime.toString("dec"), haxe.lang.Runtime.toString("neg"), haxe.lang.Runtime.toString("add"), haxe.lang.Runtime.toString("mul"), haxe.lang.Runtime.toString("div"), haxe.lang.Runtime.toString("lt"), haxe.lang.Runtime.toString("eq"), haxe.lang.Runtime.toString("s"), haxe.lang.Runtime.toString("c"), haxe.lang.Runtime.toString("b"), haxe.lang.Runtime.toString("t"), haxe.lang.Runtime.toString("f"), haxe.lang.Runtime.toString("pwr2"), haxe.lang.Runtime.toString("i"), haxe.lang.Runtime.toString("cons"), haxe.lang.Runtime.toString("car"), haxe.lang.Runtime.toString("cdr"), haxe.lang.Runtime.toString("nil"), haxe.lang.Runtime.toString("isnil"), haxe.lang.Runtime.toString("mod"), haxe.lang.Runtime.toString("if0")});
-			//line 151 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
+			//line 155 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
 			while (( _g < _g1.length ))
 			{
-				//line 151 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
+				//line 155 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
 				java.lang.String func = _g1.__get(_g);
-				//line 151 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
+				//line 155 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
 				 ++ _g;
-				//line 153 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
+				//line 157 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
 				if (haxe.lang.Runtime.valEq(data, interp._Function.Function_Impl_.toString(func))) 
 				{
-					//line 155 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
+					//line 159 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
 					return interp.Command.Func(func, new haxe.root.Array<interp.Command>(new interp.Command[]{}));
 				}
 				
@@ -179,21 +184,21 @@ public class Node extends haxe.lang.HxObject
 			
 		}
 		
-		//line 158 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
+		//line 162 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
 		if (haxe.lang.Runtime.valEq(data, "vec")) 
 		{
-			//line 160 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
+			//line 164 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
 			return interp.Command.Func(haxe.lang.Runtime.toString("cons"), new haxe.root.Array<interp.Command>(new interp.Command[]{}));
 		}
 		
-		//line 163 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
+		//line 167 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
 		if (interp._Main.Node.intEReg.match(data)) 
 		{
-			//line 165 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
+			//line 169 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
 			return interp.Command.Int(haxe._Int64.Int64_Impl_.parseString(data));
 		}
 		
-		//line 167 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
+		//line 171 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
 		return interp.Command.Unknown(data);
 	}
 	
