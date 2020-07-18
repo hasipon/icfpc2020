@@ -68,6 +68,20 @@ class Main:
                 hoge = Ap(Ap(Ap(Node('interact'), Node(':1338')), x4), Ap(Ap(Node('cons'), Node('3')), Node('6')))
             elif counter == 11:
                 hoge = Ap(Ap(Ap(Node('interact'), Node(':1338')), x4), Ap(Ap(Node('cons'), Node('0')), Node('-14')))
+            elif counter == 12:
+                hoge = Ap(Ap(Ap(Node('interact'), Node(':1338')), x4), Ap(Ap(Node('cons'), Node('-4')), Node('10')))
+            elif counter == 13:
+                hoge = Ap(Ap(Ap(Node('interact'), Node(':1338')), x4), Ap(Ap(Node('cons'), Node('9')), Node('-3')))
+            elif counter == 14:
+                hoge = Ap(Ap(Ap(Node('interact'), Node(':1338')), x4), Ap(Ap(Node('cons'), Node('-4')), Node('10')))
+            elif counter == 15:
+                hoge = Ap(Ap(Ap(Node('interact'), Node(':1338')), x4), Ap(Ap(Node('cons'), Node('1')), Node('4')))
+            elif counter == 16:
+                hoge = Ap(Ap(Ap(Node('interact'), Node(':1338')), x4), Ap(Ap(Node('cons'), Node('48')), Node('-33')))
+                # hoge = Ap(Ap(Ap(Node('interact'), Node(':1338')), x4), Ap(Ap(Node('cons'), Node('-36')), Node('-46')))
+                # hoge = Ap(Ap(Ap(Node('interact'), Node(':1338')), x4), Ap(Ap(Node('cons'), Node('-76')), Node('-66')))
+                # hoge = Ap(Ap(Ap(Node('interact'), Node(':1338')), x4), Ap(Ap(Node('cons'), Node('-2')), Node('94')))
+                # hoge = Ap(Ap(Ap(Node('interact'), Node(':1338')), x4), Ap(Ap(Node('cons'), Node('16')), Node('-64')))
             else:
                 break
             result = self.evalloop(hoge)
@@ -210,12 +224,20 @@ class Main:
                         cons = Node('cons')
                         flag = self.evalloop(Ap(car, a[2]))
                         assert isinstance(flag, Node)
+                        car_cdr_y = Ap(car, Ap(cdr, a[2]))
+                        car_cdr_cdr_y = Ap(car, Ap(cdr, Ap(cdr, a[2])))
                         if flag.v == '0':
-                            car_cdr_y = Ap(car, Ap(cdr, a[2]))
-                            car_cdr_cdr_y = Ap(car, Ap(cdr, Ap(cdr, a[2])))
                             return Ap(Ap(cons, Ap(Node('i'), car_cdr_y)), Ap(Ap(cons, Ap(Node('multipledraw'), car_cdr_cdr_y)), Node('nil')))
                         if flag.v == '1':
-                            assert False
+                            print('send?', self.evalloop(car_cdr_cdr_y))
+                            return Ap(Ap(Ap(Node('interact'), a[1]), Ap(Node('i'), car_cdr_y)), Ap(Node('send'), car_cdr_cdr_y))
+                elif a[0] == 'send':
+                    if len(a) < 2:
+                        return Node(a)
+                    else:
+                        v1 = self.evalloop(a[1])
+                        print(v1)
+                        assert False
                 elif a[0] == 'car':
                     if len(a) < 2:
                         return Node(a)
