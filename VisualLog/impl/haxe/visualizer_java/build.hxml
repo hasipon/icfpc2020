@@ -1,0 +1,7 @@
+-java bin
+-cp src
+-cp hxclasses
+-main Main
+-dce full
+--java-lib lib/flexdock/flexdock-1.2.4.jar
+--macro InitializeMacro.main()

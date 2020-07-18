@@ -1,0 +1,7 @@
+-js ../../../resource/visualizer.js
+-cp src
+-cp ../lib
+-lib pixijs:4.8.4
+-main Main
+-debug
+--macro patchTypes('pixi.patch')

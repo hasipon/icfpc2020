@@ -1,0 +1,11 @@
+ap mod 0
+ap mod 1
+ap mod -1
+ap mod 2
+ap mod -2
+ap mod 16
+ap mod -16
+ap mod 255
+ap mod -255
+ap mod 256
+ap mod -256

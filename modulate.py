@@ -39,5 +39,7 @@ if __name__ == "__main__":
     for line in sys.stdin:
         if not line.strip():
             break
+
         o = eval(line) # dangerous
+
         print(modulate(o))
