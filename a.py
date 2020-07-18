@@ -336,3 +336,10 @@ class Main:
                 if x.v[0] == ':':
                     return self.galaxy[x.v]
             return None
+
+
+inst = Main()
+#for x, y in inst.cache.items():
+#    print(x)
+#    print(y)
+#    print("----")
