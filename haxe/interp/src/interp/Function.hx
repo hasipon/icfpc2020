@@ -56,6 +56,33 @@ using interp.CommandTools;
 		}
 	}
 	
+	public function getEvalThreshold():Int
+	{
+		return switch ((cast this:Function))
+		{
+			case inc  : 1; 
+			case dec  : 1; 
+			case neg  : 1; 
+			case add  : 2; 
+			case mul  : 2; 
+			case div  : 2; 
+			case lt   : 2; 
+			case eq   : 2; 
+			case s    : 3; 
+			case c    : 3; 
+			case b    : 3; 
+			case t    : 2; 
+			case f    : 2; 
+			case pwr2 : 1; 
+			case i    : 1; 
+			case cons : 2; 
+			case car  : 1; 
+			case cdr  : 1; 
+			case nil  : 1; 
+			case isnil: 1; 
+			case mod  : 1; 
+		}
+	}
 	public function execute(args:Array<Command>):Command
 	{
 		var func = (cast this:Function);
