@@ -114,7 +114,7 @@ class Main:
             (2,-8),
             (3,6),
             (0,-14),
-            (-4,-10),
+            (-4,10),
             (9,-3),
             (-4,10),
             (1,4),
@@ -137,10 +137,11 @@ class Main:
         result_cache = {}
         if os.path.exists("result_cache"):
             with open("result_cache") as fp:
+                lineno = 0
                 for line in fp:
                     kv = line.strip().split(":", 1)
-                    print(kv)
-                    result_cache[kv[0]] = eval(kv[1])
+                    result_cache[kv[0]] = lineno
+                    lineno += 1
 
         def make_hoge(x4, x, y):
             return Ap(Ap(Ap(Node('interact'), Node(':1338')), x4), Ap(Ap(Node('cons'), Node(str(x))), Node(str(y))))
@@ -157,7 +158,14 @@ class Main:
 
             history.append(tap)
             if repr(history) in result_cache:
-                result = result_cache[repr(history)]
+                cache_line = result_cache[repr(history)]
+                print("cache_line", cache_line)
+                with open("result_cache") as fp:
+                    for _ in range(cache_line):
+                        next(fp)
+                    line = fp.readline()
+                    kv = line.strip().split(":", 1)
+                    result = eval(kv[1])
             else:
                 hoge = make_hoge(x4, tap[0], tap[1])
                 result = self.evalloop(hoge)
