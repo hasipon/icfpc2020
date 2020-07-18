@@ -24,7 +24,7 @@ class Picture:
         return f'Picture({repr(self.v)})'
 
     def __str__(self):
-        return '(picture)'
+        return f'(picture{repr(self.v)})'
 
 class Ap:
     def __init__(self, v1, v2):
@@ -57,7 +57,9 @@ class Main:
                 self.galaxy[a[0]] = r
 
         x4 = Node('nil')
-        for counter in range(50):
+        x40 = None
+        for counter in range(40016):
+            self.cache = {}
             if counter < 8:
                 hoge = Ap(Ap(Ap(Node('interact'), Node(':1338')), x4), Ap(Ap(Node('cons'), Node('0')), Node('0')))
             elif counter == 8:
@@ -77,21 +79,9 @@ class Main:
             elif counter == 15:
                 hoge = Ap(Ap(Ap(Node('interact'), Node(':1338')), x4), Ap(Ap(Node('cons'), Node('1')), Node('4')))
             elif counter == 16:
-                hoge = Ap(Ap(Ap(Node('interact'), Node(':1338')), x4), Ap(Ap(Node('cons'), Node('-1')), Node('-3')))
-                # hoge = Ap(Ap(Ap(Node('interact'), Node(':1338')), x4), Ap(Ap(Node('cons'), Node('-1')), Node('-3')))
-                # hoge = Ap(Ap(Ap(Node('interact'), Node(':1338')), x4), Ap(Ap(Node('cons'), Node('99')), Node('35')))
-                # hoge = Ap(Ap(Ap(Node('interact'), Node(':1338')), x4), Ap(Ap(Node('cons'), Node('102')), Node('15')))
-                # hoge = Ap(Ap(Ap(Node('interact'), Node(':1338')), x4), Ap(Ap(Node('cons'), Node('57')), Node('27')))
-                # hoge = Ap(Ap(Ap(Node('interact'), Node(':1338')), x4), Ap(Ap(Node('cons'), Node('-48')), Node('35')))
-                # hoge = Ap(Ap(Ap(Node('interact'), Node(':1338')), x4), Ap(Ap(Node('cons'), Node('-80')), Node('11')))
-                # hoge = Ap(Ap(Ap(Node('interact'), Node(':1338')), x4), Ap(Ap(Node('cons'), Node('61')), Node('-29')))
-                # hoge = Ap(Ap(Ap(Node('interact'), Node(':1338')), x4), Ap(Ap(Node('cons'), Node('48')), Node('-33')))
-                # hoge = Ap(Ap(Ap(Node('interact'), Node(':1338')), x4), Ap(Ap(Node('cons'), Node('-36')), Node('-46')))
-                # hoge = Ap(Ap(Ap(Node('interact'), Node(':1338')), x4), Ap(Ap(Node('cons'), Node('-76')), Node('-66')))
-                # hoge = Ap(Ap(Ap(Node('interact'), Node(':1338')), x4), Ap(Ap(Node('cons'), Node('-2')), Node('94')))
-                # hoge = Ap(Ap(Ap(Node('interact'), Node(':1338')), x4), Ap(Ap(Node('cons'), Node('16')), Node('-64')))
+                hoge = Ap(Ap(Ap(Node('interact'), Node(':1338')), x4), Ap(Ap(Node('cons'), Node('0')), Node('0')))
             else:
-                break
+                hoge = Ap(Ap(Ap(Node('interact'), Node(':1338')), x4), Ap(Ap(Node('cons'), Node('0')), Node('0')))
             result = self.evalloop(hoge)
             if isinstance(result, Node) and len(result.v) == 3 and result.v[0] == 'cons':
                 x4 = result.v[1]
@@ -113,7 +103,7 @@ class Main:
 
     def evalloop(self, hoge):
         hoge0 = str(hoge)
-        if hoge0 in self.cache and '(picture)' not in hoge0:
+        if hoge0 in self.cache:
             return self.cache[hoge0]
         while True:
             # print(hoge)
@@ -243,8 +233,10 @@ class Main:
                     if len(a) < 2:
                         return Node(a)
                     else:
-                        v1 = self.evalloop(a[1])
-                        print(v1)
+                        v1 = str(self.evalloop(a[1]))
+                        if v1 == '*(cons)((0))((nil))':
+                            # [1, 57107]
+                            return Ap(Ap(Node('cons'), Node('1')), Ap(Ap(Node('cons'), Node('57107')), Node('nil')))
                         assert False
                 elif a[0] == 'car':
                     if len(a) < 2:
