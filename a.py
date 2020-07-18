@@ -144,11 +144,14 @@ class Main:
                         ok = False
                     if ok:
                         x4 = x4_tmp
+                        c = 0
                         while True:
                             line = f.readline()
                             if not line:
                                 break
-                            print(eval(line), flush=True)
+                            if c % 2 == 1:
+                                print(eval(line), flush=True)
+                            c += 1
                         continue
             hoge = Ap(Ap(Ap(Node('interact'), Node(':1338')), x4), Ap(Ap(Node('cons'), Node(x)), Node(y)))
             result = self.evalloop(hoge)
@@ -160,7 +163,7 @@ class Main:
                     if isinstance(drawings, Node) and len(drawings.v) == 3 and drawings.v[0] == 'cons':
                         pictures = self.evalloop(drawings.v[1])
                         while True:
-                            print(pictures, flush=True)
+                            # print(pictures, flush=True)
                             f.write(f'{repr(pictures)}\n')
                             if isinstance(pictures, Node) and len(pictures.v) == 3 and pictures.v[0] == 'cons':
                                 assert isinstance(pictures.v[1], Picture)
