@@ -37,6 +37,8 @@ def demodulate_one(s: str) -> (Any, str):
             raise ValueError("expected nil but got", s)
 
         return ans, s
+    elif prefix == "00":
+        return None, s[2:]
     else:
         return demodulate_num(s)
 
