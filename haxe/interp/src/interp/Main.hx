@@ -155,6 +155,10 @@ private class Node
 				return Command.Func(func, []);
 			}	
 		}
+		if (data == "vec")
+		{
+			return Command.Func(Function.cons, []);
+		}
 		
 		if (intEReg.match(data))
 		{

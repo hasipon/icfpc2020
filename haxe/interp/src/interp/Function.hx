@@ -26,6 +26,7 @@ using interp.CommandTools;
 	var nil ; 
 	var isnil;
 	var mod;
+	var if0;
 	
 	public function getRequiredSize():Int
 	{
@@ -53,9 +54,18 @@ using interp.CommandTools;
 			case nil  : 1; // 
 			case isnil: 1; // 
 			case mod  : 1;
+			case if0  : 3;
 		}
 	}
 	
+	public function getEvalThreshold():Int
+	{
+		return switch ((cast this:Function))
+		{ 
+			case cons : 2; 
+			case _    : getRequiredSize(); 
+		}
+	}
 	public function execute(args:Array<Command>):Command
 	{
 		var func = (cast this:Function);
@@ -178,6 +188,9 @@ using interp.CommandTools;
 						case _:
 							Command.Func(Function.f, []);
 					}
+					
+				case if0:
+					return if (resolve(0).toInt() == 0) resolve(1) else resolve(2);
 					
 				case mod:
 					return Command.Modulate(resolve(0).modulate());

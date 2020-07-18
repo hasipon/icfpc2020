@@ -19,14 +19,14 @@ public class ModTask extends haxe.lang.ParamEnum
 	
 	public static interp.ModTask Func(java.lang.String func, int size)
 	{
-		//line 298 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\CommandTools.hx"
+		//line 299 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\CommandTools.hx"
 		return new interp.ModTask(1, new java.lang.Object[]{func, size});
 	}
 	
 	
 	@Override public java.lang.String getTag()
 	{
-		//line 295 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\CommandTools.hx"
+		//line 296 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\CommandTools.hx"
 		return interp.ModTask.__hx_constructs[this.index];
 	}
 	

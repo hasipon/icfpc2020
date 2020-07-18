@@ -216,8 +216,9 @@ class CommandTools
 							aps.push(ap);
 							
 						case Command.Func(func, args):
-							var required = func.getRequiredSize();
-							if (args.length + aps.length >= required)
+							var required      = func.getRequiredSize ();
+							var evalThreshold = func.getEvalThreshold();
+							if (evalThreshold <= args.length + aps.length)
 							{
 								tasks.push(ModTask.Func(func, output.length));
 								for (arg in args) 
