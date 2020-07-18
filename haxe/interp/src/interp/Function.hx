@@ -32,7 +32,7 @@ using interp.CommandTools;
 	var draw;
 	var multipledraw;
 	var f38;
-	var intract;
+	var interact;
 	var send;
 	
 	public function getRequiredSize():Int
@@ -67,7 +67,7 @@ using interp.CommandTools;
 			case draw : 1;
 			case multipledraw: 1;
 			case f38    : 2;
-			case intract: 3;
+			case interact: 3;
 			case send   : 1;
 		}
 	}
@@ -76,7 +76,7 @@ using interp.CommandTools;
 	{
 		return switch ((cast this:Function))
 		{ 
-			case cons : 2; 
+			case cons : 1; 
 			case _    : getRequiredSize(); 
 		}
 	}
@@ -210,7 +210,7 @@ using interp.CommandTools;
 				case f38:
 					execF38(resolve(0), resolve(1));
 					
-				case intract:
+				case interact:
 					var x2 = resolve(0);
 					var x4 = resolve(1);
 					var x3 = resolve(2);
@@ -251,7 +251,7 @@ using interp.CommandTools;
 		}
 		else
 		{
-			Command.Func(Function.intract, [
+			Command.Func(Function.interact, [
 				x2,
 				Command.Func(Function.modem, [execCar(execCdr(x0))]), 
 				Command.Func(Function.send, [

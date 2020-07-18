@@ -317,7 +317,16 @@ class CommandTools
 					var required = func.getRequiredSize();
 					var result = if (args.length == required)
 					{
-						func.execute(args);
+						var result = func.execute(args);
+						if (result.eq(Command.Func(func, args)) == MaybeBool.True)
+						{
+							result;
+						}
+						else
+						{
+							output.push(result);
+							continue;
+						}
 					}
 					else 
 					{

@@ -63,7 +63,7 @@ public final class Function_Impl_
 		//line 34 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
 		interp._Function.Function_Impl_.f38 = haxe.lang.Runtime.toString("f38");
 		//line 35 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
-		interp._Function.Function_Impl_.intract = haxe.lang.Runtime.toString("intract");
+		interp._Function.Function_Impl_.interact = haxe.lang.Runtime.toString("interact");
 		//line 36 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
 		interp._Function.Function_Impl_.send = haxe.lang.Runtime.toString("send");
 	}
@@ -122,7 +122,7 @@ public final class Function_Impl_
 	
 	public static java.lang.String f38;
 	
-	public static java.lang.String intract;
+	public static java.lang.String interact;
 	
 	public static java.lang.String send;
 	
@@ -488,10 +488,10 @@ public final class Function_Impl_
 					}
 					
 					
-					case 1958433615:
+					case 570398262:
 					{
 						//line 70 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
-						if (__temp_svar1.equals("intract")) 
+						if (__temp_svar1.equals("interact")) 
 						{
 							//line 70 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
 							return 3;
@@ -577,7 +577,7 @@ public final class Function_Impl_
 							//line 77 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
 							__temp_executeDef2 = false;
 							//line 79 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
-							return 2;
+							return 1;
 						}
 						
 						//line 77 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
@@ -1351,10 +1351,10 @@ public final class Function_Impl_
 							}
 							
 							
-							case 1958433615:
+							case 570398262:
 							{
 								//line 213 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
-								if (__temp_svar7.equals("intract")) 
+								if (__temp_svar7.equals("interact")) 
 								{
 									//line 214 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
 									interp.Command x23 = args.__get(0);
@@ -1468,7 +1468,7 @@ public final class Function_Impl_
 		else
 		{
 			//line 254 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
-			return interp.Command.Func(haxe.lang.Runtime.toString("intract"), new haxe.root.Array<interp.Command>(new interp.Command[]{x2, interp.Command.Func(haxe.lang.Runtime.toString("modem"), new haxe.root.Array<interp.Command>(new interp.Command[]{interp._Function.Function_Impl_.execCar(interp._Function.Function_Impl_.execCdr(x0))})), interp.Command.Func(haxe.lang.Runtime.toString("send"), new haxe.root.Array<interp.Command>(new interp.Command[]{interp._Function.Function_Impl_.execCar(interp._Function.Function_Impl_.execCdr(interp._Function.Function_Impl_.execCdr(x0)))}))}));
+			return interp.Command.Func(haxe.lang.Runtime.toString("interact"), new haxe.root.Array<interp.Command>(new interp.Command[]{x2, interp.Command.Func(haxe.lang.Runtime.toString("modem"), new haxe.root.Array<interp.Command>(new interp.Command[]{interp._Function.Function_Impl_.execCar(interp._Function.Function_Impl_.execCdr(x0))})), interp.Command.Func(haxe.lang.Runtime.toString("send"), new haxe.root.Array<interp.Command>(new interp.Command[]{interp._Function.Function_Impl_.execCar(interp._Function.Function_Impl_.execCdr(interp._Function.Function_Impl_.execCdr(x0)))}))}));
 		}
 		
 	}
