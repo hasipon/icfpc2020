@@ -202,7 +202,7 @@ class Main:
                         if flag.v == '0':
                             car_cdr_y = Ap(car, Ap(cdr, a[2]))
                             car_cdr_cdr_y = Ap(car, Ap(cdr, Ap(cdr, a[2])))
-                            return Ap(Ap(cons, car_cdr_y), Ap(Ap(cons, Ap(Node('multipledraw'), car_cdr_cdr_y)), Node('nil')))
+                            return Ap(Ap(cons, Ap(Node('i'), car_cdr_y)), Ap(Ap(cons, Ap(Node('multipledraw'), car_cdr_cdr_y)), Node('nil')))
                         if flag.v == '1':
                             assert False
                 elif a[0] == 'car':
@@ -336,10 +336,3 @@ class Main:
                 if x.v[0] == ':':
                     return self.galaxy[x.v]
             return None
-
-
-inst = Main()
-for x, y in inst.cache.items():
-    print(x)
-    print(y)
-    print("----")
