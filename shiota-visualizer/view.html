@@ -6,7 +6,7 @@
 [(-1, -3), (0, -3), (1, -3), (2, -2), (-2, -1), (-1, -1), (0, -1), (3, -1), (-3, 0), (-1, 0), (1, 0), (3, 0), (-3, 1), (0, 1), (1, 1), (2, 1), (-2, 2), (-1, 3), (0, 3), (1, 3)]
 </textarea>
 <br>
-scale<input id="scale" value="3">
+scale<input id="scale" value="10">
 <br>
 <form id="color">
     <input type="radio" name="color" value="purple"> purple </input><br>
@@ -18,7 +18,9 @@ scale<input id="scale" value="3">
 <button type="button" onclick="draw()">draw</button>
 <button type="button" onclick="clearCanvas()">clear</button>
 <br>
-clicked position<input id="log" >
+clicked position
+<br>
+<textarea rows="10" cols="10" id="log" ></textarea>
 <br>
 <canvas id="canvas" width="1000" height="1000"></canvas>
 <script src="view.js"></script>

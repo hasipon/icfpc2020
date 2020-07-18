@@ -41,9 +41,9 @@ canvas.onclick = function(e) {
 	const scale = document.getElementById('scale').value;
 	// クリック位置の座標計算（canvasの左上を基準。-2ずつしているのはborderの分）
 	var rect = e.target.getBoundingClientRect();
-	mouseX = Math.floor((e.clientX - Math.floor(rect.left) - 2)/scale) - base/scale;
-	mouseY = Math.floor((e.clientY - Math.floor(rect.top) - 2)/scale) - base/scale;
+	mouseX = Math.floor(Math.floor((e.clientX - Math.floor(rect.left) - 2)/scale - base/scale));
+	mouseY = Math.floor((e.clientY - Math.floor(rect.top) - 2)/scale - base/scale);
 
-	document.getElementById("log").value = "(" + mouseX + ", " + mouseY + ")";
+	document.getElementById("log").value += "\n(" + mouseX + ", " + mouseY + ")";
 	console.log(mouseX, mouseY);
 }
