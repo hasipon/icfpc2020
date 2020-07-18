@@ -1,0 +1,6 @@
+package vilog;
+
+interface IVilogReader 
+{
+	
+}

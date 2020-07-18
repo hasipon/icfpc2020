@@ -1,0 +1,20 @@
+{
+	"folders": [
+		{
+			"path": "visualizer.js"
+		},
+		{
+			"path": "lib"
+		},
+		{
+			"path": "generator\\sort"
+		},
+		{
+			"path": "C:\\Users\\shohei\\Documents\\Shared\\Main\\Code\\Haxe\\VisualLog\\resource"
+		},
+		{
+			"path": "C:\\Users\\shohei\\Documents\\Shared\\Main\\Code\\Haxe\\VisualLog\\sample"
+		}
+	],
+	"settings": {}
+}

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+	<meta charset="utf-8">
+	<title>Computational geometry</title>
+	<link rel="stylesheet" href="../../resource/visualizer.css">
+	<script type="text/javascript" src="../../resource/pixi/pixi.min.js"></script>
+	<script type="text/javascript" src="../../resource/visualizer.js?21"></script>
+</head>
+<body>
+	<h1>Computational geometry</h1>
+	<h2 id="gift_wrapping">Gift wrapping(convex hull)</h2>
+	<h3>Time complexity</h3>
+<pre>
+n = number of points
+h = number of points on the convex hull
+</pre>
+	O(n * h)
+	<div class="visual-log">
+		<div class="visual" src="gift_wrapping.vilog" style="width:400px;height:400px;"></div>
+		<code class="trace" src="gift_wrapping.trlog"></code>
+	</div>
+	<h2 id="monotone_chain">Monotone chain(convex hull)</h2>
+	<h3>Time complexity</h3>
+<pre>
+n = number of points
+</pre>
+	O(n * log(n))
+	<div class="visual-log">
+		<div class="visual" src="monotone_chain.vilog" style="width:700px;height:700px;"></div>
+		<code class="trace" src="monotone_chain.trlog" ></code>
+	</div>
+</body>
+</html>

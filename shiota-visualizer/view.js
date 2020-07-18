@@ -8,7 +8,6 @@ if(fragment != "" ){
 	const lines = document.getElementById('input').value = fragment;
 }
 
-
 function clearCanvas(){
     console.log("clear");
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
