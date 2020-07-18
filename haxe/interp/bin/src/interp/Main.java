@@ -14,8 +14,8 @@ public class Main extends haxe.lang.HxObject
 	
 	static
 	{
-		//line 11 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
-		interp.Main.variables = new haxe.ds.StringMap<interp.Valiables>();
+		//line 10 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
+		interp.Main.variables = new haxe.ds.StringMap<haxe.root.Array<interp.Token>>();
 	}
 	
 	public Main(haxe.lang.EmptyObject empty)
@@ -25,7 +25,7 @@ public class Main extends haxe.lang.HxObject
 	
 	public Main()
 	{
-		//line 9 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
+		//line 8 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
 		interp.Main.__hx_ctor_interp_Main(this);
 	}
 	
@@ -35,18 +35,18 @@ public class Main extends haxe.lang.HxObject
 	}
 	
 	
-	public static haxe.ds.StringMap<interp.Valiables> variables;
+	public static haxe.ds.StringMap<haxe.root.Array<interp.Token>> variables;
 	
 	public static void main()
 	{
-		//line 14 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
+		//line 13 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
 		int _g = 0;
-		//line 14 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
+		//line 13 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
 		while (( _g < 2147483647 ))
 		{
-			//line 14 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
+			//line 13 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
 			int i = _g++;
-			//line 16 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
+			//line 15 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
 			interp.Main.waitInpt();
 		}
 		
@@ -55,45 +55,70 @@ public class Main extends haxe.lang.HxObject
 	
 	public static void waitInpt()
 	{
-		//line 22 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
+		//line 21 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
 		java.lang.String line = haxe.root.Sys.stdin().readLine();
-		//line 23 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
-		interp._Main.Environment env = new interp._Main.Environment(((haxe.root.Array<java.lang.String>) (haxe.lang.StringExt.split(line, " ")) ));
-		//line 25 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
-		while (( env.input.length > 0 ))
+		//line 22 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
+		interp._Main.Lexer lexer = new interp._Main.Lexer(((haxe.root.Array<java.lang.String>) (haxe.lang.StringExt.split(line, " ")) ));
+		//line 24 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
+		while (( lexer.input.length > 0 ))
 		{
-			//line 29 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
-			env.exec();
+			//line 28 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
+			lexer.exec();
 		}
 		
-		//line 38 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
+		//line 37 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
 		boolean first = true;
-		//line 39 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
-		if (( env.key != null )) 
+		//line 38 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
+		if (( lexer.key != null )) 
 		{
-			//line 41 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
-			haxe.root.Sys.stdout().writeString(( env.key + " = " ), null);
-		}
-		
-		//line 43 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
-		while (( env.node.output.length > 0 ))
-		{
-			//line 45 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
-			if ( ! (first) ) 
+			//line 40 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
+			haxe.root.Sys.stdout().writeString(( lexer.key + " = " ), null);
+			//line 42 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
+			while (( lexer.output.length > 0 ))
 			{
+				//line 44 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
+				if ( ! (first) ) 
+				{
+					//line 44 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
+					haxe.root.Sys.stdout().writeString(" ", null);
+				}
+				
 				//line 45 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
-				haxe.root.Sys.stdout().writeString(" | ", null);
+				interp.Token command = ((interp.Token) (lexer.output.pop()) );
+				//line 46 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
+				haxe.root.Sys.stdout().writeString(interp.TokenTools.toString(command), null);
+				//line 47 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
+				first = false;
 			}
 			
-			//line 46 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
-			interp.Command command = ((interp.Command) (env.node.output.pop()) );
-			//line 47 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
-			haxe.root.Sys.stdout().writeString(interp.CommandTools.toString(command), null);
-			//line 48 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
-			first = false;
+		}
+		else
+		{
+			//line 52 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
+			interp.VirtualMachine vm = new interp.VirtualMachine(((haxe.root.Array<interp.Token>) (lexer.output) ));
+			//line 53 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
+			vm.start();
+			//line 55 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
+			while (( vm.stack.length > 0 ))
+			{
+				//line 57 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
+				if ( ! (first) ) 
+				{
+					//line 57 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
+					haxe.root.Sys.stdout().writeString(" ", null);
+				}
+				
+				//line 58 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
+				interp.Value command1 = ((interp.Value) (vm.stack.pop()) );
+				//line 59 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
+				haxe.root.Sys.stdout().writeString(interp.ValueTools.toString(command1), null);
+				//line 60 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
+				first = false;
+			}
+			
 		}
 		
-		//line 50 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
+		//line 64 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Main.hx"
 		haxe.root.Sys.stdout().writeString("\n", null);
 	}
 	
