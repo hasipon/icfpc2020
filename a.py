@@ -138,8 +138,21 @@ class Main:
                         v1 = self.evalloop(a[1])
                         v2 = self.evalloop(a[2])
                         if isinstance(v1, Node) and isinstance(v2, Node) and isinstance(v1.v, str) and isinstance(v2.v, str):
+                            print(f"!!! eq ({v1.v}) ({v2.v})")
+                            if int(v1.v) == int(v2.v):
+                                return Node('t')
+                            else:
+                                return Node('f')
+                            assert False, (v1, v2)
+                elif a[0] == 'lt':
+                    if len(a) < 3:
+                        return Node(a)
+                    else:
+                        v1 = self.evalloop(a[1])
+                        v2 = self.evalloop(a[2])
+                        if isinstance(v1, Node) and isinstance(v2, Node) and isinstance(v1.v, str) and isinstance(v2.v, str):
                             debug(f"!!! eq ({v1.v}) ({v2.v})")
-                            if v1.v == v2.v:
+                            if int(v1.v) < int(v2.v):
                                 return Node('t')
                             else:
                                 return Node('f')
@@ -153,6 +166,15 @@ class Main:
                         if isinstance(v1, Node) and isinstance(v2, Node) and isinstance(v1.v, str) and isinstance(v2.v, str):
                             debug(f"!!! add ({v1.v}) ({v2.v})")
                             return Node(str(int(v1.v) + int(v2.v)))
+                        assert False, (v1, v2)
+                elif a[0] == 'neg':
+                    if len(a) < 2:
+                        return Node(a)
+                    else:
+                        v1 = self.evalloop(a[1])
+                        if isinstance(v1, Node) and isinstance(v1.v, str):
+                            print(f"!!! neg ({v1.v})")
+                            return Node(str(-int(v1.v)))
                         assert False, (v1, v2)
                 else:
                     assert False, a
