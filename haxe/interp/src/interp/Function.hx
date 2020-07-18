@@ -101,7 +101,7 @@ using interp.CommandTools;
 					switch (resolve(0).eq(resolve(1))) 
 					{
 						case MaybeBool.Unknown:
-							throw new TypeError("unknown eq");
+							Command.Func(Function.f, []);
 						
 						case MaybeBool.True:
 							Command.Func(Function.t, []);

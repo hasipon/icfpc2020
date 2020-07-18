@@ -236,7 +236,7 @@ class CommandTools
 						case Command.Unknown(string):
 							if (Main.variables.exists(string))
 							{
-								//trace(string);
+								trace(string);
 								addCommand(Main.variables[string].command);
 							}
 							else

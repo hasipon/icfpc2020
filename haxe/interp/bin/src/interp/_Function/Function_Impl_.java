@@ -1131,7 +1131,7 @@ public final class Function_Impl_
 										case 2:
 										{
 											//line 104 "C:\\Users\\909mm\\Desktop\\Work\\git\\icfpc2020\\haxe\\interp\\src\\interp\\Function.hx"
-											throw ((java.lang.RuntimeException) (haxe.Exception.thrown(new interp.TypeError(haxe.lang.Runtime.toString("unknown eq")))) );
+											return interp.Command.Func(haxe.lang.Runtime.toString("f"), new haxe.root.Array<interp.Command>(new interp.Command[]{}));
 										}
 										
 										
