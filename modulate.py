@@ -24,7 +24,7 @@ def modulate(o: Any) -> str:
         ans += "0" * (width * 4 - len(nstr)) + nstr
         return ans
 
-    elif isinstance(o, List):
+    elif isinstance(o, Iterable):
         ans = ""
         for e in o:
             ans += "11" + modulate(e)
