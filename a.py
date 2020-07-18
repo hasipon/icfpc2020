@@ -56,18 +56,31 @@ class Main:
                 self.galaxy[a[0]] = r
 
         x4 = Node('nil')
-        while True:
-            hoge = Ap(Ap(Ap(Node('interact'), Node(':1338')), x4), Ap(Ap(Node('cons'), Node('0')), Node('0')))
+        for counter in range(10):
+            if counter == 0:
+                hoge = Ap(Ap(Ap(Node('interact'), Node(':1338')), x4), Ap(Ap(Node('cons'), Node('0')), Node('0')))
+            else:
+                hoge = Ap(Ap(Ap(Node('interact'), Node(':1338')), x4), Ap(Ap(Node('cons'), Node('-7')), Node('-3')))
             result = self.evalloop(hoge)
             if isinstance(result, Node) and len(result.v) == 3 and result.v[0] == 'cons':
-                x16 = result.v[1]
-                drawings = self.evalloop(result.v[2])
-                if isinstance(drawings, Node) and len(drawings.v) == 3 and drawings.v[0] == 'cons':
-                    pictures = self.evalloop(drawings.v[1])
-                    if isinstance(pictures, Node) and len(pictures.v) == 3 and pictures.v[0] == 'cons':
-                        assert isinstance(pictures.v[1], Picture)
-                        print(pictures.v[1].v)
-            break
+                x4 = result.v[1]
+                if counter != 0:
+                    drawings = self.evalloop(result.v[2])
+                    if isinstance(drawings, Node) and len(drawings.v) == 3 and drawings.v[0] == 'cons':
+                        pictures = self.evalloop(drawings.v[1])
+                        while True:
+                            print(pictures, flush=True)
+                            if isinstance(pictures, Node) and len(pictures.v) == 3 and pictures.v[0] == 'cons':
+                                assert isinstance(pictures.v[1], Picture)
+                                print(pictures.v[1].v, flush=True)
+                                break
+                                pictures = self.evalloop(pictures.v[2])
+                            else:
+                                break
+            else:
+                print(result)
+                break
+            print('----', flush=True)
 
     def evalloop(self, hoge):
         while True:

@@ -18,7 +18,7 @@ def modulate(o: Any) -> str:
         else:
             ans += "10"
 
-        width = 1 + n.bit_length()//4
+        width = 1 + (n.bit_length()-1)//4
         ans += "1" * width + "0"
         nstr = "{:b}".format(n)
         ans += "0" * (width * 4 - len(nstr)) + nstr
