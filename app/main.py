@@ -35,6 +35,51 @@ def modulate(o: Any) -> str:
         raise ValueError("unsupported object type")
 
 
+def demodulate_num(s: str) -> (int, str):
+    prefix = s[0:2]
+    s = s[2:]
+    width = s.find("0")
+    if width == 0:
+        return 0, s[1:]
+    s = s[width+1:]
+    num = int(s[:width*4], 2)
+    s = s[width*4:]
+    if prefix == "10":
+        num *= -1
+    return num, s
+
+
+def demodulate_one(s: str) -> (Any, str):
+    if len(s) < 2:
+        raise ValueError("invalid length")
+
+    prefix = s[0:2]
+    if prefix == "11":
+        ans = []
+        while s[0:2] == "11":
+            s = s[2:] # trim 11
+            v, t = demodulate_one(s)
+            ans.append(v)
+            s = t
+        if s[0:2] == "00":
+            s = s[2:] # trim 00
+        else:
+            raise ValueError("expected nil but got", s)
+
+        return ans, s
+    elif prefix == "00":
+        return None, s[2:]
+    else:
+        return demodulate_num(s)
+
+
+def demodulate(s: str):
+    ans, t = demodulate_one(s.strip())
+    if t:
+        raise ValueError("there are leftovers", t)
+    return ans
+
+
 def main():
     server_url = sys.argv[1]
     player_key = int(sys.argv[2])
@@ -48,13 +93,21 @@ def main():
             print('Response body:', res.text)
             exit(2)
         print('Server response:', res.text)
-        return res.text
+        demodulated = demodulate(res.text)
+        print('demodulated Server response:', demodulated)
+        return demodulated
 
     print("send JOIN")
     join_request = modulate([2, player_key, []])
     print(f"join_request = {repr(join_request)}")
 
-    send(join_request)
+    game_response = send(join_request)
+
+    print("send START")
+    start_request = modulate([3, player_key, [1, 0, 0, 0]])
+    print(f"start_request = {repr(start_request)}")
+
+    game_response = send(start_request)
 
 
 if __name__ == '__main__':
