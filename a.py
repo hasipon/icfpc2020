@@ -65,6 +65,32 @@ class Main:
                 return hoge
             hoge = hoge1
 
+    def point(self, x):
+        v1 = self.evalloop(x)
+        assert isinstance(v1, Node)
+        assert isinstance(v1.v, list)
+        assert len(v1.v) == 3
+        assert v1.v[0] == 'cons'
+        r1 = self.evalloop(v1.v[1])
+        r2 = self.evalloop(v1.v[2])
+        assert isinstance(r1, Node)
+        assert isinstance(r2, Node)
+        return (int(r1.v), int(r2.v))
+
+    def draw(self, x):
+        while True:
+            v1 = self.evalloop(x)
+            assert isinstance(v1, Node)
+            if v1.v == 'nil':
+                return []
+            assert isinstance(v1.v, list)
+            assert len(v1.v) == 3
+            assert v1.v[0] == 'cons'
+            x0 = self.point(v1.v[1])
+            print(x0)
+            x = v1.v[2]
+        assert False
+
     def eval(self, x):
         if isinstance(x, Ap):
             if isinstance(x.v1, Node):
@@ -177,8 +203,7 @@ class Main:
                     if len(a) < 2:
                         return Node(a)
                     else:
-                        v1 = self.evalloop(a[1])
-                        print(v1)
+                        self.draw(a[1])
                         assert False
                 elif a[0] == 'eq':
                     if len(a) < 3:
