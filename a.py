@@ -16,6 +16,13 @@ class Node:
             return self.v
         return f'({self.v})'
 
+    def plain_str(self):
+        if isinstance(self.v, list):
+            return 'ap' + ''.join(f' {x.plain_str()} ' for x in self.v)
+        if isinstance(self.v, str) and self.v in {'c', 'b'}:
+            return self.v
+        return f'{self.v}'
+
 class Ap:
     def __init__(self, v1, v2):
         self.v1 = v1
@@ -35,26 +42,29 @@ def conv(a, idx):
     else:
         return Node(a[idx]), idx+1
 
+def debug(data):
+    sys.stderr.write(str(data))
+
 class Main:
     def __init__(self):
         self.galaxy = {}
-        with open('galaxy.txt') as f:
-            for x in f:
-                a = x.rstrip('\n').split(' = ')
-                assert len(a) == 2
-                r, _ = conv(a[1].split(' '), 0)
-                self.galaxy[a[0]] = r
-
-        hoge, _ = conv(['ap', 'ap', ':1338', 'nil', 'ap', 'ap', 'cons', '0', '0'], 0)
-        result = self.evalloop(hoge)
-        print(result)
+#         with open('galaxy.txt') as f:
+#             for x in f:
+#                 a = x.rstrip('\n').split(' = ')
+#                 assert len(a) == 2
+#                 r, _ = conv(a[1].split(' '), 0)
+#                 self.galaxy[a[0]] = r
+#
+#         hoge, _ = conv(['ap', 'ap', ':1338', 'nil', 'ap', 'ap', 'cons', '0', '0'], 0)
+#         result = self.evalloop(hoge)
+#         print(result)
 
     def evalloop(self, hoge):
         while True:
-            print(hoge)
+            debug(hoge)
             hoge1 = self.eval(hoge)
             if hoge1 is None:
-                return hoge
+                return hoge.plain_str()
             hoge = hoge1
 
     def eval(self, x):
@@ -128,21 +138,8 @@ class Main:
                         v1 = self.evalloop(a[1])
                         v2 = self.evalloop(a[2])
                         if isinstance(v1, Node) and isinstance(v2, Node) and isinstance(v1.v, str) and isinstance(v2.v, str):
-                            print(f"!!! eq ({v1.v}) ({v2.v})")
-                            if int(v1.v) == int(v2.v):
-                                return Node('t')
-                            else:
-                                return Node('f')
-                        assert False, (v1, v2)
-                elif a[0] == 'lt':
-                    if len(a) < 3:
-                        return Node(a)
-                    else:
-                        v1 = self.evalloop(a[1])
-                        v2 = self.evalloop(a[2])
-                        if isinstance(v1, Node) and isinstance(v2, Node) and isinstance(v1.v, str) and isinstance(v2.v, str):
-                            print(f"!!! lt ({v1.v}) ({v2.v})")
-                            if int(v1.v) < int(v2.v):
+                            debug(f"!!! eq ({v1.v}) ({v2.v})")
+                            if v1.v == v2.v:
                                 return Node('t')
                             else:
                                 return Node('f')
@@ -154,17 +151,8 @@ class Main:
                         v1 = self.evalloop(a[1])
                         v2 = self.evalloop(a[2])
                         if isinstance(v1, Node) and isinstance(v2, Node) and isinstance(v1.v, str) and isinstance(v2.v, str):
-                            print(f"!!! add ({v1.v}) ({v2.v})")
+                            debug(f"!!! add ({v1.v}) ({v2.v})")
                             return Node(str(int(v1.v) + int(v2.v)))
-                        assert False, (v1, v2)
-                elif a[0] == 'neg':
-                    if len(a) < 2:
-                        return Node(a)
-                    else:
-                        v1 = self.evalloop(a[1])
-                        if isinstance(v1, Node) and isinstance(v1.v, str):
-                            print(f"!!! neg ({v1.v})")
-                            return Node(str(-int(v1.v)))
                         assert False, (v1, v2)
                 else:
                     assert False, a
@@ -178,4 +166,7 @@ class Main:
             return None
 
 
-Main()
+for line in sys.stdin:
+    m = Main()
+    input_exp, _ = conv(line.split(), 0)
+    print(m.evalloop(input_exp))
