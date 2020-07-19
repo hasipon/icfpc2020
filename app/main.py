@@ -119,8 +119,6 @@ def main():
         join_response = send(join_request)
         if join_response[1] != 2:
             break
-        if join_response[1] != '2':
-            break
         time.sleep(1)
 
     print("send START")
