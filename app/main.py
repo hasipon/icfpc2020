@@ -117,7 +117,7 @@ def main():
     join_response = send(join_request)
 
     print("send START")
-    start_request = modulate([3, player_key, [448, 64, 16, 128]])
+    start_request = modulate([3, player_key, []])
     print(f"start = {repr(start_request)}")
 
     game_response = send(start_request)
