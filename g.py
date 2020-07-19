@@ -1,4 +1,7 @@
 import os
+import pickle
+from pathlib import Path
+
 import requests
 import sys
 import time
@@ -287,14 +290,32 @@ def input_vect():
 def main():
     state = nil
     vector = Vect(0, 0)
-    counter = 0
+    history = []
     while True:
-        print("counter: ", counter)
-        counter += 1
-        click = Ap(Ap(cons, Atom(vector.X)), Atom(vector.Y))
-        state, images = interact(state, click)
-        for image in get_images(images):
-            print(image)
+        print("counter: ", len(history))
+        history.append(f'{vector.X}_{vector.Y}')
+        pp = Path('rcache_v2') / '_'.join(history)
+        ok = False
+        if pp.exists():
+            with pp.open() as fp:
+                try:
+                    state_tmp = pickle.loads(eval(fp.readline()))
+                    state = state_tmp
+                    ok = True
+                    while True:
+                        line = fp.readline()
+                        if not line:
+                            break
+                        print(eval(line))
+                except MemoryError:
+                    pass
+        if not ok:
+            with pp.open('w') as fp:
+                state, images = interact(state, Ap(Ap(cons, Atom(vector.X)), Atom(vector.Y)))
+                fp.write(f'{repr(pickle.dumps(state))}\n')
+                for image in get_images(images):
+                    print(image)
+                    fp.write(f'{repr(image)}\n')
         print('----', flush=True)
         vector = input_vect()
 
