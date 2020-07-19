@@ -12,6 +12,8 @@ gui mode of a.py
 $ APIKEY=XXXXX python3 b.py
 ```
 
+then, open http://localhost:8000/gui/0_0 on your browser.
+
 ## profile
 
 1. execute a.py with cProfile
