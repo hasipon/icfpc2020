@@ -139,6 +139,6 @@ class GameLogic:
                     continue
                 val = self.histories[key]
                 if self.ship_distance(own_ship, val[-1]) < 50.0 and self.is_enemy_stopping(val):
-                    return [2, my_ship_id, val[0].pos, 60]
+                    return [[2, my_ship_id, val[0].pos, 60]]
 
         return []
