@@ -193,7 +193,7 @@ class ThreadedHTTPServer(socketserver.ThreadingMixIn, http.server.HTTPServer):
     """Handle requests in a separate thread."""
 
 if __name__ == '__main__':
-	port = os.getenv("PORT", 8000)
+	port = int(os.getenv("PORT", 8000))
 	with ThreadedHTTPServer(("", port), Handler) as httpd:
 		print("serving at port", port)
 		httpd.serve_forever()
