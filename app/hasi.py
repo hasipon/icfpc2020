@@ -126,11 +126,6 @@ class GameLogic:
                 res.append([0, my_ship_id, (1, 0) if my_ship_id in self.tmp_ship_ids else (-1, 0)])
                 self.tmp_ship_ids.add(my_ship_id)
             return res
-        elif self.game_tick >= 10:
-            res = []
-            for i, (my_ship_id, my_p, my_v, my_x4) in enumerate(my_ships):
-                res.append([1, my_ship_id])
-            return res
         else:
             res = []
             for my_ship_id, my_p, my_v, my_x4 in my_ships:
