@@ -11,28 +11,24 @@ def modulate(o: Any) -> str:
         n = int(o)
         if n == 0:
             return "010"
-
-        positive = 0 <= n
-        n = abs(n)
-        ans = ""
-
-        if positive:
-            ans += "01"
+        elif n > 0:
+            head = "01"
         else:
-            ans += "10"
-
+            head = "10"
+            n = -n
         width = 1 + (n.bit_length() - 1) // 4
-        ans += "1" * width + "0"
-        nstr = "{:b}".format(n)
-        ans += "0" * (width * 4 - len(nstr)) + nstr
-        return ans
+        return head + "1" * width + "0" + ("{:0%db}" % (width * 4)).format(n)
 
-    elif isinstance(o, Iterable):
+    elif isinstance(o, list):
         ans = ""
         for e in o:
             ans += "11" + modulate(e)
         ans += "00"
         return ans
+
+    elif isinstance(o, tuple):
+        x, y = o
+        return "11" + modulate(x) + modulate(y)
 
     elif o is None:
         return "00"
