@@ -1,3 +1,5 @@
+import os
+
 import requests
 import sys
 from typing import *
@@ -81,12 +83,21 @@ def demodulate(s: str):
 
 
 def main():
-    server_url = sys.argv[1]
-    player_key = int(sys.argv[2])
+    server_url = ""
+    player_key = ""
+    api_key = ""
+    if len(sys.argv) >= 2:
+        server_url = sys.argv[1]
+        player_key = int(sys.argv[2])
+    else:
+        server_url = "https://icfpc2020-api.testkontur.ru"
+        player_key = int(1113939892088752268)
+        api_key = os.getenv("APIKEY")
+
     print('ServerUrl: %s; PlayerKey: %s' % (server_url, player_key))
 
     def send(send_data):
-        res = requests.post(f'{server_url}/aliens/send', data=send_data)
+        res = requests.post(f'{server_url}/aliens/send?apiKey={api_key}', data=send_data)
         if res.status_code != 200:
             print('Unexpected server response:')
             print('HTTP code:', res.status_code)
