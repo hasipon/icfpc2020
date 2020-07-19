@@ -339,6 +339,7 @@ def main():
         if pp.exists():
             with pp.open() as fp:
                 try:
+                    fp.readline()
                     state_tmp = pickle.loads(eval(fp.readline()))
                     state = state_tmp
                     ok = True
