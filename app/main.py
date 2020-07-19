@@ -147,8 +147,8 @@ def main():
         sleep(0.5)
 
     print("send START")
-    start_request = [3, player_key, []]
-    game_response = send(start_request)
+    start_request = [3, player_key, [1, 0, 0, 0]]
+    # game_response = send(start_request)
 
 
 if __name__ == '__main__':
