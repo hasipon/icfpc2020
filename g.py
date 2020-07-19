@@ -7,7 +7,6 @@ import sys
 import time
 
 from collections import namedtuple
-from demodulate import demodulate
 from modulate import modulate
 
 sys.setrecursionlimit(100000)
@@ -244,6 +243,35 @@ def serialize(v):
         yield 'nil'
 
 
+def demodulate_v2(s: str):
+    i = 0
+    while i < len(s):
+        prefix = s[i:i+2]
+        i += 2
+        if prefix == '00':
+            yield 'nil'
+        elif prefix == '11':
+            yield 'ap'
+            yield 'ap'
+            yield 'cons'
+        else:
+            width = 0
+            while s[i] != '0':
+                width += 4
+                i += 1
+            i += 1
+            if width == 0:
+                v = 0
+            else:
+                v = int(s[i:i+width], 2)
+            if prefix == '01':
+                yield v
+            else:
+                yield -v
+            i += width
+    assert i == len(s)
+
+
 def send(data):
     req_data = read_data(data)
     print(f'req_data={repr(req_data)}')
@@ -251,10 +279,8 @@ def send(data):
     print(f'modulated={repr(modulated)}')
     response = call_send_api(modulated)
     print(f'response={repr(response)}')
-    demodulated = demodulate(response)
-    print(f'demodulated={repr(demodulated)}')
-    serialized = list(serialize(demodulated))
-    event_data, _ = conv(serialized, 0)
+    demodulated = list(demodulate_v2(response))
+    event_data, _ = conv(demodulated, 0)
     return event_data
 
 
