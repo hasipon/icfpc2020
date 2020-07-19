@@ -228,21 +228,6 @@ def read_data(v0):
     return a
 
 
-def serialize(v):
-    if v is None:
-        yield 'nil'
-    elif isinstance(v, int):
-        yield v
-    else:
-        for x in v:
-            yield 'ap'
-            yield 'ap'
-            yield 'cons'
-            for y in serialize(x):
-                yield y
-        yield 'nil'
-
-
 def demodulate_v2(s: str):
     i = 0
     while i < len(s):
@@ -272,6 +257,27 @@ def demodulate_v2(s: str):
     assert i == len(s)
 
 
+def conv_cons(v0):
+    if isinstance(v0, Atom):
+        if v0.Name == 'nil':
+            return None
+        return int(v0.Name)
+    assert isinstance(v0, Ap)
+    v1 = v0.Fun
+    assert isinstance(v1, Ap)
+    v2 = v1.Fun
+    assert isinstance(v2, Atom)
+    assert v2.Name == 'cons'
+    x = conv_cons(v1.Arg)
+    y = conv_cons(v0.Arg)
+    if y is None:
+        return [x]
+    elif isinstance(y, list):
+        return [x] + y
+    else:
+        return x, y
+
+
 def send(data):
     req_data = read_data(data)
     print(f'req_data={repr(req_data)}')
@@ -280,8 +286,9 @@ def send(data):
     response = call_send_api(modulated)
     print(f'response={repr(response)}')
     demodulated = list(demodulate_v2(response))
-    event_data, _ = conv(demodulated, 0)
-    return event_data
+    res_data, _ = conv(demodulated, 0)
+    print(f'res_data={conv_cons(res_data)}')
+    return res_data
 
 
 def interact(state, event):
