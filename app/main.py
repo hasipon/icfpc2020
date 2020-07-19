@@ -3,7 +3,7 @@ import os
 import requests
 import sys
 from typing import *
-
+import time
 
 def modulate(o: Any) -> str:
     if isinstance(o, int):
@@ -103,20 +103,19 @@ def main():
             print('HTTP code:', res.status_code)
             print('Response body:', res.text)
             exit(2)
-        print('Server response:', res.text)
+        print('response:', res.text)
         demodulated = demodulate(res.text)
-        print('demodulated Server response:', demodulated)
+        print('dem response:', demodulated)
         return demodulated
 
     print("send JOIN")
     join_request = modulate([2, player_key, []])
-    print(f"join_request = {repr(join_request)}")
-
-    game_response = send(join_request)
+    print(f"join = {repr(join_request)}")
+    join_response = send(join_request)
 
     print("send START")
-    start_request = modulate([3, player_key, [1, 0, 0, 0]])
-    print(f"start_request = {repr(start_request)}")
+    start_request = modulate([3, player_key, join_response[2]])
+    print(f"start = {repr(start_request)}")
 
     game_response = send(start_request)
 
