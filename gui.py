@@ -83,7 +83,7 @@ scale<input id="scale" value="10">
 <br>
 <textarea rows="3" cols="50" id="log" ></textarea>
 <br>
-<canvas id="canvas" width="1000" height="1000" style="border:1px solid;"></canvas>
+<canvas id="canvas" width="2000" height="2000" style="border:1px solid;"></canvas>
 <script>
 
 const canvas = document.getElementById('canvas');
@@ -106,11 +106,13 @@ function clearCanvas(){
 	ybase = 0;
 }
 
+const canvasSize=2000;
+
 
 function draw(){
 	ctx.globalAlpha = 1;
 	ctx.fillStyle = "black";
-    ctx.fillRect(0, 0, 1000, 1000);
+    ctx.fillRect(0, 0, canvasSize, canvasSize);
 	bigFlag = false;
 	const scale = Number(document.getElementById('scale').value);
 	const lines = document.getElementById('input').value.split("\n");
@@ -173,20 +175,20 @@ function plot(x, y, scale){
     const nx = conv(x, scale, xbase);
 	const ny = conv(y, scale, ybase);
 	ctx.fillRect(nx, ny, scale, scale);
-	if(Math.max(nx + scale, ny + scale) >= 1000){
+	if(Math.max(nx + scale, ny + scale) >= canvasSize){
 		bigFlag = true;
 	}
 }
 
 function conv(x, scale, base){
-	return 500 + Number(scale) * (Number(base) + Number(x));
+	return canvasSize/2 + Number(scale) * (Number(base) + Number(x));
 }
 
 canvas.onclick = function(e) {
 	const scale = document.getElementById('scale').value;
 	var rect = e.target.getBoundingClientRect();
-	mouseX = Math.floor((e.clientX - rect.left + 2 - 500)/scale ) - xbase;
-	mouseY = Math.floor((e.clientY - rect.top + 2-500)/scale ) - ybase;
+	mouseX = Math.floor((e.clientX - rect.left + 2 - canvasSize/2)/scale ) - xbase;
+	mouseY = Math.floor((e.clientY - rect.top + 2-canvasSize/2)/scale ) - ybase;
 
 	document.getElementById("log").value += "\n(" + mouseX + ", " + mouseY + ")";
     console.log(location.href);
