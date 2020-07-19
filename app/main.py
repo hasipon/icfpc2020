@@ -151,7 +151,7 @@ def main():
         sleep(0.5)
 
     print("send START")
-    start_request = [3, player_key, []]
+    start_request = [3, player_key, [1, 0, 0, 0]]
     game_response = send(start_request)
 
 
