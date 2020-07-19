@@ -89,7 +89,6 @@ scale<input id="scale" value="10">
 const canvas = document.getElementById('canvas');
 
 const ctx = canvas.getContext('2d');
-ctx.fillRect(0, 0, 1000, 1000);
 
 var fragment = window.location.hash.substr(1);
 if(fragment != "" ){
@@ -109,6 +108,9 @@ function clearCanvas(){
 
 
 function draw(){
+	ctx.globalAlpha = 1;
+	ctx.fillStyle = "black";
+    ctx.fillRect(0, 0, 1000, 1000);
 	bigFlag = false;
 	const scale = Number(document.getElementById('scale').value);
 	const lines = document.getElementById('input').value.split("\n");
@@ -138,7 +140,7 @@ function draw(){
 		console.log(ybase);
 	}
 	const colorList = ["green", "white", "orange", "red", "blue", "purple", "purple"];
-	ctx.globalAlpha = 0.3;
+	ctx.globalAlpha = 0.5;
 	for(let i = 0; i<lines.length; i++){
 	    const line = lines[i];
 	    ctx.fillStyle = colorList[i%colorList.length];
