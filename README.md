@@ -1,18 +1,31 @@
-## a.py
+## cui.py
 cui evaluator
 
 ```
-$ APIKEY=XXXXX python3 a.py
+$ APIKEY=XXXXX python3 cui.py
 ```
 
-## b.py
+## gui.py
 gui mode of a.py
 
 ```
-$ APIKEY=XXXXX python3 b.py
+$ APIKEY=XXXXX python3 gui.py
+```
+j
+then, open http://localhost:8000/gui/0_0 on your browser.
+
+### hot reload gui.py
+
+install go and arelo
+```
+go get github.com/makiuchi-d/arelo
 ```
 
-then, open http://localhost:8000/gui/0_0 on your browser.
+run
+```
+$ APIKEY=XXXXX /home/ubuntu/go/bin/arelo -p '**/*.py' -i '**/.*' -- /usr/bin/python3 gui.py
+```
+
 
 ## profile
 
