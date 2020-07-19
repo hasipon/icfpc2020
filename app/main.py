@@ -141,7 +141,7 @@ def main():
     assert join_response[1] == 0
 
     print("send START")
-    start_request = [3, player_key, [2, 0, 0, 0]]
+    start_request = [3, player_key, [446, 0, 0, 1]]
     game_response = send(start_request)
 
 
