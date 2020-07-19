@@ -26,8 +26,6 @@ def main():
         print('dem response:', converted)
         return converted
 
-    logic = importlib.import_module(os.getenv("AI_NAME")).GameLogic()
-
     print("send CREATE")
     target_stage = int(os.getenv("STAGE"))
     response = send([1, target_stage])
@@ -35,11 +33,16 @@ def main():
     print('ServerUrl: %s; PlayerKey: %s' % (server_url, player_key))
 
     print("send JOIN")
-    join_request = [2, player_key, logic.send_join()]
+    join_request = [2, player_key, []]
     join_response = send(join_request)
     if join_response[1] != 0:
         return
-    logic.recv_join(join_response)
+
+    static_game_info = join_response[2]
+    if static_game_info[1] == 0:
+        logic = importlib.import_module(os.getenv("ATTACKER_AI_NAME")).GameLogic(static_game_info)
+    else:
+        logic = importlib.import_module(os.getenv("DEFENDER_AI_NAME")).GameLogic(static_game_info)
 
     print("send START")
     start_request = [3, player_key, None]

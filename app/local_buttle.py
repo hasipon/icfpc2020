@@ -35,8 +35,8 @@ def main():
 
     os.chdir(os.path.dirname(os.path.abspath(__file__)))
     print(os.getcwd())
-    a = subprocess.Popen(f'PLAYERKEY={attacker_player_key} APIKEY={api_key} AI_NAME={os.getenv("ATTACKER_AI_NAME")} python local_main.py > ../logs/attacker_log 2> ../logs/attacker_err_log', shell=True)
-    d = subprocess.Popen(f'PLAYERKEY={defender_player_key} APIKEY={api_key} AI_NAME={os.getenv("DEFENDER_AI_NAME")} python local_main.py > ../logs/defender_log 2> ../logs/defender_err_log', shell=True)
+    a = subprocess.Popen(f'PLAYERKEY={attacker_player_key} APIKEY={api_key} AI_NAME={os.getenv("ATTACKER_AI_NAME")} python3 local_main.py > ../logs/attacker_log 2> ../logs/attacker_err_log', shell=True)
+    d = subprocess.Popen(f'PLAYERKEY={defender_player_key} APIKEY={api_key} AI_NAME={os.getenv("DEFENDER_AI_NAME")} python3 local_main.py > ../logs/defender_log 2> ../logs/defender_err_log', shell=True)
     a.communicate()
     d.communicate()
     print(send([5, int(attacker_player_key)]))

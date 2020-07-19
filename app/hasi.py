@@ -1,22 +1,8 @@
 class GameLogic:
-    def __init__(self):
-        self.my_role = None
-        self.static_game_info = None
-        self.game_response = None
-
-    def send_join(self):
-        return []
-
-    def recv_join(self, join_response):
-        static_game_info = join_response[2]
-        self.static_game_info = static_game_info
+    def __init__(self, static_game_info):
         self.my_role = static_game_info[1]
-        if self.my_role == 0:
-            # i am attacker
-            pass
-        else:
-            # i am defender
-            pass
+        self.static_game_info = static_game_info
+        self.game_response = None
 
     def send_start(self):
         return [self.static_game_info[2][0] - 194, 0, 16, 1]
