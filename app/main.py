@@ -33,8 +33,11 @@ def modulate(o: Any) -> str:
         ans += "00"
         return ans
 
+    elif o is None:
+        return "00"
+
     else:
-        raise ValueError("unsupported object type")
+        raise ValueError("unsupported object type" + type(o))
 
 
 def demodulate_num(s: str) -> (int, str):
