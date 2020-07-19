@@ -1,9 +1,54 @@
 
 # 停止するAIを絶対に殺すマン
 
+from typing import *
 import math
 from functools import reduce
-from lib import modulate, demodulate_v2, conv, conv_cons, calc_orbit, calc_life, calc_plan
+from lib import modulate, demodulate_v2, conv, conv_cons
+
+
+directions = [(-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1)]
+
+def calc_orbit(p0: Tuple[int, int], v0: Tuple[int, int], aa: List[Tuple[int, int]], d: int):
+    p = p0
+    v = v0
+    orbit = [p0]
+    for i in range(d-1):
+        ax, ay = 0, 0
+        if abs(p[0]) >= abs(p[1]):
+            ax = -1 if p[0] > 0 else 1
+        if abs(p[0]) <= abs(p[1]):
+            ay = -1 if p[1] > 0 else 1
+        if i < len(aa):
+            ax -= aa[i][0]
+            ay -= aa[i][1]
+        v = (v[0] + ax, v[1] + ay)
+        p = (p[0] + v[0], p[1] + v[1])
+        orbit.append(p)
+    return orbit
+
+
+def calc_life(orbit: List[Tuple[int, int]], radius: int):
+    for i, p in enumerate(orbit):
+        if max(abs(p[0]), abs(p[1])) <= radius:
+            return i
+    return len(orbit)
+
+
+def calc_plan(my_p, my_v, max_turn, radius):
+    plan = None
+    life = -1
+    for l in range(1, 5):
+        for p in range(1 << (3 * l)):
+            a = [directions[(p >> (3 * i)) & 7] for i in range(l)]
+            orbit = calc_orbit(my_p, my_v, a, max_turn)
+            b = calc_life(orbit, radius)
+            if b == max_turn:
+                return a
+            if b > life:
+                plan = a
+                life = b
+    return plan
 
 class Param:
     def __init__(self, fuel, shoot, cooling, dup):
@@ -80,24 +125,20 @@ class GameLogic:
 
         if 64 <= own_ship.heat:
             self.laser_enabled = False
-        res = []
-        if own_ship.heat == 0 and self.laser_enabled:
-            for key in self.histories:
-                if key == my_ship_id:
-                    continue
-                val = self.histories[key]
-                print(self.ship_distance(own_ship, val[-1]))
-                print(self.ship_distance(own_ship, val[-1]) < 50.0)
-                print(self.is_enemy_stopping(val))
-                if self.ship_distance(own_ship, val[-1]) < 50.0 and self.is_enemy_stopping(val):
-                    res.append([2, my_ship_id, val[0].pos, 60])
-                    break
 
         if self.game_tick == 0:
             self.plan = calc_plan(my_p, my_v, self.max_turn, self.radius)
             print('plan:', self.plan)
 
         if self.game_tick < len(self.plan):
-            res.append([0, my_ship_id, self.plan[self.game_tick]])
+            return [[0, my_ship_id, self.plan[self.game_tick]]]
 
-        return res
+        if own_ship.heat == 0 and self.laser_enabled:
+            for key in self.histories:
+                if key == my_ship_id:
+                    continue
+                val = self.histories[key]
+                if self.ship_distance(own_ship, val[-1]) < 50.0 and self.is_enemy_stopping(val):
+                    return [[2, my_ship_id, val[0].pos, 60]]
+
+        return []
