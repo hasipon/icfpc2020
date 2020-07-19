@@ -1,7 +1,24 @@
-from collections import namedtuple
+import os
+import requests
 import sys
+import time
+
+from collections import namedtuple
+from demodulate import demodulate
+from modulate import modulate
 
 sys.setrecursionlimit(100000)
+
+baseurl = 'https://icfpc2020-api.testkontur.ru'
+apikey = os.getenv('APIKEY')
+assert apikey is not None
+
+
+def call_send_api(data) -> str:
+    r = requests.post(f'{baseurl}/aliens/send?apiKey={apikey}', data=data)
+    time.sleep(0.5)
+    assert r.status_code == 200
+    return r.text
 
 
 class Atom:
@@ -133,7 +150,7 @@ def evalloop(expr):
         expr = result
 
 
-def to_list(v0):
+def iterate(v0):
     a = []
     while True:
         if isinstance(v0, Atom):
@@ -197,14 +214,56 @@ def get_images(v0):
         v0 = v0.Arg
 
 
+def read_data(v0):
+    if isinstance(v0, Atom):
+        if v0.Name == 'nil':
+            return None
+        return int(v0.Name)
+    assert isinstance(v0, Ap)
+    a = []
+    for x in iterate(v0):
+        a.append(read_data(x))
+    return a
+
+
+def serialize(v):
+    if v is None:
+        yield 'nil'
+    elif isinstance(v, int):
+        yield v
+    else:
+        for x in v:
+            yield 'ap'
+            yield 'ap'
+            yield 'cons'
+            for y in serialize(x):
+                yield y
+        yield 'nil'
+
+
+def send(data):
+    req_data = read_data(data)
+    print(f'req_data={repr(req_data)}')
+    modulated = modulate(req_data)
+    print(f'modulated={repr(modulated)}')
+    response = call_send_api(modulated)
+    print(f'response={repr(response)}')
+    demodulated = demodulate(response)
+    print(f'demodulated={repr(demodulated)}')
+    serialized = list(serialize(demodulated))
+    event_data, _ = conv(serialized, 0)
+    return event_data
+
+
 def interact(state, event):
-    res = evalloop(Ap(Ap(Atom(":1338"), state), event))
-    # Note: res will be modulatable here (consists of cons, nil and numbers only)
-    flag, newState, data = to_list(res)
-    if asNum(flag) == 0:
-        return newState, data
-    assert False
-    # return interact(newState, SEND_TO_ALIEN_PROXY(data))
+    while True:
+        res = evalloop(Ap(Ap(Atom(":1338"), state), event))
+        # Note: res will be modulatable here (consists of cons, nil and numbers only)
+        flag, state, data = list(iterate(res))
+        if asNum(flag) == 0:
+            return state, data
+        assert asNum(flag) == 1
+        event = send(data)
 
 
 def input_vect():
