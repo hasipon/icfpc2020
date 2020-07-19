@@ -46,7 +46,7 @@
     <script>
 function _run() {
 	const response = document.getElementById('input').value;
-    const log = response.replace(/\(/g, '[').replace(/\)/g, ']');
+    const log = response.replace(/\(/g, '[').replace(/\)/g, ']').replace(/None/g, '[]');
     run(JSON.parse(log), 0);
 }
 _run();
