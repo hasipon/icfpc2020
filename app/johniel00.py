@@ -80,24 +80,20 @@ class GameLogic:
 
         if 64 <= own_ship.heat:
             self.laser_enabled = False
-        res = []
-        if own_ship.heat == 0 and self.laser_enabled:
-            for key in self.histories:
-                if key == my_ship_id:
-                    continue
-                val = self.histories[key]
-                print(self.ship_distance(own_ship, val[-1]))
-                print(self.ship_distance(own_ship, val[-1]) < 50.0)
-                print(self.is_enemy_stopping(val))
-                if self.ship_distance(own_ship, val[-1]) < 50.0 and self.is_enemy_stopping(val):
-                    res.append([2, my_ship_id, val[0].pos, 60])
-                    break
 
         if self.game_tick == 0:
             self.plan = calc_plan(my_p, my_v, self.max_turn, self.radius)
             print('plan:', self.plan)
 
         if self.game_tick < len(self.plan):
-            res.append([0, my_ship_id, self.plan[self.game_tick]])
+            return [[0, my_ship_id, self.plan[self.game_tick]]]
 
-        return res
+        if own_ship.heat == 0 and self.laser_enabled:
+            for key in self.histories:
+                if key == my_ship_id:
+                    continue
+                val = self.histories[key]
+                if self.ship_distance(own_ship, val[-1]) < 50.0 and self.is_enemy_stopping(val):
+                    return [2, my_ship_id, val[0].pos, 60]
+
+        return []
