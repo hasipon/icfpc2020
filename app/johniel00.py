@@ -38,8 +38,7 @@ class GameLogic:
         self.plan = None
 
         self.histories = {}
-        self.turn = 0
-        self.last_shot = 0;
+        self.laser_enabled = True;
 
     def send_start(self):
         return [20, (self.resource - (20 * 1) - (20 * 12) - (1 * 2)) // 4,  20, 1]
@@ -80,9 +79,9 @@ class GameLogic:
                 own_ship = ship
 
         if 64 <= own_ship.heat:
-            self.last_shot = 256
+            self.laser_enabled = False
         res = []
-        if 5 < self.turn - self.last_shot and own_ship.heat == 0:
+        if own_ship.heat == 0 and self.laser_enabled:
             for key in self.histories:
                 if key == my_ship_id:
                     continue
@@ -92,9 +91,7 @@ class GameLogic:
                 print(self.is_enemy_stopping(val))
                 if self.ship_distance(own_ship, val[-1]) < 50.0 and self.is_enemy_stopping(val):
                     res.append([2, my_ship_id, val[0].pos, 60])
-                    self.last_shot = self.turn
                     break
-        self.turn += 1
 
         if self.game_tick == 0:
             self.plan = calc_plan(my_p, my_v, self.max_turn, self.radius)
