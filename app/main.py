@@ -86,7 +86,7 @@ def main():
     server_url = ""
     player_key = ""
     api_key = ""
-    if len(sys.argv) >= 2:
+    if len(sys.argv) >= 2 and os.getenv("APKEY") is None:
         server_url = sys.argv[1]
         player_key = int(sys.argv[2])
     else:
