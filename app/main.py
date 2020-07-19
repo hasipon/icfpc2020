@@ -140,8 +140,8 @@ def main():
     if join_response[1] != 0:
         return
     static_game_info = join_response[2]
-    role = static_game_info[1]
-    if role == 0:
+    my_role = static_game_info[1]
+    if my_role == 0:
         # i am attacker
         pass
     else:
@@ -156,8 +156,15 @@ def main():
         if game_response[1] != 1:
             break
 
+        my_ship_id = None
+        for (role, shipId, position, velocity, x4, x5, x6, x7), appliedCommands in game_response[3][2]:
+            if role == my_role:
+                my_ship_id = shipId
+
+        print(f'my_ship_id = {my_ship_id}')
+
         print("send COMMANDS")
-        commands_request = [4, player_key, []]
+        commands_request = [4, player_key, [[0, my_ship_id, (1, 1)]]]
         game_response = send(commands_request)
 
 
