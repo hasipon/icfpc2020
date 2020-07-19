@@ -1,4 +1,3 @@
-import random
 from typing import *
 
 directions = [(-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1)]
@@ -33,7 +32,7 @@ def calc_life(orbit: List[Tuple[int, int]], radius: int):
 def calc_plan(my_p, my_v, max_turn, radius):
     plan = None
     life = -1
-    for l in range(1, 5):
+    for l in range(0, 5):
         for p in range(1 << (3 * l)):
             a = [directions[(p >> (3 * i)) & 7] for i in range(l)]
             orbit = calc_orbit(my_p, my_v, a, max_turn)
@@ -44,6 +43,22 @@ def calc_plan(my_p, my_v, max_turn, radius):
                 plan = a
                 life = b
     return plan
+
+
+def calc_plan2(my_p, my_v, max_turn, radius):
+    plan = None
+    life = -1
+    for l in range(0, 3):
+        for p in range(1 << (3 * l)):
+            a = [directions[(p >> (3 * i)) & 7] for i in range(l)]
+            orbit = calc_orbit(my_p, my_v, a, max_turn)
+            b = calc_life(orbit, radius)
+            if b == max_turn:
+                return a, b
+            if b > life:
+                plan = a
+                life = b
+    return plan, life
 
 
 class GameLogic:
@@ -60,10 +75,15 @@ class GameLogic:
             self.safe_radius = static_game_info[3][1]
         self.game_tick = None
         self.ships_data = None
-        self.plan = None
+        self.tmp_ship_ids = set()
 
     def send_start(self):
-        return [self.resource - 194, 0, 16, 1]
+        x1 = 0
+        x2 = 16
+        x3 = 16
+        x0 = self.resource - 4 * x1 - 12 * x2 - 2 * x3
+        assert x0 >= 0
+        return [x0, x1, x2, x3]
 
     def recv_commands(self, data):
         if data[3] is not None:
@@ -71,20 +91,58 @@ class GameLogic:
             self.ships_data = data[3][2]
 
     def send_commands(self):
-        my_ship_id = None
-        my_p = None
-        my_v = None
+        my_ships = []
         for (role, shipId, p, v, x4, x5, x6, x7), appliedCommands in self.ships_data:
             if role == self.my_role:
-                my_ship_id = shipId
-                my_p = p
-                my_v = v
+                my_ships.append((shipId, p, v, x4))
+        print('my_ships', my_ships)
 
-        if self.game_tick == 0:
-            self.plan = calc_plan(my_p, my_v, self.max_turn, self.radius)
-            print('plan:', self.plan)
-
-        res = []
-        if self.game_tick < len(self.plan):
-            res.append([0, my_ship_id, self.plan[self.game_tick]])
-        return res
+        if self.game_tick < 3:
+            my_ship_id, my_p, my_v, my_x4 = my_ships[0]
+            plan = calc_plan(my_p, my_v, 20, self.radius)
+            res = []
+            for my_ship_id, my_p, my_v, my_x4 in my_ships:
+                if plan:
+                    res.append([0, my_ship_id, plan[0]])
+                res.append([3, my_ship_id, [x // 2 for x in my_x4]])
+            return res
+        elif self.game_tick == 3:
+            res = []
+            for i, (my_ship_id, my_p, my_v, my_x4) in enumerate(my_ships):
+                res.append([0, my_ship_id, directions[i]])
+            return res
+        elif self.game_tick == 4:
+            res = []
+            for my_ship_id, my_p, my_v, my_x4 in my_ships:
+                plan = calc_plan(my_p, my_v, 20, self.radius)
+                if plan:
+                    res.append([0, my_ship_id, plan[0]])
+                res.append([3, my_ship_id, [x // 2 for x in my_x4]])
+                self.tmp_ship_ids.add(my_ship_id)
+            return res
+        elif self.game_tick == 5:
+            res = []
+            for my_ship_id, my_p, my_v, my_x4 in my_ships:
+                res.append([0, my_ship_id, (1, 0) if my_ship_id in self.tmp_ship_ids else (-1, 0)])
+                self.tmp_ship_ids.add(my_ship_id)
+            return res
+        elif self.game_tick >= 10:
+            res = []
+            for i, (my_ship_id, my_p, my_v, my_x4) in enumerate(my_ships):
+                res.append([1, my_ship_id])
+            return res
+        else:
+            res = []
+            for my_ship_id, my_p, my_v, my_x4 in my_ships:
+                if my_ship_id in self.tmp_ship_ids:
+                    tt = self.max_turn - self.game_tick
+                    plan, life = calc_plan2(my_p, my_v, tt, self.radius)
+                    if plan and my_x4[0] > 0:
+                        res.append([0, my_ship_id, plan[0]])
+                    if life == tt:
+                        print(f'survive: {my_ship_id}')
+                        self.tmp_ship_ids.remove(my_ship_id)
+                    elif my_x4[0] == 0:
+                        print(f'empty: {my_ship_id}')
+                        self.tmp_ship_ids.remove(my_ship_id)
+            return res
