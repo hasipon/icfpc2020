@@ -17,7 +17,7 @@ class GameLogic:
             pass
 
     def send_start(self):
-        return [256, 0, 1, 1]
+        return [256, 0, 8, 1]
 
     def recv_commands(self, data):
         self.game_response = data
