@@ -52,6 +52,7 @@ class Handler(http.server.BaseHTTPRequestHandler):
         lines = []
         for line in p.stdout:
             line = line.rstrip()
+            print(line)
             lines.append(line)
 #            if "history:" in line:
 #                history = line[line.find("history:") + len("history:"):].strip()
