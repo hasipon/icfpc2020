@@ -113,13 +113,18 @@ class ApiClient:
         else:
             self.server_url = "https://icfpc2020-api.testkontur.ru"
             self.api_key = os.getenv("APIKEY")
+            self.target_stage = int(os.getenv("STAGE"))
+            if self.api_key is None or self.target_stage is None:
+                print('invalid arguments')
+                exit(2)
             self.player_key = self.create_api_key()
+
         print('ServerUrl: %s; PlayerKey: %s' % (self.server_url, self.player_key))
 
     def create_api_key(self):
         self.proxy_game = True
         print("send CREATE")
-        response = self.send([1, 5])
+        response = self.send([1, self.target_stage])
         return int(response[1][0][1])
 
     def join(self):
