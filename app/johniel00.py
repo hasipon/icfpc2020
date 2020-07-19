@@ -5,13 +5,20 @@ import math
 from functools import reduce
 from lib import modulate, demodulate_v2, conv, conv_cons, calc_orbit, calc_life, calc_plan
 
+class Param:
+    def __init__(self, fuel, shoot, cooling, dup):
+        self.fuel = fuel
+        self.shoot = shoot
+        self.cooling = cooling
+        self.dup = dup
+
 class Ship:
     def __init__(self, role, shipId, pos, v, param, heat, x6, x7):
         self.role = role
         self.shipId = shipId
         self.pos = pos
         self.v = v
-        self.param = param
+        self.param = Param(param[0], param[1], param[2], param[3])
         self.heat = heat
         self.x6 = x6
         self.x7 = x7
@@ -72,8 +79,8 @@ class GameLogic:
                 my_v = v
                 own_ship = ship
 
-        print("TURN:", self.turn)
-        print(self.turn - self.last_shot)
+        if 64 <= own_ship.heat:
+            self.last_shot = 256
         res = []
         if 5 < self.turn - self.last_shot and own_ship.heat == 0:
             for key in self.histories:
