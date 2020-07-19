@@ -334,7 +334,7 @@ def main():
     while True:
         print("counter: ", len(history))
         history.append(f'{vector.X}_{vector.Y}')
-        pp = Path('rcache_v2') / '_'.join(history)
+        pp = Path('rcache_v2') / sha1('_'.join(history).encode()).hexdigest()
         ok = False
         if pp.exists():
             with pp.open() as fp:
@@ -351,6 +351,7 @@ def main():
                     pass
         if not ok:
             with pp.open('w') as fp:
+                fp.write('_'.join(history) + '\n')
                 state, images = interact(state, Ap(Ap(cons, Atom(vector.X)), Atom(vector.Y)))
                 fp.write(f'{repr(pickle.dumps(state))}\n')
                 for image in get_images(images):
