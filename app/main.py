@@ -3,7 +3,7 @@ import os
 import requests
 import sys
 from typing import *
-import time
+
 
 def modulate(o: Any) -> str:
     if isinstance(o, int):
@@ -40,49 +40,72 @@ def modulate(o: Any) -> str:
         raise ValueError("unsupported object type" + type(o))
 
 
-def demodulate_num(s: str) -> (int, str):
-    prefix = s[0:2]
-    s = s[2:]
-    width = s.find("0")
-    if width == 0:
-        return 0, s[1:]
-    s = s[width+1:]
-    num = int(s[:width*4], 2)
-    s = s[width*4:]
-    if prefix == "10":
-        num *= -1
-    return num, s
-
-
-def demodulate_one(s: str) -> (Any, str):
-    if len(s) < 2:
-        raise ValueError("invalid length")
-
-    prefix = s[0:2]
-    if prefix == "11":
-        ans = []
-        while s[0:2] == "11":
-            s = s[2:] # trim 11
-            v, t = demodulate_one(s)
-            ans.append(v)
-            s = t
-        if s[0:2] == "00":
-            s = s[2:] # trim 00
+def demodulate_v2(s: str):
+    i = 0
+    while i < len(s):
+        prefix = s[i:i+2]
+        i += 2
+        if prefix == '00':
+            yield 'nil'
+        elif prefix == '11':
+            yield 'ap'
+            yield 'ap'
+            yield 'cons'
         else:
-            raise ValueError("expected nil but got", s)
+            width = 0
+            while s[i] != '0':
+                width += 4
+                i += 1
+            i += 1
+            if width == 0:
+                v = 0
+            else:
+                v = int(s[i:i+width], 2)
+            if prefix == '01':
+                yield v
+            else:
+                yield -v
+            i += width
+    assert i == len(s)
 
-        return ans, s
-    elif prefix == "00":
-        return None, s[2:]
+
+class Atom(NamedTuple):
+    Name: Any
+
+
+class Ap(NamedTuple):
+    Fun: Any
+    Arg: Any
+
+
+def conv(a, idx):
+    if a[idx] == 'ap':
+        v1, idx1 = conv(a, idx+1)
+        v2, idx2 = conv(a, idx1)
+        return Ap(v1, v2), idx2
     else:
-        return demodulate_num(s)
+        return Atom(a[idx]), idx+1
 
 
-def demodulate(s: str):
-    ans, t = demodulate_one(s.strip())
-    if t:
-        raise ValueError("there are leftovers", t)
-    return ans
+def conv_cons(v0):
+    if isinstance(v0, Atom):
+        if v0.Name == 'nil':
+            return None
+        return int(v0.Name)
+    assert isinstance(v0, Ap)
+    v1 = v0.Fun
+    assert isinstance(v1, Ap)
+    v2 = v1.Fun
+    assert isinstance(v2, Atom)
+    assert v2.Name == 'cons'
+    x = conv_cons(v1.Arg)
+    y = conv_cons(v0.Arg)
+    if y is None:
+        return [x]
+    elif isinstance(y, list):
+        return [x] + y
+    else:
+        return x, y
 
 
 def main():
@@ -100,26 +123,27 @@ def main():
     print('ServerUrl: %s; PlayerKey: %s' % (server_url, player_key))
 
     def send(send_data):
-        res = requests.post(f'{server_url}/aliens/send?apiKey={api_key}', data=send_data)
+        print('request:', send_data)
+        modulated = modulate(send_data)
+        print('mod request:', modulated)
+        res = requests.post(f'{server_url}/aliens/send?apiKey={api_key}', data=modulated)
         if res.status_code != 200:
             print('Unexpected server response:')
             print('HTTP code:', res.status_code)
             print('Response body:', res.text)
             exit(2)
         print('response:', res.text)
-        demodulated = demodulate(res.text)
-        print('dem response:', demodulated)
-        return demodulated
+        res_data, _ = conv(list(demodulate_v2(res.text)), 0)
+        converted = conv_cons(res_data)
+        print('dem response:', converted)
+        return converted
 
     print("send JOIN")
-    join_request = modulate([2, player_key, []])
-    print(f"join = {repr(join_request)}")
+    join_request = [2, player_key, []]
     join_response = send(join_request)
 
     print("send START")
-    start_request = modulate([3, player_key, []])
-    print(f"start = {repr(start_request)}")
-
+    start_request = [3, player_key, []]
     game_response = send(start_request)
 
 
