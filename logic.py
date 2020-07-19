@@ -331,13 +331,16 @@ def run(input_vect):
                 except MemoryError:
                     pass
         if not ok:
-            with pp.open('w') as fp:
+            pp_tmp = Path(str(pp) + "_tmp")
+            with pp_tmp.open('w') as fp:
                 fp.write('_'.join(history) + '\n')
                 state, images = interact(state, Ap(Ap(cons, Atom(vector.X)), Atom(vector.Y)))
                 fp.write(f'{repr(pickle.dumps(state))}\n')
                 for image in get_images(images):
                     fp.write(f'{repr(image)}\n')
                     yield image
+            pp_tmp.rename(pp)
+
         yield None
         vector = next(input_vect)
         history.append(f'{vector.X}_{vector.Y}')
