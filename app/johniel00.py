@@ -1,15 +1,18 @@
+
+# 停止するAIを絶対に殺すマン
+
 import math
 from functools import reduce
 from lib import modulate, demodulate_v2, conv, conv_cons, calc_orbit, calc_life, calc_plan
 
 class Ship:
-    def __init__(self, role, shipId, pos, v, param, x5, x6, x7):
+    def __init__(self, role, shipId, pos, v, param, heat, x6, x7):
         self.role = role
         self.shipId = shipId
         self.pos = pos
         self.v = v
         self.param = param
-        self.x5 = x5
+        self.heat = heat
         self.x6 = x6
         self.x7 = x7
 
@@ -58,8 +61,8 @@ class GameLogic:
         my_p = None
         my_v = None
         own_ship = None
-        for (role, shipId, p, v, param, x5, x6, x7), appliedCommands in self.ships_data:
-            ship = Ship(role, shipId, p, v, param, x5, x6, x7)
+        for (role, shipId, p, v, param, heat, x6, x7), appliedCommands in self.ships_data:
+            ship = Ship(role, shipId, p, v, param, heat, x6, x7)
             if shipId not in self.histories:
                 self.histories[shipId] = []
             self.histories[shipId].append(ship)
@@ -72,7 +75,7 @@ class GameLogic:
         print("TURN:", self.turn)
         print(self.turn - self.last_shot)
         res = []
-        if 5 < self.turn - self.last_shot:
+        if 5 < self.turn - self.last_shot and own_ship.heat == 0:
             for key in self.histories:
                 if key == my_ship_id:
                     continue
@@ -81,7 +84,7 @@ class GameLogic:
                 print(self.ship_distance(own_ship, val[-1]) < 50.0)
                 print(self.is_enemy_stopping(val))
                 if self.ship_distance(own_ship, val[-1]) < 50.0 and self.is_enemy_stopping(val):
-                    res.append([2, my_ship_id, val[0].pos, 70])
+                    res.append([2, my_ship_id, val[0].pos, 60])
                     self.last_shot = self.turn
                     break
         self.turn += 1
