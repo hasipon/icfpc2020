@@ -4,3 +4,4 @@ build/
 Dockerfile
 
 *.profile
+rcache_v2/*_tmp
