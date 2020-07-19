@@ -135,20 +135,14 @@ def main():
         print('dem response:', converted)
         return converted
 
-    counter = 0
-    while True:
-        counter += 1
-        assert counter <= 20
-        print("send JOIN")
-        join_request = [2, player_key, []]
-        join_response = send(join_request)
-        if join_response[1] == 0:
-            break
-        sleep(0.5)
+    print("send JOIN")
+    join_request = [2, player_key, []]
+    join_response = send(join_request)
+    assert join_response[1] == 0
 
     print("send START")
-    start_request = [3, player_key, [1, 0, 0, 0]]
-    # game_response = send(start_request)
+    start_request = [3, player_key, [2, 0, 0, 0]]
+    game_response = send(start_request)
 
 
 if __name__ == '__main__':
