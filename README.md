@@ -1,3 +1,17 @@
+## a.py
+cui evaluator
+
+```
+$ APIKEY=XXXXX python3 a.py
+```
+
+## b.py
+gui mode of a.py
+
+```
+$ APIKEY=XXXXX python3 b.py
+```
+
 ## profile
 
 1. execute a.py with cProfile
