@@ -1,5 +1,6 @@
 import os
 import pickle
+from hashlib import sha1
 from pathlib import Path
 
 import requests
@@ -287,7 +288,13 @@ def send(data):
     print(f'response={repr(response)}')
     demodulated = list(demodulate_v2(response))
     res_data, _ = conv(demodulated, 0)
-    print(f'res_data={conv_cons(res_data)}')
+    converted = conv_cons(res_data)
+    print(f'res_data={converted}')
+    with (Path('send_log') / sha1(modulated.encode()).hexdigest()).open('w') as fp:
+        fp.write(f'{modulated}\n')
+        fp.write(f'{response}\n')
+        fp.write(f'{repr(req_data)}\n')
+        fp.write(f'{repr(converted)}\n')
     return res_data
 
 
