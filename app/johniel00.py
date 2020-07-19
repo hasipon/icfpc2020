@@ -5,13 +5,20 @@ import math
 from functools import reduce
 from lib import modulate, demodulate_v2, conv, conv_cons, calc_orbit, calc_life, calc_plan
 
+class Param:
+    def __init__(self, fuel, shoot, cooling, dup):
+        self.fuel = fuel
+        self.shoot = shoot
+        self.cooling = cooling
+        self.dup = dup
+
 class Ship:
     def __init__(self, role, shipId, pos, v, param, heat, x6, x7):
         self.role = role
         self.shipId = shipId
         self.pos = pos
         self.v = v
-        self.param = param
+        self.param = Param(param[0], param[1], param[2], param[3])
         self.heat = heat
         self.x6 = x6
         self.x7 = x7
@@ -31,8 +38,7 @@ class GameLogic:
         self.plan = None
 
         self.histories = {}
-        self.turn = 0
-        self.last_shot = 0;
+        self.laser_enabled = True;
 
     def send_start(self):
         return [20, (self.resource - (20 * 1) - (20 * 12) - (1 * 2)) // 4,  20, 1]
@@ -72,10 +78,10 @@ class GameLogic:
                 my_v = v
                 own_ship = ship
 
-        print("TURN:", self.turn)
-        print(self.turn - self.last_shot)
+        if 64 <= own_ship.heat:
+            self.laser_enabled = False
         res = []
-        if 5 < self.turn - self.last_shot and own_ship.heat == 0:
+        if own_ship.heat == 0 and self.laser_enabled:
             for key in self.histories:
                 if key == my_ship_id:
                     continue
@@ -85,9 +91,7 @@ class GameLogic:
                 print(self.is_enemy_stopping(val))
                 if self.ship_distance(own_ship, val[-1]) < 50.0 and self.is_enemy_stopping(val):
                     res.append([2, my_ship_id, val[0].pos, 60])
-                    self.last_shot = self.turn
                     break
-        self.turn += 1
 
         if self.game_tick == 0:
             self.plan = calc_plan(my_p, my_v, self.max_turn, self.radius)
