@@ -1,4 +1,5 @@
 import os
+from time import sleep
 
 import requests
 import sys
@@ -20,7 +21,7 @@ def modulate(o: Any) -> str:
         else:
             ans += "10"
 
-        width = 1 + (n.bit_length()-1)//4
+        width = 1 + (n.bit_length() - 1) // 4
         ans += "1" * width + "0"
         nstr = "{:b}".format(n)
         ans += "0" * (width * 4 - len(nstr)) + nstr
@@ -43,7 +44,7 @@ def modulate(o: Any) -> str:
 def demodulate_v2(s: str):
     i = 0
     while i < len(s):
-        prefix = s[i:i+2]
+        prefix = s[i:i + 2]
         i += 2
         if prefix == '00':
             yield 'nil'
@@ -60,7 +61,7 @@ def demodulate_v2(s: str):
             if width == 0:
                 v = 0
             else:
-                v = int(s[i:i+width], 2)
+                v = int(s[i:i + width], 2)
             if prefix == '01':
                 yield v
             else:
@@ -80,11 +81,11 @@ class Ap(NamedTuple):
 
 def conv(a, idx):
     if a[idx] == 'ap':
-        v1, idx1 = conv(a, idx+1)
+        v1, idx1 = conv(a, idx + 1)
         v2, idx2 = conv(a, idx1)
         return Ap(v1, v2), idx2
     else:
-        return Atom(a[idx]), idx+1
+        return Atom(a[idx]), idx + 1
 
 
 def conv_cons(v0):
@@ -138,9 +139,16 @@ def main():
         print('dem response:', converted)
         return converted
 
-    print("send JOIN")
-    join_request = [2, player_key, []]
-    join_response = send(join_request)
+    counter = 0
+    while True:
+        counter += 1
+        assert counter <= 20
+        print("send JOIN")
+        join_request = [2, player_key, []]
+        join_response = send(join_request)
+        if join_response[1] == 0:
+            break
+        sleep(0.5)
 
     print("send START")
     start_request = [3, player_key, []]
