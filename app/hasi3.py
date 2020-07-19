@@ -134,7 +134,7 @@ class GameLogic:
                     plan, life = calc_plan2(my_p, my_v, tt, self.radius)
                     if plan and my_x4[0] > 0:
                         res.append([0, my_ship_id, plan[0]])
-                    if life == tt:
+                    if not plan and life == tt:
                         print(f'survive: {my_ship_id}')
                         self.tmp_ship_ids.remove(my_ship_id)
                     elif my_x4[0] == 0:
