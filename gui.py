@@ -9,9 +9,31 @@ import urllib.parse
 
 from pathlib import Path
 
+from logic import Vect, run
+
 print(os.get_exec_path())
 print(sys.executable)
 print(sys.argv[0])
+
+
+def calc(history):
+    hist = history.split('_')
+    assert len(hist) % 2 == 0
+    inputs = [Vect(int(x), int(y)) for x, y in zip(hist[::2], hist[1::2])]
+    a = run(iter(inputs))
+    counter = 0
+    outputs = []
+    while True:
+        while True:
+            x = next(a)
+            if x is None:
+                break
+            if counter == len(inputs):
+                outputs.append(x)
+        if counter == len(inputs):
+            return outputs
+        counter += 1
+
 
 class Handler(http.server.BaseHTTPRequestHandler):
     def do_GET(self):
@@ -20,50 +42,14 @@ class Handler(http.server.BaseHTTPRequestHandler):
             self.send_response(404)
             self.end_headers()
             return
-        
+
         history = self.path[len("/gui/"):]
-        orig_histoy = history
         if not history:
             self.send_response(400)
             self.end_headers()
             return
 
-        p = subprocess.Popen(
-            [sys.executable, Path(__file__).parent / 'g.py', *sys.argv[1:]],
-            stdin=subprocess.PIPE,
-            stdout=subprocess.PIPE,
-            encoding='utf-8')
-
-        print("history", history)
-
-        pos = history.split("_")
-        p.stdin.write('\n'.join(pos) + '\n')
-        p.stdin.flush()
-        time.sleep(0.2)
-        for i in range(len(pos)//2-1):
-            print("skip", i)
-            for line in p.stdout:
-                if "----" in line:
-                    break
-
-        print("wait g.py")
-
-#        history = None
-        lines = []
-        for line in p.stdout:
-            line = line.rstrip()
-            print(line)
-            lines.append(line)
-#            if "history:" in line:
-#                history = line[line.find("history:") + len("history:"):].strip()
-            if "----" in line:
-                break
-
-        history = orig_histoy
-        print("done g.py")
-
-        p_output = "\n".join(lines)
-        print(p_output)
+        p_output = '\n'.join(str(x) for x in calc(history))
         self.send_response(200)
         self.send_header("Content-type", "text/html;charset=utf-8")
         self.end_headers()
@@ -207,6 +193,7 @@ draw();
 """
         self.wfile.write(html.encode())
         self.wfile.flush()
+
 
 port = os.getenv("PORT", 8000)
 with http.server.HTTPServer(("", port), Handler) as httpd:
