@@ -13,7 +13,6 @@ def main():
 
     def send(send_data):
         assert api_key is not None
-
         print('request:', send_data)
         modulated = modulate(send_data)
         print('mod request:', modulated)
@@ -40,6 +39,7 @@ def main():
     d = subprocess.Popen(f'PLAYERKEY={defender_player_key} APIKEY={api_key} AI_NAME={os.getenv("DEFENDER_AI_NAME")} python local_main.py > ../logs/defender_log 2> ../logs/defender_err_log', shell=True)
     a.communicate()
     d.communicate()
+    print(send([5, int(attacker_player_key)]))
 
 if __name__ == '__main__':
     main()
