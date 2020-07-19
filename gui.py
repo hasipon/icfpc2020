@@ -8,13 +8,7 @@ import time
 import urllib.parse
 
 from pathlib import Path
-
 from logic import Vect, run
-
-print(os.get_exec_path())
-print(sys.executable)
-print(sys.argv[0])
-
 
 def calc(history):
     hist = history.split('_')
@@ -195,7 +189,11 @@ draw();
         self.wfile.flush()
 
 
-port = os.getenv("PORT", 8000)
-with http.server.HTTPServer(("", port), Handler) as httpd:
-    print("serving at port", port)
-    httpd.serve_forever()
+class ThreadedHTTPServer(socketserver.ThreadingMixIn, http.server.HTTPServer):
+    """Handle requests in a separate thread."""
+
+if __name__ == '__main__':
+	port = int(os.getenv("PORT", 8000))
+	with ThreadedHTTPServer(("", port), Handler) as httpd:
+		print("serving at port", port)
+		httpd.serve_forever()
