@@ -1,6 +1,7 @@
 
 # 停止するAIを絶対に殺すマン
 
+from typing import *
 import math
 from functools import reduce
 from lib import modulate, demodulate_v2, conv, conv_cons
