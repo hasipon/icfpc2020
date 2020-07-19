@@ -100,7 +100,6 @@ def main():
     print('ServerUrl: %s; PlayerKey: %s' % (server_url, player_key))
 
     def send(send_data):
-        print('request:', send_data)
         res = requests.post(f'{server_url}/aliens/send?apiKey={api_key}', data=send_data)
         if res.status_code != 200:
             print('Unexpected server response:')
@@ -112,17 +111,13 @@ def main():
         print('dem response:', demodulated)
         return demodulated
 
-    for i in range(120):
-        print("send JOIN")
-        join_request = modulate([2, player_key, []])
-        print(f"join = {repr(join_request)}")
-        join_response = send(join_request)
-        if join_response[1] != 2:
-            break
-        time.sleep(1)
+    print("send JOIN")
+    join_request = modulate([2, player_key, []])
+    print(f"join = {repr(join_request)}")
+    join_response = send(join_request)
 
     print("send START")
-    start_request = modulate([3, player_key, [1, 0, 0, 0]])
+    start_request = modulate([3, player_key, [448, 64, 16, 128]])
     print(f"start = {repr(start_request)}")
 
     game_response = send(start_request)
