@@ -217,7 +217,7 @@ def get_images(v0):
 def read_data(v0):
     if isinstance(v0, Atom):
         if v0.Name == 'nil':
-            return None
+            return []
         return int(v0.Name)
     assert isinstance(v0, Ap)
     a = []
