@@ -1,5 +1,4 @@
 import os
-from time import sleep
 
 import requests
 import sys
@@ -138,11 +137,28 @@ def main():
     print("send JOIN")
     join_request = [2, player_key, []]
     join_response = send(join_request)
-    assert join_response[1] == 0
+    if join_response[1] != 0:
+        return
+    static_game_info = join_response[2]
+    role = static_game_info[1]
+    if role == 0:
+        # i am attacker
+        pass
+    else:
+        # i am defender
+        pass
 
     print("send START")
     start_request = [3, player_key, [446, 0, 0, 1]]
     game_response = send(start_request)
+
+    while True:
+        if game_response[1] != 1:
+            break
+
+        print("send COMMANDS")
+        commands_request = [4, player_key, []]
+        game_response = send(commands_request)
 
 
 if __name__ == '__main__':
