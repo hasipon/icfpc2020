@@ -1,7 +1,8 @@
+import os
 import requests
 import sys
 from lib import modulate, demodulate_v2, conv, conv_cons
-from game_logic import GameLogic
+import importlib
 
 
 def main():
@@ -25,7 +26,7 @@ def main():
         print('dem response:', converted)
         return converted
 
-    logic = GameLogic()
+    logic = importlib.import_module(os.getenv("AI_NAME")).GameLogic()
 
     print("send JOIN")
     join_request = [2, player_key, logic.send_join()]

@@ -1,3 +1,3 @@
 #!/bin/sh
 
-python app/main.py "$@" || echo "run error code: $?"
+AI_NAME=hasi python app/main.py "$@" || echo "run error code: $?"

@@ -1,8 +1,8 @@
+import importlib
 import os
 
 import requests
 from lib import modulate, demodulate_v2, conv, conv_cons
-from game_logic import GameLogic
 
 
 def main():
@@ -26,7 +26,7 @@ def main():
         print('dem response:', converted)
         return converted
 
-    logic = GameLogic()
+    logic = importlib.import_module(os.getenv("AI_NAME")).GameLogic()
 
     print("send CREATE")
     target_stage = int(os.getenv("STAGE"))
