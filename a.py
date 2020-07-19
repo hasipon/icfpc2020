@@ -1,6 +1,7 @@
-import pickle
 import os
+import pickle
 import requests
+import subprocess
 import sys
 import time
 
@@ -130,9 +131,23 @@ class Main:
         while True:
             print("counter: ", counter)
             counter += 1
-            x = str(int(input('x: ')))
-            y = str(int(input('y: ')))
+
+            while True:
+                try:
+                    x = str(int(input('x: ')))
+                except ValueError:
+                    continue
+                break
+
+            while True:
+                try:
+                    y = str(int(input('y: ')))
+                except ValueError:
+                    continue
+                break
+
             history.append(f'{x}_{y}')
+            print("history:", '_'.join(history))
             pp = Path('rcache') / '_'.join(history)
             if pp.exists():
                 self.cache = {}
@@ -324,12 +339,14 @@ class Main:
                         return Node(a)
                     else:
                         v1 = self.evalloop(a[1])
+                        print("sendapi-req: ", self.cons_2_pyarray(v1))
                         print(v1)
                         print(self.cons_2_pyarray(v1))
                         print(modulate(self.cons_2_pyarray(v1)))
                         response = call_send_api(modulate(self.cons_2_pyarray(v1)))
                         print(response)
                         print(demodulate(response))
+                        print("sendapi-res: ", demodulate(response))
                         print(self.pyarray_2_cons(demodulate(response)))
                         return self.pyarray_2_cons(demodulate(response))
                 elif a[0] == 'car':
