@@ -1,19 +1,20 @@
+import os
+
 import requests
-import sys
 from lib import modulate, demodulate_v2, conv, conv_cons
 from game_logic import GameLogic
 
 
 def main():
-    server_url = sys.argv[1]
-    player_key = int(sys.argv[2])
-    print('ServerUrl: %s; PlayerKey: %s' % (server_url, player_key))
+    server_url = "https://icfpc2020-api.testkontur.ru"
+    api_key = os.getenv("APIKEY")
+    assert api_key is not None
 
     def send(send_data):
         print('request:', send_data)
         modulated = modulate(send_data)
         print('mod request:', modulated)
-        res = requests.post(f'{server_url}/aliens/send', data=modulated)
+        res = requests.post(f'{server_url}/aliens/send?apiKey={api_key}', data=modulated)
         if res.status_code != 200:
             print('Unexpected server response:')
             print('HTTP code:', res.status_code)
@@ -27,6 +28,12 @@ def main():
 
     logic = GameLogic()
 
+    print("send CREATE")
+    target_stage = int(os.getenv("STAGE"))
+    response = send([1, target_stage])
+    player_key = int(response[1][0][1])
+    print('ServerUrl: %s; PlayerKey: %s' % (server_url, player_key))
+
     print("send JOIN")
     join_request = [2, player_key, logic.send_join()]
     join_response = send(join_request)
@@ -35,7 +42,7 @@ def main():
     logic.recv_join(join_response)
 
     print("send START")
-    start_request = [3, player_key, logic.send_start()]
+    start_request = [3, player_key, None]
     game_response = send(start_request)
     logic.recv_commands(game_response)
 
