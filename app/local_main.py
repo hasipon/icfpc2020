@@ -27,14 +27,14 @@ def main():
         print('dem response:', converted)
         return converted
 
-    logic = importlib.import_module(os.getenv("AI_NAME")).GameLogic()
-
     print("send JOIN")
-    join_request = [2, player_key, logic.send_join()]
+    join_request = [2, player_key, []]
     join_response = send(join_request)
     if join_response[1] != 0:
         return
-    logic.recv_join(join_response)
+
+    static_game_info = join_response[2]
+    logic = importlib.import_module(os.getenv("AI_NAME")).GameLogic(static_game_info)
 
     print("send START")
     start_request = [3, player_key, logic.send_start()]
