@@ -8,7 +8,6 @@ import sys
 import time
 
 from collections import namedtuple
-from modulate import modulate
 
 sys.setrecursionlimit(100000)
 
@@ -217,16 +216,36 @@ def get_images(v0):
         v0 = v0.Arg
 
 
-def read_data(v0):
-    if isinstance(v0, Atom):
-        if v0.Name == 'nil':
-            return []
-        return int(v0.Name)
-    assert isinstance(v0, Ap)
-    a = []
-    for x in iterate(v0):
-        a.append(read_data(x))
-    return a
+def modulate_atom(v):
+    if v == 'nil':
+        return '00'
+    if v == 'cons':
+        return '11'
+    n = int(v)
+    if n == 0:
+        return '010'
+    elif n > 0:
+        head = '01'
+    else:
+        head = '10'
+        n = -n
+    width = 1 + (n.bit_length() - 1) // 4
+    return head + "1" * width + "0" + ("{:0%db}" % (width * 4)).format(n)
+
+
+def modulate_v2(data):
+    def walk(v):
+        if isinstance(v, Atom):
+            yield modulate_atom(v.Name)
+        elif isinstance(v, Ap):
+            for x in walk(v.Fun):
+                yield x
+            for x in walk(v.Arg):
+                yield x
+        else:
+            assert False
+
+    return ''.join(walk(data))
 
 
 def demodulate_v2(s: str):
@@ -280,9 +299,11 @@ def conv_cons(v0):
 
 
 def send(data):
-    req_data = read_data(data)
+    modulated = modulate_v2(data)
+    modem = list(demodulate_v2(modulated))
+    conv_modem, _ = conv(modem, 0)
+    req_data = conv_cons(conv_modem)
     print(f'req_data={repr(req_data)}')
-    modulated = modulate(req_data)
     print(f'modulated={repr(modulated)}')
     response = call_send_api(modulated)
     print(f'response={repr(response)}')
