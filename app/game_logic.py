@@ -24,10 +24,30 @@ class GameLogic:
 
     def send_commands(self):
         my_ship_id = None
-        for (role, shipId, position, velocity, x4, x5, x6, x7), appliedCommands in self.game_response[3][2]:
+        tx, ty = 0, 0
+        ax, ay = 0, 0
+        for (role, shipId, (px, py), (vx, vy), x4, x5, x6, x7), appliedCommands in self.game_response[3][2]:
             if role == self.my_role:
                 my_ship_id = shipId
+                print(f'p=({px},{py}) v=({vx},{vy})')
+                if abs(px) >= abs(py):
+                    ax = -1 if px > 0 else 1
+                if abs(px) <= abs(py):
+                    ay = -1 if py > 0 else 1
+                if vx + ax > 0:
+                    tx = 1
+                elif vx + ax < 0:
+                    tx = -1
+                if vy + ay > 0:
+                    ty = 1
+                elif vy + ay < 0:
+                    ty = -1
+
+        print(f'a=({ax},{ay})')
+        print(f't=({tx},{ty})')
 
         print(f'my_ship_id = {my_ship_id}')
-
-        return [[0, my_ship_id, (1, 1)]]
+        res = []
+        if tx != 0 or ty != 0:
+            res.append([0, my_ship_id, (tx, ty)])
+        return res
