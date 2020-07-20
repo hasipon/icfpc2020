@@ -27,7 +27,7 @@ def main():
         return converted
 
     print("send JOIN")
-    join_request = [2, player_key, [192498595990, 103652820, 192496425430]]
+    join_request = [2, player_key, [192498595990, 103652820, 192496425430, 192497804470]]
     join_response = send(join_request)
     if join_response[1] != 0:
         return
