@@ -147,7 +147,7 @@ class GameLogic:
 
         if own_ship.heat == 0 and self.laser_enabled:
             target = (enemy_p[0] + enemy_v[0], enemy_p[1] + enemy_v[1])
-            if self.ship_distance(own_ship, target) < 50.0:
+            if self.distance(my_p, target) < 50.0:
                 return [[2, my_ship_id, target, 60]]
 
         return []
