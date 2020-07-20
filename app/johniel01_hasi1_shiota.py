@@ -114,6 +114,9 @@ class GameLogic:
         my_p = None
         my_v = None
         own_ship = None
+        enemy_ship_id = None
+        enemy_p = None
+        enemy_v = None
         for (role, shipId, p, v, param, heat, x6, x7), appliedCommands in self.ships_data:
             ship = Ship(role, shipId, p, v, param, heat, x6, x7)
             if shipId not in self.histories:
@@ -125,6 +128,10 @@ class GameLogic:
                 my_p = p
                 my_v = v
                 own_ship = ship
+            else:
+                enemy_ship_id = shipId
+                enemy_p = p
+                enemy_v = v
 
         if 64 <= own_ship.heat:
             self.laser_enabled = False
@@ -139,14 +146,8 @@ class GameLogic:
             return [[0, my_ship_id, self.plan[self.game_tick]]]
 
         if own_ship.heat == 0 and self.laser_enabled:
-            for key in self.histories:
-                if key == my_ship_id:
-                    continue
-                val = self.histories[key]
-                #if self.ship_distance(own_ship, val[-1]) < 50.0 and self.is_enemy_stopping(val):
-                #    return [[2, my_ship_id, val[0].pos, 60]]
-                target = (val[-1][0] + self.nextHistory[-1][0], val[-1][1] + self.nextHistory[-1][1])
-                if self.ship_distance(own_ship, target) < 50.0:
-                    return [[2, my_ship_id, target, 60]]
+            target = (enemy_p[0] + enemy_v[0], enemy_p[1] + enemy_v[1])
+            if self.ship_distance(own_ship, target) < 50.0:
+                return [[2, my_ship_id, target, 60]]
 
         return []
