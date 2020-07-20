@@ -140,6 +140,7 @@ class GameLogic:
             self.plan, tt = calc_plan(my_p, my_v, self.max_turn - self.game_tick, self.radius)
             if tt == self.max_turn - self.game_tick:
                 self.plan_fixed = True
+            self.plan = [-1] * self.game_tick + self.plan
             print('plan:', self.plan, 'tt:', tt)
 
         if self.game_tick < len(self.plan):
