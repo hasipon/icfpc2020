@@ -60,15 +60,17 @@ class P:
         self.y = y
 
 class Ship:
-    def __init__(self, role, shipId, pos, v, param, heat, x6, x7):
+    def __init__(self, role, ship_id, pos, v, param, heat, x6, x7):
         self.role = role
-        self.shipId = shipId
+        self.ship_id = ship_id
         self.pos = pos
         self.v = v
         self.param = Param(param[0], param[1], param[2], param[3])
         self.heat = heat
         self.x6 = x6
         self.x7 = x7
+    def next_position(self):
+        return (self.pos[0] + self.v[0], self.pos[1] + self.v[1])
 
 class GameLogic:
     def __init__(self, static_game_info):
@@ -86,8 +88,9 @@ class GameLogic:
         self.plan_fixed = False
 
         self.histories = {}
-        self.nextHistory = {}
+        self.next_history = {}
         self.laser_enabled = True
+        self.target_id = None
 
     def send_start(self):
         return [20, (self.resource - (20 * 1) - (20 * 12) - (1 * 2)) // 4,  20, 1]
@@ -116,36 +119,32 @@ class GameLogic:
         my_p = None
         my_v = None
         own_ship = None
-        enemy_ship_id = None
-        enemy_p = None
-        enemy_v = None
 
         current_ship_ids = set([])
-        for (role, shipId, p, v, param, heat, x6, x7), appliedCommands in self.ships_data:
-            current_ship_ids.add(shipId)
+        for (role, ship_id, p, v, param, heat, x6, x7), appliedCommands in self.ships_data:
+            current_ship_ids.add(ship_id)
 
-            ship = Ship(role, shipId, p, v, param, heat, x6, x7)
-            if shipId not in self.histories:
-                self.histories[shipId] = []
-                self.nextHistory[shipId] = []
-            self.histories[shipId].append(ship)
+            ship = Ship(role, ship_id, p, v, param, heat, x6, x7)
+            if ship_id not in self.histories:
+                self.histories[ship_id] = []
+                self.next_history[ship_id] = []
+            self.histories[ship_id].append(ship)
             if role == self.my_role:
-                my_ship_id = shipId
+                my_ship_id = ship_id
                 my_p = p
                 my_v = v
                 own_ship = ship
-            else:
-                enemy_ship_id = shipId
-                enemy_p = p
-                enemy_v = v
 
         for key in list(self.histories.keys()):
             if key not in current_ship_ids:
                 self.histories.pop(key)
-                self.nextHistory.pop(key)
+                self.next_history.pop(key)
 
         if 64 <= own_ship.heat:
             self.laser_enabled = False
+
+        if self.target_id not in current_ship_ids:
+            self.target_id = None
 
         res = []
 
@@ -159,21 +158,26 @@ class GameLogic:
         if self.game_tick < len(self.plan):
             res.append([0, my_ship_id, self.plan[self.game_tick]])
 
-        if own_ship.heat == 0 and self.laser_enabled:
+        # 攻撃対象が決まっていなければ決める
+        if own_ship.heat == 0 and self.laser_enabled and self.target_id is None:
             mx = -100
-            shooting_param = []
             for key in current_ship_ids:
                 if key == my_ship_id:
                     continue
                 enemy = self.histories[key][-1]
-                ex = (enemy.pos[0] + enemy.v[0])
-                ey = (enemy.pos[1] + enemy.v[1])
+                npos = enemy.next_position()
                 myship = self.histories[my_ship_id][-1]
-                th = self.angle(ex - myship.pos[0], ey - myship.pos[1])
+                th = self.angle(npos[0] - myship.pos[0], npos[1] - myship.pos[1])
                 eff = self.laser_efficiency(th)
                 if mx < eff:
                     mx = eff
-                    shooting_param = [2, my_ship_id, (ex, ey), 60]
+                    self.target_id = enemy.ship_id
+
+        # 対象があれば攻撃する
+        if own_ship.heat == 0 and self.laser_enabled and self.target_id is not None:
+            enemy = self.histories[self.target_id][-1]
+            npos = enemy.next_position()
+            shooting_param = [2, my_ship_id, npos, 60]
             res.append(shooting_param)
 
         return res
