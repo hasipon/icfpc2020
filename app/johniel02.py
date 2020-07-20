@@ -1,0 +1,179 @@
+
+from typing import *
+import math
+from functools import reduce
+from lib import modulate, demodulate_v2, conv, conv_cons
+
+directions = [(-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1)]
+
+def calc_orbit(p0: Tuple[int, int], v0: Tuple[int, int], aa: List[Tuple[int, int]], d: int):
+    p = p0
+    v = v0
+    orbit = [p0]
+    for i in range(d-1):
+        ax, ay = 0, 0
+        if abs(p[0]) >= abs(p[1]):
+            ax = -1 if p[0] > 0 else 1
+        if abs(p[0]) <= abs(p[1]):
+            ay = -1 if p[1] > 0 else 1
+        if i < len(aa):
+            ax -= aa[i][0]
+            ay -= aa[i][1]
+        v = (v[0] + ax, v[1] + ay)
+        p = (p[0] + v[0], p[1] + v[1])
+        orbit.append(p)
+    return orbit
+
+
+def calc_life(orbit: List[Tuple[int, int]], radius: int):
+    for i, p in enumerate(orbit):
+        if max(abs(p[0]), abs(p[1])) <= radius:
+            return i
+    return len(orbit)
+
+
+def calc_plan(my_p, my_v, max_turn, radius):
+    plan = None
+    life = -1
+    for l in range(1, 4):
+        for p in range(1 << (3 * l)):
+            a = [directions[(p >> (3 * i)) & 7] for i in range(l)]
+            orbit = calc_orbit(my_p, my_v, a, max_turn)
+            b = calc_life(orbit, radius)
+            if b == max_turn:
+                return a, b
+            if b > life:
+                plan = a
+                life = b
+    return plan, life
+
+class Param:
+    def __init__(self, fuel, shoot, cooling, dup):
+        self.fuel = fuel
+        self.shoot = shoot
+        self.cooling = cooling
+        self.dup = dup
+
+class P:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+class Ship:
+    def __init__(self, role, shipId, pos, v, param, heat, x6, x7):
+        self.role = role
+        self.shipId = shipId
+        self.pos = pos
+        self.v = v
+        self.param = Param(param[0], param[1], param[2], param[3])
+        self.heat = heat
+        self.x6 = x6
+        self.x7 = x7
+
+class GameLogic:
+    def __init__(self, static_game_info):
+        self.max_turn = static_game_info[0]
+        self.my_role = static_game_info[1]
+        self.resource = static_game_info[2][0]
+        self.radius = None
+        self.safe_radius = None
+        if static_game_info[3] is not None:
+            self.radius = static_game_info[3][0]
+            self.safe_radius = static_game_info[3][1]
+        self.game_tick = None
+        self.ships_data = None
+        self.plan = None
+        self.plan_fixed = False
+
+        self.histories = {}
+        self.nextHistory = {}
+        self.laser_enabled = True
+
+    def send_start(self):
+        return [20, (self.resource - (20 * 1) - (20 * 12) - (1 * 2)) // 4,  20, 1]
+
+    def recv_commands(self, data):
+        if data[3] is not None:
+            self.game_tick = data[3][0]
+            self.ships_data = data[3][2]
+
+    def distance(self, a, b):
+        x = (a[0] - b[0])
+        y = (a[1] - b[1])
+        return math.sqrt(x * x + y * y)
+
+    def ship_distance(self, o, e):
+        return self.distance(o.pos, e.pos)
+
+    def laser_efficiency(self, th):
+        return math.cos(th + 8.0) * math.cos(th * 24.0)
+
+    def angle(self, x, y):
+        return math.atan2(y, x)
+
+    def send_commands(self):
+        my_ship_id = None
+        my_p = None
+        my_v = None
+        own_ship = None
+        enemy_ship_id = None
+        enemy_p = None
+        enemy_v = None
+
+        current_ship_ids = set([])
+        for (role, shipId, p, v, param, heat, x6, x7), appliedCommands in self.ships_data:
+            current_ship_ids.add(shipId)
+
+            ship = Ship(role, shipId, p, v, param, heat, x6, x7)
+            if shipId not in self.histories:
+                self.histories[shipId] = []
+                self.nextHistory[shipId] = []
+            self.histories[shipId].append(ship)
+            if role == self.my_role:
+                my_ship_id = shipId
+                my_p = p
+                my_v = v
+                own_ship = ship
+            else:
+                enemy_ship_id = shipId
+                enemy_p = p
+                enemy_v = v
+
+        for key in list(self.histories.keys()):
+            if key not in current_ship_ids:
+                self.histories.pop(key)
+                self.nextHistory.pop(key)
+
+        if 64 <= own_ship.heat:
+            self.laser_enabled = False
+
+        res = []
+
+        if not self.plan_fixed:
+            self.plan, tt = calc_plan(my_p, my_v, self.max_turn - self.game_tick, self.radius)
+            if tt == self.max_turn - self.game_tick:
+                self.plan_fixed = True
+            self.plan = [-1] * self.game_tick + self.plan
+            print('plan:', self.plan, 'tt:', tt)
+
+        if self.game_tick < len(self.plan):
+            res.append([0, my_ship_id, self.plan[self.game_tick]])
+
+        if own_ship.heat == 0 and self.laser_enabled:
+            mx = -100
+            shooting_param = []
+            for key in current_ship_ids:
+                if key == my_ship_id:
+                    continue
+                enemy = self.histories[key][-1]
+                ex = (enemy.pos[0] + enemy.v[0])
+                ey = (enemy.pos[1] + enemy.v[1])
+                myship = self.histories[my_ship_id][-1]
+                th = self.angle(ex - myship.pos[0], ey - myship.pos[1])
+                eff = self.laser_efficiency(th)
+                if mx < eff:
+                    mx = eff
+                    shooting_param = [2, my_ship_id, (ex, ey), 60]
+            res.append(shooting_param)
+
+        return res
