@@ -1,3 +1,4 @@
+import random
 from typing import *
 
 directions = [(-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1)]
@@ -131,10 +132,10 @@ class GameLogic:
                 self.tmp_ship_ids.add(my_ship_id)
             return res
         else:
+            tt = self.max_turn - self.game_tick
             res = []
             for my_ship_id, my_p, my_v, my_x4 in my_ships:
                 if my_ship_id in self.tmp_ship_ids:
-                    tt = self.max_turn - self.game_tick
                     plan, life = calc_plan2(my_p, my_v, tt, self.radius)
                     if plan and my_x4[0] > 0:
                         res.append([0, my_ship_id, plan[0]])
@@ -144,4 +145,12 @@ class GameLogic:
                     elif my_x4[0] == 0:
                         print(f'empty: {my_ship_id}')
                         self.tmp_ship_ids.remove(my_ship_id)
+                elif my_x4[2] == 0 and my_x4[0] > 0 and tt > 20:
+                    if random.randrange(tt - 20) < my_x4[0]:
+                        piyo = [d for d in directions if calc_life(calc_orbit(my_p, my_v, [d], tt), self.radius) == tt]
+                        if piyo:
+                            c = random.choice(piyo)
+                            print(f'random move {my_ship_id} {c}')
+                            res.append([0, my_ship_id, c])
+
             return res
