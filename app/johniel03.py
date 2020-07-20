@@ -77,7 +77,7 @@ class Ship:
         self.target_id = None
         self.plan = None
         self.plan_fixed = False
-        self.own_ships = []
+        self.own_ships = {}
 
     def next_position(self):
         return (self.pos[0] + self.v[0], self.pos[1] + self.v[1])
@@ -95,7 +95,7 @@ class GameLogic:
         self.game_tick = None
         self.ships_data = None
 
-        self.own_ships = []
+        self.own_ships = {}
         self.histories = {}
 
     def send_start(self):
@@ -136,10 +136,12 @@ class GameLogic:
             if ship_id not in self.histories:
                 self.histories[ship_id] = []
                 if role == self.my_role:
-                    self.own_ships.append(ship)
+                    self.own_ships[ship.ship_id] = ship
             self.histories[ship_id].append(ship)
 
-        self.own_ships = list(filter(lambda x: x in current_ship_ids, self.own_ships))
+        for key in self.own_ships.keys():
+            if key not in current_ship_ids:
+                del self.own_ships[key]
 
         for key in list(self.histories.keys()):
             if key not in current_ship_ids:
@@ -147,7 +149,8 @@ class GameLogic:
 
         if len(self.own_ships) == 1 and self.game_tick <= 2:
             res = []
-            origin = self.own_ships[0]
+            key = next(iter(self.own_ships))
+            origin = self.own_ships[key]
             plan = calc_plan(origin.pos, origin.v, 20, self.radius)
             if plan:
                 res.append([0, origin.ship_id, plan[0][0]])
@@ -157,7 +160,7 @@ class GameLogic:
             return res
 
         res = []
-        for ship in self.own_ships:
+        for ship in self.own_ships.values():
             res = res + self.plan_ship_schedule(ship, current_ship_ids)
         return res
 
