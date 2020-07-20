@@ -79,7 +79,7 @@ class GameLogic:
 
     def send_start(self):
         x1 = 0
-        x2 = 16
+        x2 = 24
         x3 = 16
         x0 = self.resource - 4 * x1 - 12 * x2 - 2 * x3
         assert x0 >= 0
@@ -104,7 +104,9 @@ class GameLogic:
             for my_ship_id, my_p, my_v, my_x4 in my_ships:
                 if plan:
                     res.append([0, my_ship_id, plan[0]])
-                res.append([3, my_ship_id, [x // 2 for x in my_x4]])
+                a = [x // 2 for x in my_x4]
+                a[2] = 0
+                res.append([3, my_ship_id, a])
             return res
         elif self.game_tick == 3:
             res = []
@@ -117,7 +119,9 @@ class GameLogic:
                 plan = calc_plan(my_p, my_v, 20, self.radius)
                 if plan:
                     res.append([0, my_ship_id, plan[0]])
-                res.append([3, my_ship_id, [x // 2 for x in my_x4]])
+                a = [x // 2 for x in my_x4]
+                a[2] = 0
+                res.append([3, my_ship_id, a])
                 self.tmp_ship_ids.add(my_ship_id)
             return res
         elif self.game_tick == 5:
