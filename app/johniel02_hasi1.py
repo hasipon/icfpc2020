@@ -109,7 +109,7 @@ class GameLogic:
         return self.distance(o.pos, e.pos)
 
     def laser_efficiency(self, th):
-        return math.cos(th + 8.0) * math.cos(th * 24.0)
+        return math.cos(th * 8.0) + math.cos(th * 24.0)
 
     def angle(self, x, y):
         return math.atan2(y, x)
