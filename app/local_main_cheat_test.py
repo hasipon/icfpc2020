@@ -28,7 +28,8 @@ def main():
         return converted
 
     print("send JOIN")
-    join_request = [2, player_key, [192498595990]]
+    cheat_code = eval(sys.argv[1])
+    join_request = [2, player_key, cheat_code]
     join_response = send(join_request)
     if join_response[1] != 0:
         return
@@ -40,8 +41,10 @@ def main():
     start_request = [3, player_key, logic.send_start()]
     game_response = send(start_request)
 
+    print("==========")
     print(game_response[-1][2][0][0][-2:])
     print(game_response[-1][2][1][0][-2:])
+    print("==========")
     return
 
     logic.recv_commands(game_response)

@@ -1,6 +1,7 @@
 import datetime
 import importlib
 import os
+import sys
 import subprocess
 import threading
 import json
@@ -36,8 +37,9 @@ def main():
     os.chdir(os.path.dirname(os.path.abspath(__file__)))
     now = (datetime.datetime.utcnow() + datetime.timedelta(hours=9)).strftime("%Y%m%d_%H%M%S")
     print(now)
-    a = subprocess.Popen(f'PLAYERKEY={attacker_player_key} APIKEY={api_key} AI_NAME={os.getenv("ATTACKER_AI_NAME")} python3 local_main_cheat_test.py > ../logs/attacker_log_{now} 2> ../logs/attacker_err_log_{now}', shell=True)
-    d = subprocess.Popen(f'PLAYERKEY={defender_player_key} APIKEY={api_key} AI_NAME={os.getenv("DEFENDER_AI_NAME")} python3 local_main_cheat_test.py > ../logs/defender_log_{now} 2> ../logs/defender_err_log_{now}', shell=True)
+    cheat_code = sys.argv[1]
+    a = subprocess.Popen(f'PLAYERKEY={attacker_player_key} APIKEY={api_key} AI_NAME={os.getenv("ATTACKER_AI_NAME")} python3 local_main_cheat_test.py "{cheat_code}" > ../logs/attacker_log_{now} 2> ../logs/attacker_err_log_{now}', shell=True)
+    d = subprocess.Popen(f'PLAYERKEY={defender_player_key} APIKEY={api_key} AI_NAME={os.getenv("DEFENDER_AI_NAME")} python3 local_main_cheat_test.py "{cheat_code}" > ../logs/defender_log_{now} 2> ../logs/defender_err_log_{now}', shell=True)
     a.communicate()
     d.communicate()
     print(Path(f'../logs/attacker_log_{now}').read_text())
