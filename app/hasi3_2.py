@@ -100,7 +100,7 @@ class GameLogic:
 
         if self.game_tick < 3:
             my_ship_id, my_p, my_v, my_x4 = my_ships[0]
-            plan = calc_plan(my_p, my_v, 20, self.radius)
+            plan = calc_plan(my_p, my_v, self.max_turn - self.game_tick, self.radius)
             res = []
             for my_ship_id, my_p, my_v, my_x4 in my_ships:
                 if plan:
@@ -117,7 +117,7 @@ class GameLogic:
         elif self.game_tick == 4:
             res = []
             for my_ship_id, my_p, my_v, my_x4 in my_ships:
-                plan = calc_plan(my_p, my_v, 20, self.radius)
+                plan = calc_plan(my_p, my_v, self.max_turn - self.game_tick, self.radius)
                 if plan:
                     res.append([0, my_ship_id, plan[0]])
                 a = [x // 2 for x in my_x4]
