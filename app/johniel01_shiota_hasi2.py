@@ -48,7 +48,7 @@ def calc_plan(my_p, my_v, max_turn, radius):
             if b > life:
                 plan = a
                 life = b
-    return plan, max_turn
+    return plan, life
 
 class Param:
     def __init__(self, fuel, shoot, cooling, dup):
