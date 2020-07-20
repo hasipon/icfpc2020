@@ -116,8 +116,7 @@ class GameLogic:
 
     def send_commands(self):
         print(f'game_tick = {self.game_tick}', flush=True)
-        # if self.game_tick >= self.max_turn // 2 and self.my_role == 0:
-        if self.game_tick >= 50 and self.my_role == 0:
+        if self.game_tick >= self.max_turn // 2 and self.my_role == 0:
             return self.send_commands2()
         else:
             return self.send_commands1()
