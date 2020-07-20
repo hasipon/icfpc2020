@@ -93,7 +93,7 @@ class GameLogic:
         self.target_id = None
 
     def send_start(self):
-        return [20, (self.resource - (20 * 1) - (20 * 12) - (1 * 2)) // 4,  20, 1]
+        return [40, (self.resource - (40 * 1) - (20 * 12) - (1 * 2)) // 4,  20, 1]
 
     def recv_commands(self, data):
         if data[3] is not None:
@@ -184,7 +184,7 @@ class GameLogic:
         if own_ship.heat == 0 and self.laser_enabled and self.target_id is not None:
             enemy = self.histories[self.target_id][-1]
             npos = enemy.next_position()
-            shooting_param = [2, my_ship_id, npos, 60]
+            shooting_param = [2, my_ship_id, npos, 40]
             res.append(shooting_param)
 
         return res
